@@ -8,15 +8,19 @@
 		"Midget807"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/Midget807/Gits-And-Shiggles/wiki",
+		"sources": "https://github.com/Midget807/Gits-And-Shiggles",
+		"issues": "https://github.com/Midget807/Gits-And-Shiggles/issues"
 	},
 	"license": "MIT",
 	"icon": "assets/gitsnshiggles/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"net.midget807.gitsnshiggles.GitsAndShiggles"
+			"net.midget807.gitsnshiggles.GitsAndShigglesMain"
+		],
+		"client": [
+			"net.midget807.gitsnshiggles.GitsAndShigglesClient"
 		],
 		"fabric-datagen": [
 			"net.midget807.gitsnshiggles.GitsAndShigglesDataGenerator"
