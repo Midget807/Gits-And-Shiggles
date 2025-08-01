@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "base": {
+    "item": "gitsnshiggles:diamond_santa_hat"
+  },
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:netherite_santa_hat"
+  },
+  "template": {
+    "item": "minecraft:netherite_upgrade_smithing_template"
+  }
+}

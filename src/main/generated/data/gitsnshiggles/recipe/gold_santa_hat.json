@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "H": {
+      "tag": "gitsnshiggles:santa_hats"
+    },
+    "X": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    "XXX",
+    "XHX"
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:gold_santa_hat"
+  }
+}
