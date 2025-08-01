@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "gitsnshiggles",
+	"version": "${version}",
+	"name": "Gits And Shiggles",
+	"description": "Silly items for Midget's MC server",
+	"authors": [
+		"Midget807"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/gitsnshiggles/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.midget807.gitsnshiggles.GitsAndShiggles"
+		],
+		"fabric-datagen": [
+			"net.midget807.gitsnshiggles.GitsAndShigglesDataGenerator"
+		]
+	},
+	"mixins": [
+		"gitsnshiggles.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
