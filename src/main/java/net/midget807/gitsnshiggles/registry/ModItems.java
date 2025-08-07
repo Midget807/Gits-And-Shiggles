@@ -14,6 +14,8 @@ public class ModItems {
     public static final Item DICE = registerItem("dice", new Item(new Item.Settings().maxCount(1)));
     public static final Item FLAMETHROWER = registerItem("flamethrower", new Item(new Item.Settings().maxCount(1)));
     public static final Item AM_RIFLE = registerItem("am_rifle", new Item(new Item.Settings().maxCount(1)));
+    public static final Item RANDOM_EGG = registerItem("random_egg", new Item(new Item.Settings().maxCount(1)));
+    public static final Item INFINITY_GAUNTLET = registerItem("infinity_gauntlet", new Item(new Item.Settings().maxCount(1)));
 
     public static final Item LEATHER_SANTA_HAT = registerItem("leather_santa_hat", new Item(new Item.Settings().maxCount(1)));
     public static final Item CHAINMAIL_SANTA_HAT = registerItem("chainmail_santa_hat", new Item(new Item.Settings().maxCount(1)));

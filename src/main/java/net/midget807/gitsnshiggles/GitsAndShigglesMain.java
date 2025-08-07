@@ -2,9 +2,7 @@ package net.midget807.gitsnshiggles;
 
 import net.fabricmc.api.ModInitializer;
 
-import net.midget807.gitsnshiggles.registry.ModEntities;
-import net.midget807.gitsnshiggles.registry.ModItemGroups;
-import net.midget807.gitsnshiggles.registry.ModItems;
+import net.midget807.gitsnshiggles.registry.*;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,5 +23,7 @@ public class GitsAndShigglesMain implements ModInitializer {
 		ModItems.registerModItems();
 		ModItemGroups.registerModItemGroups();
 		ModEntities.registerModEntities();
+		ModPackets.registerGlobalC2S();
+		ModDataHandlers.registerModDataHandlers();
 	}
 }

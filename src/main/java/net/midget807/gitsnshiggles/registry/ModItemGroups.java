@@ -20,6 +20,8 @@ public class ModItemGroups {
                         entries.add(ModItems.DICE);
                         entries.add(ModItems.FLAMETHROWER);
                         entries.add(ModItems.AM_RIFLE);
+                        entries.add(ModItems.RANDOM_EGG);
+                        entries.add(ModItems.INFINITY_GAUNTLET);
                     })
                     .build()
     );

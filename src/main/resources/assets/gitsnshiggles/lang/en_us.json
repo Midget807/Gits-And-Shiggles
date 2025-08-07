@@ -1,4 +1,11 @@
 {
   "itemGroup.gitsnshiggles.main": "Gits And Shiggles",
-  "tag.item.gitsnshiggles.santa_hats": "Santa Hats"
+  "tag.item.gitsnshiggles.santa_hats": "Santa Hats",
+  "key.gitsnshiggles.summonElves": "Summon Elves",
+  "key.gitsnshiggles.powerStone": "Power Stone",
+  "key.gitsnshiggles.spaceStone": "Space Stone",
+  "key.gitsnshiggles.realityStone": "Reality Stone",
+  "key.gitsnshiggles.soulStone": "Soul Stone",
+  "key.gitsnshiggles.timeStone": "Time Stone",
+  "key.gitsnshiggles.mindStone": "Mind Stone"
 }
