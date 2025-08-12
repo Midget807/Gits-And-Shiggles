@@ -13,7 +13,7 @@ public class ModItems {
     public static final Item LIGHTSABER = registerItem("lightsaber", new LightsaberItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof()));
     public static final Item SANTA_HAT = registerItem("santa_hat", new Item(new Item.Settings().maxCount(1).fireproof()));
     public static final Item DICE = registerItem("dice", new DiceItem(new Item.Settings().maxCount(1).fireproof()));
-    public static final Item FLAMETHROWER = registerItem("flamethrower", new Item(new Item.Settings().maxCount(1).fireproof()));
+    public static final Item FLAMETHROWER = registerItem("flamethrower", new FlamethrowerItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item AM_RIFLE = registerItem("am_rifle", new AntiMaterialRifleItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item RANDOM_EGG = registerItem("random_egg", new Item(new Item.Settings().maxCount(1).fireproof()));
     public static final Item INFINITY_GAUNTLET = registerItem("infinity_gauntlet", new InfinityGauntletItem(new Item.Settings().maxCount(1).fireproof()));
