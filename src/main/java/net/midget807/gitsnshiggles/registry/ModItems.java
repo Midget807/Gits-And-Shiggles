@@ -1,21 +1,23 @@
 package net.midget807.gitsnshiggles.registry;
 
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
-import net.midget807.gitsnshiggles.item.RailgunItem;
+import net.midget807.gitsnshiggles.item.*;
 import net.minecraft.item.Item;
+import net.minecraft.item.ToolMaterials;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 public class ModItems {
     public static final Item ICON = registerItem("icon", new Item(new Item.Settings()));
     public static final Item RAILGUN = registerItem("railgun", new RailgunItem(new Item.Settings().maxCount(1)));
-    public static final Item LIGHTSABER = registerItem("lightsaber", new Item(new Item.Settings().maxCount(1)));
-    public static final Item SANTA_HAT = registerItem("santa_hat", new Item(new Item.Settings().maxCount(1)));
-    public static final Item DICE = registerItem("dice", new Item(new Item.Settings().maxCount(1)));
-    public static final Item FLAMETHROWER = registerItem("flamethrower", new Item(new Item.Settings().maxCount(1)));
-    public static final Item AM_RIFLE = registerItem("am_rifle", new Item(new Item.Settings().maxCount(1)));
-    public static final Item RANDOM_EGG = registerItem("random_egg", new Item(new Item.Settings().maxCount(1)));
-    public static final Item INFINITY_GAUNTLET = registerItem("infinity_gauntlet", new Item(new Item.Settings().maxCount(1)));
+    public static final Item LIGHTSABER = registerItem("lightsaber", new LightsaberItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof()));
+    public static final Item SANTA_HAT = registerItem("santa_hat", new Item(new Item.Settings().maxCount(1).fireproof()));
+    public static final Item DICE = registerItem("dice", new DiceItem(new Item.Settings().maxCount(1).fireproof()));
+    public static final Item FLAMETHROWER = registerItem("flamethrower", new Item(new Item.Settings().maxCount(1).fireproof()));
+    public static final Item AM_RIFLE = registerItem("am_rifle", new AntiMaterialRifleItem(new Item.Settings().maxCount(1).fireproof()));
+    public static final Item RANDOM_EGG = registerItem("random_egg", new Item(new Item.Settings().maxCount(1).fireproof()));
+    public static final Item INFINITY_GAUNTLET = registerItem("infinity_gauntlet", new InfinityGauntletItem(new Item.Settings().maxCount(1).fireproof()));
+    public static final Item INVERTED_TRIDENT = registerItem("inverted_trident", new InvertedTridentItem(new Item.Settings().maxCount(1).fireproof()));
 
     public static final Item LEATHER_SANTA_HAT = registerItem("leather_santa_hat", new Item(new Item.Settings().maxCount(1)));
     public static final Item CHAINMAIL_SANTA_HAT = registerItem("chainmail_santa_hat", new Item(new Item.Settings().maxCount(1)));

@@ -1,6 +1,7 @@
 package net.midget807.gitsnshiggles.registry;
 
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
+import net.midget807.gitsnshiggles.entity.AreaDamageEntity;
 import net.midget807.gitsnshiggles.entity.ElfEntity;
 import net.midget807.gitsnshiggles.entity.RailgunBulletEntity;
 import net.minecraft.entity.Entity;
@@ -23,8 +24,16 @@ public class ModEntities {
             "elf",
             EntityType.Builder.<ElfEntity>create((entityType, world) -> new ElfEntity(world), SpawnGroup.MISC)
                     .dimensions(0.25f, 1.0f)
-                    .maxTrackingRange(4)
-                    .trackingTickInterval(10)
+                    .maxTrackingRange(10)
+    );
+
+    public static final EntityType<AreaDamageEntity> AREA_DAMAGE = register(
+            "area_damage",
+            EntityType.Builder.<AreaDamageEntity>create((entityType, world) -> new AreaDamageEntity(world), SpawnGroup.MISC)
+                    .makeFireImmune()
+                    .dimensions(7.0f, 0.5f)
+                    .maxTrackingRange(10)
+                    .trackingTickInterval(Integer.MAX_VALUE)
     );
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> type) {

@@ -29,6 +29,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryLoader;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
@@ -46,6 +47,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class ElfEntity extends TameableEntity implements Angerable, VariantHolder<RegistryEntry<ElfVariant>> {
+    public static final RegistryKey<ElfVariant> DEFAULT = RegistryKey.of(ModRegistryKeys.ELF_VARIANT, GitsAndShigglesMain.id("default"));
     private static final TrackedData<Integer> ANGER_TIME = DataTracker.registerData(ElfEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final UniformIntProvider ANGER_TIME_RANGE = TimeHelper.betweenSeconds(20, 39);
     private static final TrackedData<RegistryEntry<ElfVariant>> VARIANT = DataTracker.registerData(ElfEntity.class, ModDataHandlers.ELF_VARIANT);
@@ -89,7 +91,7 @@ public class ElfEntity extends TameableEntity implements Angerable, VariantHolde
         super.initDataTracker(builder);
         DynamicRegistryManager dynamicRegistryManager = this.getRegistryManager();
         Registry<ElfVariant> registry = dynamicRegistryManager.get(ModRegistryKeys.ELF_VARIANT); //todo fix
-        builder.add(VARIANT, (RegistryEntry<ElfVariant>) registry.getEntry(RegistryKey.of(ModRegistryKeys.ELF_VARIANT, GitsAndShigglesMain.id("default"))).or(registry::getDefaultEntry).orElseThrow());
+        builder.add(VARIANT, (RegistryEntry<ElfVariant>) registry.getEntry(DEFAULT).or(registry::getDefaultEntry).orElseThrow());
         builder.add(ANGER_TIME, 0);
     }
 

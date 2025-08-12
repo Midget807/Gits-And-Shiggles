@@ -1,4 +1,4 @@
-package net.midget807.gitsnshiggles.registry;
+package net.midget807.gitsnshiggles.registry.client;
 
 import com.google.common.collect.Sets;
 import net.fabricmc.api.EnvType;

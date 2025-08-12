@@ -22,6 +22,7 @@ public class ModItemGroups {
                         entries.add(ModItems.AM_RIFLE);
                         entries.add(ModItems.RANDOM_EGG);
                         entries.add(ModItems.INFINITY_GAUNTLET);
+                        entries.add(ModItems.INVERTED_TRIDENT);
                     })
                     .build()
     );

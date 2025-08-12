@@ -4,7 +4,10 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.midget807.gitsnshiggles.registry.ModItems;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.TagKey;
@@ -13,6 +16,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     public static final TagKey<Item> SANTA_HATS = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("santa_hats"));
+    public static final TagKey<Item> FLAMETHROWER_INSERTABLE = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("flamethrower_insertable"));
+    public static final TagKey<Item> FLAMETHROWER_POWER = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("flamethrower_power"));
 
     public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
         super(output, completableFuture);
@@ -29,6 +34,18 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                         ModItems.GOLD_SANTA_HAT,
                         ModItems.DIAMOND_SANTA_HAT,
                         ModItems.NETHERITE_SANTA_HAT
+                );
+
+        this.getOrCreateTagBuilder(FLAMETHROWER_POWER)
+                .add(
+                        Items.SOUL_SAND,
+                        Items.SOUL_SOIL
+                );
+        this.getOrCreateTagBuilder(FLAMETHROWER_INSERTABLE)
+                .add(
+                        Items.MAGMA_BLOCK
+                ).addTag(
+                        FLAMETHROWER_POWER
                 );
     }
 }

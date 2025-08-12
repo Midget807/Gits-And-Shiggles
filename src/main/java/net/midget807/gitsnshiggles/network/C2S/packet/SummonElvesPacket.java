@@ -1,9 +1,8 @@
 package net.midget807.gitsnshiggles.network.C2S.packet;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.midget807.gitsnshiggles.entity.ElfEntity;
 import net.midget807.gitsnshiggles.network.C2S.payload.SummonElvesPayload;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 
@@ -12,9 +11,10 @@ public class SummonElvesPacket {
         context.server().execute(() -> {
             ServerPlayerEntity player = context.player();
             World world = context.player().getWorld();
-            CowEntity cowEntity = new CowEntity(EntityType.COW, world);
-            cowEntity.setPosition(player.getPos());
-            world.spawnEntity(cowEntity);
+
+            ElfEntity elfEntity = new ElfEntity(world);
+            elfEntity.setPosition(player.getPos());
+            world.spawnEntity(elfEntity);
         });
     }
 }

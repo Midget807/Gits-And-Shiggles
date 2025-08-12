@@ -1,19 +1,16 @@
 package net.midget807.gitsnshiggles;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.midget807.gitsnshiggles.entity.client.ElfEntityModel;
 import net.midget807.gitsnshiggles.entity.client.ElfEntityRenderer;
-import net.midget807.gitsnshiggles.registry.ModEntityModelLayers;
+import net.midget807.gitsnshiggles.registry.client.ModEntityModelLayers;
 import net.midget807.gitsnshiggles.registry.ModPackets;
 import net.midget807.gitsnshiggles.registry.ModEntities;
 import net.midget807.gitsnshiggles.util.ModKeyBindings;
 import net.midget807.gitsnshiggles.util.ModKeyHandler;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.text.Text;
 
 public class GitsAndShigglesClient implements ClientModInitializer {
     @Override

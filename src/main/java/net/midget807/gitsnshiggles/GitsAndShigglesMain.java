@@ -20,10 +20,12 @@ public class GitsAndShigglesMain implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Ah bing bing bing");
 
+		ModDataComponentTypes.registerModDataComponents();
 		ModItems.registerModItems();
 		ModItemGroups.registerModItemGroups();
 		ModEntities.registerModEntities();
 		ModPackets.registerGlobalC2S();
 		ModDataHandlers.registerModDataHandlers();
+		ModRegistryKeys.registerModRegistryKeys();
 	}
 }
