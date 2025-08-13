@@ -103,9 +103,9 @@ public class FlamethrowerFireEntity extends ThrownItemEntity {
             Stream<Entity> entities = this.getWorld().getOtherEntities(this, this.getBoundingBox().expand(0.25f), entity -> !this.isOwner(entity)).stream();
             Objects.requireNonNull(LivingEntity.class);
             entities.filter(LivingEntity.class::isInstance).forEach(entity -> {
-                entity.damage(ModDamages.create(this.getWorld(), ModDamages.FLAMETHROWER, this, this.getOwner()), Math.max(1.5F, 6.0F - (float)this.age * 0.15F));
+                entity.damage(ModDamages.create(this.getWorld(), ModDamages.FLAMETHROWER, this, this.getOwner()), Math.max(1.5F, 6.0F - (float)this.age * 0.15F) * (this.hasExtraDamage() ? 1.5f : 1.0f));
                 if (!this.isWet()) {
-                    entity.setOnFireFor(2);
+                    entity.setOnFireFor(this.hasExtraDamage() ? 3 : 2);
                 }
             });
         } else {

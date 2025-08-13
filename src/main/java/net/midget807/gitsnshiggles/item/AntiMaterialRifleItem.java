@@ -18,12 +18,12 @@ public class AntiMaterialRifleItem extends Item {
         return AttributeModifiersComponent.builder()
                 .add(
                         EntityAttributes.GENERIC_ATTACK_DAMAGE,
-                        new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, 20.0f, EntityAttributeModifier.Operation.ADD_VALUE),
+                        new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, 14.0f, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 )
                 .add(
                         EntityAttributes.GENERIC_ATTACK_SPEED,
-                        new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, -3.2f, EntityAttributeModifier.Operation.ADD_VALUE),
+                        new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, -3.4f, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 )
                 .build();

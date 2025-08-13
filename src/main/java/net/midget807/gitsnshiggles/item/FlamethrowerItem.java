@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -19,6 +20,7 @@ public class FlamethrowerItem extends Item {
     public int useTicks = 0;
     public boolean isOverheating = false;
     public boolean isUsing = true;
+    private int useTickIncrement = 2;
 
     public FlamethrowerItem(Settings settings) {
         super(settings);
@@ -51,33 +53,35 @@ public class FlamethrowerItem extends Item {
 
     @Override
     public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
+        if (this.extraDamageTicks > 0 && this.extraRangeTicks > 0) {
+            this.useTickIncrement = 4;
+        } else if (this.extraRangeTicks > 0) {
+            this.useTickIncrement = 3;
+        } else if (this.extraDamageTicks > 0) {
+            this.useTickIncrement = 3;
+        } else {
+            this.useTickIncrement = 2;
+        }
         if (this.useTicks < 600) {
-            this.useTicks += 2;
+            this.useTicks += useTickIncrement;
         } else {
             this.useTicks = 600;
         }
         if (!this.isUsing) {
             this.isUsing = true;
         }
-        if (this.extraDamageTicks > 0) {
-            this.extraDamageTicks--;
-        }
-        if (this.extraRangeTicks > 0) {
-            this.extraRangeTicks--;
-        }
         if (!world.isClient()) {
             FlamethrowerFireEntity flamethrowerFire = new FlamethrowerFireEntity(user, world);
             flamethrowerFire.setVelocity(user, 30.0f, 1.0f);
             if (getExtraRangeTicks() > 0) {
                 flamethrowerFire.setExtraRange(true);
-            }
-            if (getExtraRangeTicks() <= 0) {
+            } else if (getExtraRangeTicks() <= 0) {
                 flamethrowerFire.setExtraRange(false);
             }
+
             if (getExtraDamageTicks() > 0) {
                 flamethrowerFire.setExtraDamage(true);
-            }
-            if (getExtraDamageTicks() <= 0) {
+            } else if (getExtraDamageTicks() <= 0) {
                 flamethrowerFire.setExtraDamage(false);
             }
             world.spawnEntity(flamethrowerFire);
@@ -99,6 +103,9 @@ public class FlamethrowerItem extends Item {
 
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        /*if (entity instanceof PlayerEntity player) {
+            player.sendMessage(Text.literal("use increment: " + this.useTickIncrement));
+        }*/
         if (this.isOverheating) {
             entity.setOnFireFor(5);
         }
