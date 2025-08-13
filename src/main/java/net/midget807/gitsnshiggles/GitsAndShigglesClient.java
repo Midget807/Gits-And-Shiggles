@@ -23,6 +23,7 @@ public class GitsAndShigglesClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.ELF_MODEL_LAYER, ElfEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.ELF, ElfEntityRenderer::new);
         EntityRendererRegistry.register(ModEntities.FLAMETHROWER_FIRE, EmptyEntityRenderer::new);
+        EntityRendererRegistry.register(ModEntities.RANDOM_EGG, FlyingItemEntityRenderer::new);
     }
 
 

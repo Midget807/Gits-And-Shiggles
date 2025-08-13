@@ -1,10 +1,7 @@
 package net.midget807.gitsnshiggles.registry;
 
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
-import net.midget807.gitsnshiggles.entity.AreaDamageEntity;
-import net.midget807.gitsnshiggles.entity.ElfEntity;
-import net.midget807.gitsnshiggles.entity.FlamethrowerFireEntity;
-import net.midget807.gitsnshiggles.entity.RailgunBulletEntity;
+import net.midget807.gitsnshiggles.entity.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -44,6 +41,15 @@ public class ModEntities {
                     .dimensions(0.25f, 1.0f)
                     .maxTrackingRange(8)
                     .trackingTickInterval(20)
+    );
+
+    public static final EntityType<RandomEggEntity> RANDOM_EGG = register(
+            "random_egg",
+            EntityType.Builder.<RandomEggEntity>create((entityType, world) -> new RandomEggEntity(world), SpawnGroup.MISC)
+                    .dimensions(0.25f, 0.25f)
+                    .makeFireImmune()
+                    .maxTrackingRange(4)
+                    .trackingTickInterval(10)
     );
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> type) {
