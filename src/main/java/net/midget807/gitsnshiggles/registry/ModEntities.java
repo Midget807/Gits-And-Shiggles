@@ -3,6 +3,7 @@ package net.midget807.gitsnshiggles.registry;
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.midget807.gitsnshiggles.entity.AreaDamageEntity;
 import net.midget807.gitsnshiggles.entity.ElfEntity;
+import net.midget807.gitsnshiggles.entity.FlamethrowerFireEntity;
 import net.midget807.gitsnshiggles.entity.RailgunBulletEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -34,6 +35,15 @@ public class ModEntities {
                     .dimensions(7.0f, 0.5f)
                     .maxTrackingRange(10)
                     .trackingTickInterval(Integer.MAX_VALUE)
+    );
+
+    public static final EntityType<FlamethrowerFireEntity> FLAMETHROWER_FIRE = register(
+            "flamethrower_fire",
+            EntityType.Builder.<FlamethrowerFireEntity>create((entityType, world) -> new FlamethrowerFireEntity(world), SpawnGroup.MISC)
+                    .makeFireImmune()
+                    .dimensions(0.25f, 1.0f)
+                    .maxTrackingRange(8)
+                    .trackingTickInterval(20)
     );
 
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> type) {

@@ -1,6 +1,9 @@
 package net.midget807.gitsnshiggles.item;
 
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
+import net.midget807.gitsnshiggles.entity.FlamethrowerFireEntity;
+import net.midget807.gitsnshiggles.registry.ModItems;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -15,6 +18,7 @@ public class FlamethrowerItem extends Item {
     public int extraDamageTicks = 0;
     public int useTicks = 0;
     public boolean isOverheating = false;
+    public boolean isUsing = true;
 
     public FlamethrowerItem(Settings settings) {
         super(settings);
@@ -25,29 +29,90 @@ public class FlamethrowerItem extends Item {
         ItemStack handStack = user.getStackInHand(hand);
         Hand otherHand = hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND;
         ItemStack otherHandStack = user.getStackInHand(otherHand);
+        user.setCurrentHand(hand);
         if (otherHandStack.isIn(ModItemTagProvider.FLAMETHROWER_INSERTABLE)) {
-            if (otherHandStack.isIn(ModItemTagProvider.FLAMETHROWER_POWER)) {
+            if (otherHandStack.isIn(ModItemTagProvider.FLAMETHROWER_POWER) && this.extraDamageTicks == 0) {
                 this.extraDamageTicks = 200;
-                user.getItemCooldownManager().set(Items.SOUL_SAND, 20);
-                user.getItemCooldownManager().set(Items.SOUL_SOIL, 20);
+                user.getItemCooldownManager().set(ModItems.FLAMETHROWER, 10);
                 return TypedActionResult.success(handStack);
-            } else if (otherHandStack.isOf(Items.MAGMA_BLOCK)) {
+            } else if (otherHandStack.isOf(Items.MAGMA_BLOCK) && this.extraRangeTicks == 0) {
                 this.extraRangeTicks = 200;
-                user.getItemCooldownManager().set(Items.MAGMA_BLOCK, 20);
+                user.getItemCooldownManager().set(ModItems.FLAMETHROWER, 10);
                 return TypedActionResult.success(handStack);
             }
         }
-        return TypedActionResult.pass(handStack);
+        return TypedActionResult.fail(handStack);
+    }
+
+    @Override
+    public int getMaxUseTime(ItemStack stack, LivingEntity user) {
+        return Integer.MAX_VALUE;
     }
 
     @Override
     public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-        this.useTicks++;
+        if (this.useTicks < 600) {
+            this.useTicks += 2;
+        } else {
+            this.useTicks = 600;
+        }
+        if (!this.isUsing) {
+            this.isUsing = true;
+        }
         if (this.extraDamageTicks > 0) {
             this.extraDamageTicks--;
         }
         if (this.extraRangeTicks > 0) {
             this.extraRangeTicks--;
+        }
+        if (!world.isClient()) {
+            FlamethrowerFireEntity flamethrowerFire = new FlamethrowerFireEntity(user, world);
+            flamethrowerFire.setVelocity(user, 30.0f, 1.0f);
+            if (getExtraRangeTicks() > 0) {
+                flamethrowerFire.setExtraRange(true);
+            }
+            if (getExtraRangeTicks() <= 0) {
+                flamethrowerFire.setExtraRange(false);
+            }
+            if (getExtraDamageTicks() > 0) {
+                flamethrowerFire.setExtraDamage(true);
+            }
+            if (getExtraDamageTicks() <= 0) {
+                flamethrowerFire.setExtraDamage(false);
+            }
+            world.spawnEntity(flamethrowerFire);
+        }
+        if (this.useTicks >= 600) {
+            this.isOverheating = true;
+            if (user instanceof PlayerEntity player) {
+                player.getItemCooldownManager().set(ModItems.FLAMETHROWER, 100);
+            }
+        } else {
+            this.isOverheating = false;
+        }
+    }
+
+    @Override
+    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+        this.isUsing = false;
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        if (this.isOverheating) {
+            entity.setOnFireFor(5);
+        }
+        if (this.useTicks < 600) {
+            this.isOverheating = false;
+        }
+        if (!this.isUsing) {
+            this.useTicks--;
+        }
+        if (this.extraRangeTicks > 0) {
+            this.extraRangeTicks--;
+        }
+        if (this.extraDamageTicks > 0) {
+            this.extraDamageTicks--;
         }
     }
 
@@ -78,6 +143,5 @@ public class FlamethrowerItem extends Item {
     public void setOverheating(boolean overheating) {
         isOverheating = overheating;
     }
-
 
 }

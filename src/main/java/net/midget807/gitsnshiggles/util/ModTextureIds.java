@@ -4,9 +4,12 @@ import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.minecraft.util.Identifier;
 
 public class ModTextureIds {
-    public static final Identifier OVERHEAT_BG = GitsAndShigglesMain.id("overheat_background");
-    public static final Identifier OVERHEAT_BAR = GitsAndShigglesMain.id("overheat_bar");
-    public static final Identifier OVERHEAT_OVERLAY = GitsAndShigglesMain.id("overheat_overlay");
+    public static final Identifier OVERHEAT_BG = GitsAndShigglesMain.id("hud/overheat_background");
+    public static final Identifier OVERHEAT_BAR = GitsAndShigglesMain.id("textures/gui/hud/overheat_bar.png");
+    public static final Identifier OVERHEAT_OVERLAY = GitsAndShigglesMain.id("hud/overheat_overlay");
+    public static final Identifier FLAMETHROWER_BG = GitsAndShigglesMain.id("hud/flamethrower_background");
+    public static final Identifier DAMAGE_BAR = GitsAndShigglesMain.id("textures/gui/hud/damage_bar.png");
+    public static final Identifier RANGE_BAR = GitsAndShigglesMain.id("textures/gui/hud/range_bar.png");
 
     public static final Identifier INFINITY_STONE_BG = GitsAndShigglesMain.id("infinity_stone_background");
     public static final Identifier POWER_STONE_BAR = GitsAndShigglesMain.id("power_stone_bar");

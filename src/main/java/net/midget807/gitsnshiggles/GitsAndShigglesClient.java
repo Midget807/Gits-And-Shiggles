@@ -10,6 +10,7 @@ import net.midget807.gitsnshiggles.registry.ModPackets;
 import net.midget807.gitsnshiggles.registry.ModEntities;
 import net.midget807.gitsnshiggles.util.ModKeyBindings;
 import net.midget807.gitsnshiggles.util.ModKeyHandler;
+import net.minecraft.client.render.entity.EmptyEntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 
 public class GitsAndShigglesClient implements ClientModInitializer {
@@ -21,6 +22,7 @@ public class GitsAndShigglesClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.RAILGUN_BULLET, FlyingItemEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.ELF_MODEL_LAYER, ElfEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.ELF, ElfEntityRenderer::new);
+        EntityRendererRegistry.register(ModEntities.FLAMETHROWER_FIRE, EmptyEntityRenderer::new);
     }
 
 
