@@ -21,12 +21,14 @@ public class RailgunItem extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack stack = user.getStackInHand(hand);
         if (!world.isClient) {
+            user.setCurrentHand(hand);
             RailgunBulletEntity railgunBulletEntity = new RailgunBulletEntity(world);
             railgunBulletEntity.setStack(new ItemStack(Items.IRON_NUGGET));
             Vec3d vec3d = user.getRotationVector();
             railgunBulletEntity.setPosition(user.getX() + vec3d.x * 1.5, user.getEyeY()  + vec3d.y * 1.5, user.getZ()  + vec3d.z * 1.5);
-            world.spawnEntity(railgunBulletEntity);
             railgunBulletEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 2.0f, 0.0f);
+            world.spawnEntity(railgunBulletEntity);
+            return TypedActionResult.success(stack);
             //user.getItemCooldownManager().set(stack.getItem(), 200);
         }
 
