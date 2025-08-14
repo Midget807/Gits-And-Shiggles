@@ -36,7 +36,7 @@ public class InvertedTridentItem extends TridentItem {
                         .orElse(SoundEvents.ITEM_TRIDENT_RIPTIDE_3);
                 playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
 
-                float g = -playerEntity.getYaw();
+                float g = playerEntity.getYaw() - 180;
                 float h = -playerEntity.getPitch();
                 float j = -MathHelper.sin(g * (float) (Math.PI / 180.0)) * MathHelper.cos(h * (float) (Math.PI / 180.0));
                 float k = -MathHelper.sin(h * (float) (Math.PI / 180.0));
