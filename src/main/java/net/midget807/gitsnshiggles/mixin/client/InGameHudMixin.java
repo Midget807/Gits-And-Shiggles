@@ -1,14 +1,18 @@
 package net.midget807.gitsnshiggles.mixin.client;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.midget807.gitsnshiggles.item.FlamethrowerItem;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.ModTextureIds;
+import net.midget807.gitsnshiggles.util.inject.RailgunAds;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Colors;
 import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -21,6 +25,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
+    @Unique
+    private float railgunScale;
+
     @Shadow @Nullable protected abstract PlayerEntity getCameraPlayer();
 
     @Shadow @Final private MinecraftClient client;
@@ -28,6 +35,44 @@ public abstract class InGameHudMixin {
     @Inject(method = "renderMainHud", at = @At("TAIL"))
     private void gitsnshiggles$renderMain(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         renderOverheatOverlay(context, this.getCameraPlayer());
+    }
+
+    @Inject(method = "renderMiscOverlays", at = @At("TAIL"))
+    private void gitsnshiggles$renderMisc(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        float f = tickCounter.getLastFrameDuration();
+        this.railgunScale = MathHelper.lerp(0.5F * f, this.railgunScale, 1.125F);
+        if (this.client.options.getPerspective().isFirstPerson()) {
+            if (((RailgunAds)this.client.player).isUsingRailgun()) {
+                this.renderRailgunAdsOverlay(context, this.railgunScale);
+            } else {
+                this.railgunScale = 0.5F;
+            }
+        }
+    }
+
+    @ModifyExpressionValue(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/Perspective;isFirstPerson()Z"))
+    private boolean gitsnshiggles$derenderCrosshairOnAds(boolean original) {
+        return original && !((RailgunAds)this.client.player).isUsingRailgun();
+    }
+
+    @Unique
+    private void renderRailgunAdsOverlay(DrawContext context, float scale) {
+        float f = Math.min(context.getScaledWindowWidth(), context.getScaledWindowHeight());
+        float h = Math.min(context.getScaledWindowWidth() / f, context.getScaledWindowHeight() / f) * scale;
+        int i = MathHelper.floor(f * h);
+        int j = MathHelper.floor(f * h);
+        int k = (context.getScaledWindowWidth() - i) / 2;
+        int l = (context.getScaledWindowHeight() - j) / 2;
+        int m = k + i;
+        int n = l + j;
+        RenderSystem.enableBlend();
+        context.drawTexture(ModTextureIds.RAILGUN_ADS, k, l, -90, 0.0F, 0.0F, i, j, i, j);
+        RenderSystem.disableBlend();
+        context.fill(RenderLayer.getGuiOverlay(), 0, n, context.getScaledWindowWidth(), context.getScaledWindowHeight(), -90, Colors.BLACK);
+        context.fill(RenderLayer.getGuiOverlay(), 0, 0, context.getScaledWindowWidth(), l, -90, Colors.BLACK);
+        context.fill(RenderLayer.getGuiOverlay(), 0, l, k, n, -90, Colors.BLACK);
+        context.fill(RenderLayer.getGuiOverlay(), m, l, context.getScaledWindowWidth(), n, -90, Colors.BLACK);
+
     }
 
     @Unique

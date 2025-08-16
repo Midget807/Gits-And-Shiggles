@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.midget807.gitsnshiggles.entity.client.ElfEntityModel;
 import net.midget807.gitsnshiggles.entity.client.ElfEntityRenderer;
+import net.midget807.gitsnshiggles.event.client.ClientPreAttackListener;
 import net.midget807.gitsnshiggles.registry.client.ModEntityModelLayers;
 import net.midget807.gitsnshiggles.registry.ModPackets;
 import net.midget807.gitsnshiggles.registry.ModEntities;
@@ -16,6 +17,7 @@ import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 public class GitsAndShigglesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        ClientPreAttackListener.execute();
         ModKeyBindings.registerModKeyBindings();
         ModKeyHandler.runKeyBinds();
         ModPackets.registerGlobalS2C();

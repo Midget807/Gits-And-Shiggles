@@ -23,6 +23,9 @@ fabricApi {
 		client = true
 	}
 }
+loom {
+	accessWidenerPath = file("src/main/resources/gitsnshiggles.accesswidener")
+}
 
 dependencies {
 	// To change the versions see the gradle.properties file

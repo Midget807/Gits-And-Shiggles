@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ModDamages {
     public static final RegistryKey<DamageType> FLAMETHROWER = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, GitsAndShigglesMain.id("flamethrower"));
+    public static final RegistryKey<DamageType> RAILGUN = RegistryKey.of(RegistryKeys.DAMAGE_TYPE, GitsAndShigglesMain.id("railgun"));
 
     public static DamageSource create(World world, RegistryKey<DamageType> damageType, @Nullable Entity source, @Nullable Entity attacker) {
         return new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(damageType), source, attacker);

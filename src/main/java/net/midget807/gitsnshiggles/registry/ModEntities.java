@@ -14,8 +14,9 @@ public class ModEntities {
             "railgun_bullet",
             EntityType.Builder.<RailgunBulletEntity>create((entityType, world) -> new RailgunBulletEntity(world), SpawnGroup.MISC)
                     .dimensions(0.25f, 0.25f)
-                    .maxTrackingRange(12)
-                    .trackingTickInterval(10)
+                    .eyeHeight(0.13f)
+                    .maxTrackingRange(64)
+                    .trackingTickInterval(1)
     );
 
     public static final EntityType<ElfEntity> ELF = register(

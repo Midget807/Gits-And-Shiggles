@@ -4,6 +4,8 @@ import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.minecraft.util.Identifier;
 
 public class ModTextureIds {
+    public static final Identifier RAILGUN_ADS = GitsAndShigglesMain.id("textures/misc/railgun_ads.png");
+
     public static final Identifier OVERHEAT_BG = GitsAndShigglesMain.id("hud/overheat_background");
     public static final Identifier OVERHEAT_BAR = GitsAndShigglesMain.id("textures/gui/hud/overheat_bar.png");
     public static final Identifier OVERHEAT_OVERLAY = GitsAndShigglesMain.id("hud/overheat_overlay");
