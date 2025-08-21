@@ -12,6 +12,7 @@ import net.midget807.gitsnshiggles.util.inject.RailgunLoading;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 
@@ -25,13 +26,13 @@ public class ClientPreAttackListener {
     }
     private static boolean railgunRecoil(MinecraftClient client, ClientPlayerEntity player) {
         ItemStack railgunStack = player.getStackInHand(Hand.MAIN_HAND);
-        if (railgunStack.isOf(ModItems.RAILGUN)) {
+        if (railgunStack.isOf(ModItems.RAILGUN) && !player.getItemCooldownManager().isCoolingDown(ModItems.RAILGUN)) {
 
             ItemStack projectile = ((RailgunLoading)player).getRailgunProjectile(railgunStack);
             int power = RailgunItem.PROJECTILE_POWERS.get(projectile.getItem());
-            /*Vec3d recoilVec = player.getRotationVector().negate().normalize();
+            Vec3d recoilVec = player.getRotationVector().negate().normalize();
             player.setVelocity(recoilVec.multiply(RailgunScalar.getScalar(power) + 2.0f));
-            player.velocityModified = true;*/
+            player.networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY(), player.getZ(), player.getYaw(), player.getPitch(), player.isOnGround()));
             ClientPlayNetworking.send(new RailgunShootPayload(player.getStackInHand(Hand.MAIN_HAND), player.getPitch(), player.getYaw()));
             return true;
         }

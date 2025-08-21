@@ -13,6 +13,7 @@ public class ModEntityModelLayers {
     private static final Set<EntityModelLayer> LAYERS = Sets.newHashSet();
 
     public static final EntityModelLayer ELF_MODEL_LAYER = registerMain("elf");
+    public static final EntityModelLayer TRON_DISC_MODEL_LAYER = registerMain("tron_disc");
 
     public static EntityModelLayer registerMain(String name) {
         EntityModelLayer entityModelLayer = new EntityModelLayer(GitsAndShigglesMain.id(name), "main");

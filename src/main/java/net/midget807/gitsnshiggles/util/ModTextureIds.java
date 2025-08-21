@@ -21,4 +21,7 @@ public class ModTextureIds {
     public static final Identifier TIME_STONE_BAR = GitsAndShigglesMain.id("time_stone_bar");
     public static final Identifier MIND_STONE_BAR = GitsAndShigglesMain.id("soul_stone_bar");
 
+    public static final Identifier WIZARD_ROBES_TEXTURE = GitsAndShigglesMain.id("textures/entity/armor/wizard_robes.png");
+    public static final Identifier WIZARD_ROBES_OVERLAY_TEXTURE = GitsAndShigglesMain.id("textures/entity/armor/wizard_robes_overlay.png");
+
 }

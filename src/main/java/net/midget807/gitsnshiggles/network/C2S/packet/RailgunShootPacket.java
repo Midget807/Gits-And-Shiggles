@@ -5,6 +5,7 @@ import net.midget807.gitsnshiggles.entity.RailgunBulletEntity;
 import net.midget807.gitsnshiggles.item.RailgunItem;
 import net.midget807.gitsnshiggles.network.C2S.payload.RailgunShootPayload;
 import net.midget807.gitsnshiggles.registry.ModDamages;
+import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.RailgunScalar;
 import net.midget807.gitsnshiggles.util.inject.RailgunLoading;
 import net.minecraft.client.MinecraftClient;
@@ -113,12 +114,12 @@ public class RailgunShootPacket {
         for (EntityHitResult hit : hits) {
             Entity target = hit.getEntity();
             target.damage(ModDamages.create(world, ModDamages.RAILGUN, player), (float) 5.0f + (float) RailgunScalar.getScalar(power));
-        }
+        }/*
         Vec3d recoilVec = player.getRotationVector().negate().normalize();
         player.setVelocity(recoilVec.multiply(RailgunScalar.getScalar(power) + 2.0f));
-        player.velocityModified = true;
+        player.velocityModified = true;*/
         projectile.decrement(player.getAbilities().creativeMode ? 0 : 1);
-
+        player.getItemCooldownManager().set(ModItems.RAILGUN, 40);
     }
 
     public static void shoot(float clientPitch, float clientYaw, int power, ServerPlayerEntity player, ItemStack projectile, World world) {

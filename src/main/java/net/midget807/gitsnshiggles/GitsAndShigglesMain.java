@@ -2,7 +2,10 @@ package net.midget807.gitsnshiggles;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.midget807.gitsnshiggles.item.ModArmorMaterials;
 import net.midget807.gitsnshiggles.registry.*;
+import net.minecraft.entity.attribute.DefaultAttributeRegistry;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,8 +1,11 @@
 package net.midget807.gitsnshiggles.item;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
+import net.minecraft.component.type.DyedColorComponent;
+import net.minecraft.component.type.ToolComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -12,9 +15,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class LightsaberItem extends Item {
     public LightsaberItem(Settings settings) {
         super(settings);
+        CauldronBehavior.WATER_CAULDRON_BEHAVIOR.map().put(this, CauldronBehavior.CLEAN_DYEABLE_ITEM);
     }
     public static AttributeModifiersComponent createAttributeModifiers() {
         return AttributeModifiersComponent.builder()
@@ -29,6 +35,11 @@ public class LightsaberItem extends Item {
                         AttributeModifierSlot.MAINHAND
                 )
                 .build();
+    }
+
+
+    public static DyedColorComponent createColorComponent() {
+        return new DyedColorComponent(0x0000FF, true);
     }
 
     @Override

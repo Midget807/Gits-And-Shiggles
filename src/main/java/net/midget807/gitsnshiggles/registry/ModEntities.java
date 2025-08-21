@@ -1,5 +1,6 @@
 package net.midget807.gitsnshiggles.registry;
 
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.midget807.gitsnshiggles.entity.*;
 import net.minecraft.entity.Entity;
@@ -53,11 +54,25 @@ public class ModEntities {
                     .trackingTickInterval(10)
     );
 
+    public static final EntityType<TronDiscEntity> TRON_DISC = register(
+            "tron_disc",
+            EntityType.Builder.<TronDiscEntity>create((type, world) -> new TronDiscEntity(world), SpawnGroup.MISC)
+                    .dimensions(0.5f, 0.25f)
+                    .makeFireImmune()
+                    .maxTrackingRange(4)
+                    .trackingTickInterval(10)
+    );
+
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> type) {
         return Registry.register(Registries.ENTITY_TYPE, GitsAndShigglesMain.id(name), type.build());
     }
 
     public static void registerModEntities() {
         GitsAndShigglesMain.LOGGER.info("Registering Mod Entities");
+        registerDefaultAttributes();
+    }
+
+    private static void registerDefaultAttributes() {
+        FabricDefaultAttributeRegistry.register(ELF, ElfEntity.createElfAttributes());
     }
 }

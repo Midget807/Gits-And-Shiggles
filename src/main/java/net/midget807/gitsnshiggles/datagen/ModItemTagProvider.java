@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 
 import java.util.concurrent.CompletableFuture;
@@ -46,6 +47,15 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                         Items.MAGMA_BLOCK
                 ).addTag(
                         FLAMETHROWER_POWER
+                );
+        this.getOrCreateTagBuilder(ItemTags.DYEABLE)
+                .add(
+                        ModItems.WIZARD_HAT,
+                        ModItems.WIZARD_ROBE,
+                        ModItems.WIZARD_PANTS,
+                        ModItems.WIZARD_BOOTS,
+                        ModItems.LIGHTSABER,
+                        ModItems.TRON_DISC
                 );
     }
 }

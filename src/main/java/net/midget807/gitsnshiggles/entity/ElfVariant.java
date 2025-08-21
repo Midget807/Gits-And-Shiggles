@@ -2,10 +2,13 @@ package net.midget807.gitsnshiggles.entity;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.midget807.gitsnshiggles.registry.ModRegistryKeys;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
+import net.minecraft.registry.Registerable;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
@@ -67,5 +70,19 @@ public final class ElfVariant {
         int i = 1;
         i = 31 * i + this.tameId.hashCode();
         return 31 * i + this.angryId.hashCode();
+    }
+
+    public static class Variants {
+        public static final RegistryKey<ElfVariant> DEFAULT = RegistryKey.of(ModRegistryKeys.ELF_VARIANT, GitsAndShigglesMain.id("default"));
+
+        private static void register(Registerable<ElfVariant> registry, RegistryKey<ElfVariant> key, String texture) {
+            Identifier identifier = GitsAndShigglesMain.id("entity/" + texture);
+            Identifier identifier2 = GitsAndShigglesMain.id("entity/" + texture + "_angry");
+            registry.register(key, new ElfVariant(identifier, identifier2));
+        }
+
+        public static void bootstrap(Registerable<ElfVariant> registry) {
+            register(registry, DEFAULT, "elf");
+        }
     }
 }

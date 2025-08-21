@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gitsnshiggles:item/tron_disc",
+    "layer1": "gitsnshiggles:item/tron_disc_overlay"
+  }
+}
