@@ -11,8 +11,8 @@ import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class ElfEntityRenderer extends MobEntityRenderer<ElfEntity, ElfEntityModel> {
-    public static final Identifier TEXTURE = GitsAndShigglesMain.id("textures/entity/elf");
-    public static final Identifier ANGRY_TEXTURE = GitsAndShigglesMain.id("textures/entity/elf_angry");
+    public static final Identifier TEXTURE = GitsAndShigglesMain.id("textures/entity/elf.png");
+    public static final Identifier ANGRY_TEXTURE = GitsAndShigglesMain.id("textures/entity/elf_angry.png");
     public ElfEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new ElfEntityModel(context.getPart(ModEntityModelLayers.ELF_MODEL_LAYER)), 0.5f);
     }
