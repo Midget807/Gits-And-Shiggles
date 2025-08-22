@@ -8,10 +8,12 @@ import net.midget807.gitsnshiggles.registry.ModDamages;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.RailgunScalar;
 import net.midget807.gitsnshiggles.util.inject.RailgunLoading;
+import net.midget807.gitsnshiggles.util.inject.RailgunRecoil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MovementType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
@@ -47,11 +49,13 @@ public class RailgunShootPacket {
             int power = RailgunItem.PROJECTILE_POWERS.get(projectile.getItem());
 
             if (!projectile.isEmpty() && !railgunStack.isEmpty()) {
-                if (projectile.isOf(Items.IRON_NUGGET)) {
+                /*if (projectile.isOf(Items.IRON_NUGGET)) {
                     shoot(clientPitch, clientYaw, power, player, projectile, world);
                 } else {
                     raycast(clientPitch, clientYaw, player, world, projectile, power);
-                }
+                }*/
+                raycast(clientPitch, clientYaw, player, world, projectile, power);
+                ((RailgunRecoil)player).setRailgunRecoil(true);
             }
         });
     }
@@ -73,7 +77,7 @@ public class RailgunShootPacket {
                     blockPos.getX(),
                     blockPos.getY(),
                     blockPos.getZ(),
-                    Math.min(5.0f + (float) RailgunScalar.getScalar(power), 10.0f),
+                    Math.min(2.0f + (float) RailgunScalar.getScalar(power), 10.0f),
                     false,
                     World.ExplosionSourceType.TRIGGER,
                     ParticleTypes.EXPLOSION,
@@ -114,10 +118,11 @@ public class RailgunShootPacket {
         for (EntityHitResult hit : hits) {
             Entity target = hit.getEntity();
             target.damage(ModDamages.create(world, ModDamages.RAILGUN, player), (float) 5.0f + (float) RailgunScalar.getScalar(power));
-        }/*
+        }
         Vec3d recoilVec = player.getRotationVector().negate().normalize();
-        player.setVelocity(recoilVec.multiply(RailgunScalar.getScalar(power) + 2.0f));
-        player.velocityModified = true;*/
+        player.setVelocity(recoilVec.multiply(RailgunScalar.getScalar(power) * 2 + 2.0f));
+        player.velocityModified = true;
+        player.move(MovementType.SELF, player.getVelocity());
         projectile.decrement(player.getAbilities().creativeMode ? 0 : 1);
         player.getItemCooldownManager().set(ModItems.RAILGUN, 40);
     }
@@ -132,11 +137,11 @@ public class RailgunShootPacket {
         railgunBulletEntity.setPosition(railgunBulletEntity.getPos().add(vec3d.normalize()));
         railgunBulletEntity.setVelocity(player, clientPitch, clientYaw, 0.0f, (float) (2.0 + RailgunScalar.getScalar(power)), 0);
         railgunBulletEntity.velocityModified = true;
-        railgunBulletEntity.velocityDirty = true;
+        railgunBulletEntity.velocityDirty = true;/*
         Vec3d recoilVec = player.getRotationVector().negate();
         player.setVelocity(recoilVec.normalize().multiply(RailgunScalar.getScalar(power) + 2.0));
         player.networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(player.getId(), player.getVelocity()));
-        player.velocityModified = true;
+        player.velocityModified = true;*/
         world.spawnEntity(railgunBulletEntity);
         projectile.decrement(player.getAbilities().creativeMode ? 0 : 1);
 
