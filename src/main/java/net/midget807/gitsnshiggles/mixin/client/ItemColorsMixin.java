@@ -19,15 +19,8 @@ public abstract class ItemColorsMixin {
                 ModItems.WIZARD_HAT,
                 ModItems.WIZARD_ROBE,
                 ModItems.WIZARD_PANTS,
-                ModItems.WIZARD_BOOTS
-        );
-        itemColors.register(
-                (stack, tintIndex) -> tintIndex > 0 ? -1 : DyedColorComponent.getColor(stack, -6265536),
-                ModItems.LIGHTSABER
-        );
-        itemColors.register(
-                (stack, tintIndex) -> tintIndex > 0 ? -1 : DyedColorComponent.getColor(stack, -6265536),
-                ModItems.TRON_DISC
+                ModItems.WIZARD_BOOTS,
+                ModItems.LEATHER_SANTA_HAT
         );
     }
 }

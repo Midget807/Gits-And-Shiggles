@@ -30,9 +30,9 @@ public class ClientPreAttackListener {
         if (railgunStack.isOf(ModItems.RAILGUN) && !player.getItemCooldownManager().isCoolingDown(ModItems.RAILGUN) && projectile != null && !projectile.isEmpty()) {
 
             int power = RailgunItem.PROJECTILE_POWERS.get(projectile.getItem());
-            Vec3d recoilVec = player.getRotationVector().negate().normalize();/*
+            Vec3d recoilVec = player.getRotationVector().negate().normalize();
             player.setVelocity(recoilVec.multiply(RailgunScalar.getScalar(power) + 2.0f));
-            player.networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY(), player.getZ(), player.getYaw(), player.getPitch(), player.isOnGround()));*/
+            player.networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY(), player.getZ(), player.getYaw(), player.getPitch(), player.isOnGround()));
             ClientPlayNetworking.send(new RailgunShootPayload(player.getStackInHand(Hand.MAIN_HAND), player.getPitch(), player.getYaw()));
             return true;
         }

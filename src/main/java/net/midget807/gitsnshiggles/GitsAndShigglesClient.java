@@ -9,6 +9,7 @@ import net.midget807.gitsnshiggles.entity.client.ElfEntityRenderer;
 import net.midget807.gitsnshiggles.entity.client.TronDiscEntityModel;
 import net.midget807.gitsnshiggles.entity.client.TronDiscEntityRenderer;
 import net.midget807.gitsnshiggles.event.client.ClientPreAttackListener;
+import net.midget807.gitsnshiggles.event.client.ClientTickEventsListener;
 import net.midget807.gitsnshiggles.item.client.WizardArmorModel;
 import net.midget807.gitsnshiggles.item.client.WizardArmorRenderer;
 import net.midget807.gitsnshiggles.registry.ModItems;
@@ -24,9 +25,12 @@ public class GitsAndShigglesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ClientPreAttackListener.execute();
+        ClientTickEventsListener.execute();
+
         ModKeyBindings.registerModKeyBindings();
         ModKeyHandler.runKeyBinds();
         ModPackets.registerGlobalS2C();
+
         EntityRendererRegistry.register(ModEntities.RAILGUN_BULLET, FlyingItemEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.ELF_MODEL_LAYER, ElfEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.ELF, ElfEntityRenderer::new);
@@ -34,7 +38,6 @@ public class GitsAndShigglesClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.RANDOM_EGG, FlyingItemEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.TRON_DISC_MODEL_LAYER, TronDiscEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.TRON_DISC, TronDiscEntityRenderer::new);
-
         EntityModelLayerRegistry.registerModelLayer(WizardArmorModel.MODEL_LAYER, WizardArmorModel::getTexturedModelData);
         ArmorRenderer.register(new WizardArmorRenderer(), ModItems.WIZARD_HAT, ModItems.WIZARD_ROBE, ModItems.WIZARD_PANTS, ModItems.WIZARD_BOOTS);
     }

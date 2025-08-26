@@ -118,11 +118,11 @@ public class RailgunShootPacket {
         for (EntityHitResult hit : hits) {
             Entity target = hit.getEntity();
             target.damage(ModDamages.create(world, ModDamages.RAILGUN, player), (float) 5.0f + (float) RailgunScalar.getScalar(power));
-        }
+        }/*
         Vec3d recoilVec = player.getRotationVector().negate().normalize();
         player.setVelocity(recoilVec.multiply(RailgunScalar.getScalar(power) * 2 + 2.0f));
         player.velocityModified = true;
-        player.move(MovementType.SELF, player.getVelocity());
+        player.move(MovementType.SELF, player.getVelocity());*/
         projectile.decrement(player.getAbilities().creativeMode ? 0 : 1);
         player.getItemCooldownManager().set(ModItems.RAILGUN, 40);
     }

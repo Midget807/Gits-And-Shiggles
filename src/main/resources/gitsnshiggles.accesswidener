@@ -4,3 +4,5 @@ accessible field net/minecraft/entity/projectile/ProjectileEntity leftOwner Z
 accessible field net/minecraft/entity/projectile/ProjectileEntity shot Z
 accessible method net/minecraft/entity/LivingEntity clearPotionSwirls ()V
 accessible method net/minecraft/entity/LivingEntity updatePotionSwirls ()V
+accessible field net/minecraft/client/Mouse cursorDeltaX D
+accessible field net/minecraft/client/Mouse cursorDeltaY D

@@ -17,6 +17,7 @@
     "client.InGameHudMixin",
     "client.ItemColorsMixin",
     "client.ItemRendererMixin",
+    "client.KeyboardMixin",
     "client.ModelLoaderMixin",
     "client.MouseMixin",
     "client.PlayerEntityRendererMixin"

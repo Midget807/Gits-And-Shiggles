@@ -1,6 +1,7 @@
 package net.midget807.gitsnshiggles.mixin;
 
 import net.midget807.gitsnshiggles.item.RailgunItem;
+import net.midget807.gitsnshiggles.util.inject.ElfCount;
 import net.midget807.gitsnshiggles.util.inject.RailgunAds;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.inject.RailgunLoading;
@@ -20,11 +21,13 @@ import org.spongepowered.asm.mixin.Unique;
 import java.util.function.Predicate;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading {
+public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, ElfCount {
     @Shadow @Final private PlayerInventory inventory;
     @Shadow @Final private PlayerAbilities abilities;
     @Unique
     private float fovScale = RailgunItem.FOV_MULTIPLIER;
+    @Unique
+    private int elfCount = 0;
 
     @Override
     public void setUsingRailgun(boolean usingRailgun) {
@@ -43,6 +46,15 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     @Override
     public float getFovScale() {
         return this.fovScale;
+    }
+
+    @Override
+    public int getElfCount() {
+        return this.elfCount;
+    }
+    @Override
+    public void setElfCount(int elfCount) {
+        this.elfCount = elfCount;
     }
 
     public PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
@@ -69,4 +81,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
             }
         }
     }
+
+
 }

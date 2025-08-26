@@ -7,5 +7,9 @@
   "key.gitsnshiggles.realityStone": "Reality Stone",
   "key.gitsnshiggles.soulStone": "Soul Stone",
   "key.gitsnshiggles.timeStone": "Time Stone",
-  "key.gitsnshiggles.mindStone": "Mind Stone"
+  "key.gitsnshiggles.mindStone": "Mind Stone",
+  "key.gitsnshiggles.summonElves.too_many": "Too Many Elves Exist",
+  "commands.gitsnshiggles.player_lock.query.item.success": "%s is locked to %s",
+  "commands.gitsnshiggles.player_lock.query.player.success": "%s is locked to %s",
+  "commands.gitsnshiggles.player_lock.set.success": "\"%s is locked to %s\""
 }

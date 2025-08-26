@@ -4,6 +4,7 @@ import net.midget807.gitsnshiggles.registry.ModEntities;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.Tameable;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -14,7 +15,6 @@ import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.GhastEntity;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
@@ -35,7 +35,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public class ElfEntity extends TameableEntity implements Angerable {
+public class ElfEntity extends TameableEntity implements Angerable, Tameable {
+    public static final int MAX_ELF_COUNT = 30;
     private static final TrackedData<Integer> ANGER_TIME = DataTracker.registerData(ElfEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final UniformIntProvider ANGER_TIME_RANGE = TimeHelper.betweenSeconds(20, 39);
     private static final float MAX_HEALTH = 10.0f;
@@ -46,15 +47,15 @@ public class ElfEntity extends TameableEntity implements Angerable {
         super(ModEntities.ELF, world);
     }
 
+    public ElfEntity(World world, PlayerEntity owner) {
+        this(world);
+        this.setOwner(owner);
+    }
+
     @Override
     protected void initGoals() {
 
     }
-
-
-
-
-
 
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
@@ -62,7 +63,7 @@ public class ElfEntity extends TameableEntity implements Angerable {
         builder.add(ANGER_TIME, 0);
     }
     public static DefaultAttributeContainer.Builder createElfAttributes() {
-        return TameableEntity.createMobAttributes()
+        return LivingEntity.createLivingAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5F)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0)
