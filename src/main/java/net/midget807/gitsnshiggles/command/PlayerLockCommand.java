@@ -6,7 +6,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.command.argument.ItemStackArgument;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -21,11 +20,11 @@ public class PlayerLockCommand {
                 .requires(source -> source.hasPermissionLevel(2))
                 .then(literal("set")
                         .then(argument("target", EntityArgumentType.player())
-                                .then(argument("item", ModItemArgumentType.itemStack())
+                                .then(argument("item", ModItemStackArgumentType.itemStack(commandRegistryAccess))
                                         .executes(context -> execute(
                                                 context.getSource(),
                                                 EntityArgumentType.getPlayer(context, "target"),
-                                                ModItemArgumentType.getItem(context, "item")
+                                                ModItemStackArgumentType.getItemStackArgument(context, "item")
                                         ))
                                 )
                         )
@@ -35,10 +34,10 @@ public class PlayerLockCommand {
                                         context.getSource(),
                                         EntityArgumentType.getPlayer(context, "target")
                                 ))
-                        ).then(argument("item", new ModItemArgumentType())
+                        ).then(argument("item", ModItemStackArgumentType.itemStack(commandRegistryAccess))
                                 .executes(context -> itemClear(
                                         context.getSource(),
-                                        ModItemArgumentType.getItem(context, "item")
+                                        ModItemStackArgumentType.getItemStackArgument(context, "item")
                                 ))
                         )
                 ).then(literal("query")
@@ -47,17 +46,17 @@ public class PlayerLockCommand {
                                         context.getSource(),
                                         EntityArgumentType.getPlayer(context, "target")
                                 ))
-                        ).then(argument("item", new ModItemArgumentType())
+                        ).then(argument("item", ModItemStackArgumentType.itemStack(commandRegistryAccess))
                                 .executes(context -> itemQuery(
                                         context.getSource(),
-                                        ModItemArgumentType.getItem(context, "item")
+                                        ModItemStackArgumentType.getItemStackArgument(context, "item")
                                 ))
                         )
                 );
     }
 
-    private static int itemQuery(ServerCommandSource source, Item item) throws CommandSyntaxException {
-        ItemStack stack = new ItemStack(item, 1);
+    private static int itemQuery(ServerCommandSource source, ItemStackArgument item) throws CommandSyntaxException {
+        ItemStack stack = new ItemStack(item.getItem(), 1);
         int player = 1;
         source.sendFeedback(() -> Text.translatable("commands.gitsnshiggles.player_lock.query.item.success", stack.toHoverableText(), player), true);
         return 1;
@@ -69,7 +68,7 @@ public class PlayerLockCommand {
         return 1;
     }
 
-    private static int itemClear(ServerCommandSource source, Item item) {
+    private static int itemClear(ServerCommandSource source, ItemStackArgument item) {
         return 1;
     }
 
@@ -77,8 +76,8 @@ public class PlayerLockCommand {
         return 1;
     }
 
-    private static int execute(ServerCommandSource source, ServerPlayerEntity target, Item item) throws CommandSyntaxException {
-        ItemStack stack = new ItemStack(item, 1);
+    private static int execute(ServerCommandSource source, ServerPlayerEntity target, ItemStackArgument item) throws CommandSyntaxException {
+        ItemStack stack = new ItemStack(item.getItem(), 1);
         source.sendFeedback(() -> Text.translatable("commands.gitsnshiggles.player_lock.set.success", stack.toHoverableText(), target.getDisplayName()), true);
         return 1;
     }
