@@ -10,6 +10,7 @@ import net.midget807.gitsnshiggles.entity.client.TronDiscEntityModel;
 import net.midget807.gitsnshiggles.entity.client.TronDiscEntityRenderer;
 import net.midget807.gitsnshiggles.event.client.ClientPreAttackListener;
 import net.midget807.gitsnshiggles.event.client.ClientTickEventsListener;
+import net.midget807.gitsnshiggles.event.client.HudRenderListener;
 import net.midget807.gitsnshiggles.item.client.WizardArmorModel;
 import net.midget807.gitsnshiggles.item.client.WizardArmorRenderer;
 import net.midget807.gitsnshiggles.registry.ModItems;
@@ -26,6 +27,7 @@ public class GitsAndShigglesClient implements ClientModInitializer {
     public void onInitializeClient() {
         ClientPreAttackListener.execute();
         ClientTickEventsListener.execute();
+        HudRenderListener.execute();
 
         ModKeyBindings.registerModKeyBindings();
         ModKeyHandler.runKeyBinds();

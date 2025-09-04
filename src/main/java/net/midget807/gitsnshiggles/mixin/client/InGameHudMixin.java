@@ -3,9 +3,11 @@ package net.midget807.gitsnshiggles.mixin.client;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.midget807.gitsnshiggles.item.FlamethrowerItem;
+import net.midget807.gitsnshiggles.item.WizardRobesItem;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.ModTextureIds;
 import net.midget807.gitsnshiggles.util.inject.RailgunAds;
+import net.midget807.gitsnshiggles.util.inject.WizardGamba;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -14,6 +16,7 @@ import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Colors;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,10 +30,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class InGameHudMixin {
     @Unique
     private float railgunScale;
+    private int randomD20;
 
     @Shadow @Nullable protected abstract PlayerEntity getCameraPlayer();
 
     @Shadow @Final private MinecraftClient client;
+
+    @Shadow @Final private Random random;
 
     @Inject(method = "renderMainHud", at = @At("TAIL"))
     private void gitsnshiggles$renderMain(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
@@ -47,6 +53,7 @@ public abstract class InGameHudMixin {
             } else {
                 this.railgunScale = 0.5F;
             }
+            this.renderD20(context, this.getCameraPlayer());
         }
     }
 
@@ -116,6 +123,32 @@ public abstract class InGameHudMixin {
         }
         RenderSystem.disableBlend();
         this.client.getProfiler().pop();
+
+    }
+
+    @Unique
+    private void renderD20(DrawContext context, PlayerEntity cameraPlayer) {
+        this.client.getProfiler().push("fireball_d20");
+        int i = context.getScaledWindowWidth() / 2;
+        int j = context.getScaledWindowHeight();
+        Integer animationTicks = null;
+        if (cameraPlayer != null) {
+            animationTicks = ((WizardGamba)cameraPlayer).getGambingAnimationTicks();
+        }
+        RenderSystem.enableBlend();
+        if (animationTicks != null) {
+            if (animationTicks == 60) {
+                ((WizardGamba)cameraPlayer).setGambing(false);
+            } else if (animationTicks % 10 == 0  && animationTicks > -1) {
+                randomD20 = random.nextBetween(1, 20);
+            }
+            if (WizardRobesItem.hasFullSuitOfArmor(cameraPlayer)) {
+                context.drawTexture(ModTextureIds.WIZARD_GAMBA, i - 16, j - 80, 0, (randomD20 - 1) * 32, 32, 32, 32, 640);
+            }
+        }
+        RenderSystem.disableBlend();
+        this.client.getProfiler().pop();
+
 
     }
 }

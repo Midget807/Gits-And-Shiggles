@@ -10,6 +10,8 @@ import net.minecraft.registry.Registry;
 
 public class ModItems {
     public static final Item ICON = registerItem("icon", new Item(new Item.Settings()));
+    public static final Item DEBUGGER = registerItem("debugger", new DebuggerItem(new Item.Settings().fireproof()));
+
     public static final Item RAILGUN = registerItem("railgun", new RailgunItem(new Item.Settings().maxCount(1)));
     public static final Item LIGHTSABER = registerItem("lightsaber", new LightsaberItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(LightsaberItem.createAttributeModifiers()).component(DataComponentTypes.DYED_COLOR, LightsaberItem.createColorComponent())));
     public static final Item SANTA_HAT = registerItem("santa_hat", new Item(new Item.Settings().maxCount(1).fireproof()));

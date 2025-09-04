@@ -73,16 +73,16 @@ public class DiceItem extends Item {
                 unluckyPerson = server.getPlayerManager().getPlayer(DiceUtil.getVeryUnluckyPersonUuid());
             }
             int duration = unluckyPerson != null && target == unluckyPerson ? 30 * 20 * 2 : 30 * 20;
-            target.addStatusEffect(new StatusEffectInstance(ModEffects.STEPHEN_HAWKING, duration, 0, false, false));
-            target.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, duration, 9, false, false));
+            //target.addStatusEffect(new StatusEffectInstance(ModEffects.STEPHEN_HAWKING, duration, 0, false, false));
+            //target.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, duration, 9, false, false));
         }
         double base = Objects.requireNonNull(player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)).getBaseValue();
         if (this.timer < 30 * 20) {
-            ServerTickEvents.START_SERVER_TICK.register(server1 -> {
+            /*ServerTickEvents.START_SERVER_TICK.register(server1 -> {
                 this.timer++;
                 player.getAbilities().allowFlying = true;
                 player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(0.5);
-            });
+            });*/
         } else {
             player.getAbilities().allowFlying = false;
             player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).setBaseValue(base);
@@ -108,7 +108,7 @@ public class DiceItem extends Item {
     }
 
     private void executeEvent1(World world, PlayerEntity player) {
-        player.addStatusEffect(new StatusEffectInstance(ModEffects.STEPHEN_HAWKING, 30 * 20, 0, false, false));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 30 * 20, 9, false, false));
+        //player.addStatusEffect(new StatusEffectInstance(ModEffects.STEPHEN_HAWKING, 30 * 20, 0, false, false));
+        //player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 30 * 20, 9, false, false));
     }
 }
