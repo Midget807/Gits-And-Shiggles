@@ -1,6 +1,7 @@
 package net.midget807.gitsnshiggles;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -13,7 +14,9 @@ import net.midget807.gitsnshiggles.event.client.ClientTickEventsListener;
 import net.midget807.gitsnshiggles.event.client.HudRenderListener;
 import net.midget807.gitsnshiggles.item.client.WizardArmorModel;
 import net.midget807.gitsnshiggles.item.client.WizardArmorRenderer;
+import net.midget807.gitsnshiggles.particle.TimeStoneRingsParticle;
 import net.midget807.gitsnshiggles.registry.ModItems;
+import net.midget807.gitsnshiggles.registry.ModParticles;
 import net.midget807.gitsnshiggles.registry.client.ModEntityModelLayers;
 import net.midget807.gitsnshiggles.registry.ModPackets;
 import net.midget807.gitsnshiggles.registry.ModEntities;
@@ -32,6 +35,8 @@ public class GitsAndShigglesClient implements ClientModInitializer {
         ModKeyBindings.registerModKeyBindings();
         ModKeyHandler.runKeyBinds();
         ModPackets.registerGlobalS2C();
+
+        ParticleFactoryRegistry.getInstance().register(ModParticles.TIME_STONE_RINGS, TimeStoneRingsParticle.Factory::new);
 
         EntityRendererRegistry.register(ModEntities.RAILGUN_BULLET, FlyingItemEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.ELF_MODEL_LAYER, ElfEntityModel::getTexturedModelData);

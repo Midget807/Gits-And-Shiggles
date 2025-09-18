@@ -2,6 +2,7 @@ package net.midget807.gitsnshiggles.entity;
 
 import net.midget807.gitsnshiggles.registry.ModEntities;
 import net.midget807.gitsnshiggles.registry.ModItems;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -9,23 +10,26 @@ import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class TronDiscEntity extends PersistentProjectileEntity {
     public static final TrackedData<Integer> REBOUNDS = DataTracker.registerData(TronDiscEntity.class, TrackedDataHandlerRegistry.INTEGER);
     public static final TrackedData<BlockPos> ORIGIN = DataTracker.registerData(TronDiscEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
-    private List<LivingEntity> targets;
     private LivingEntity target;
-    private boolean searching = false;
-    private boolean targeting = false;
+    private LivingEntity exceptionTarget;
     public static final int MAX_DISTANCE = 80;
 
     public TronDiscEntity(World world) {
@@ -35,13 +39,11 @@ public class TronDiscEntity extends PersistentProjectileEntity {
     public TronDiscEntity(double x, double y, double z, World world, ItemStack stack) {
         super(ModEntities.TRON_DISC, x, y, z, world, stack, stack);
         this.dataTracker.set(ORIGIN, new BlockPos((int) x, (int) y, (int) z));
-        this.searching = true;
     }
 
     public TronDiscEntity(LivingEntity owner, World world, ItemStack stack) {
         super(ModEntities.TRON_DISC, owner, world, stack, null);
         this.dataTracker.set(ORIGIN, owner.getBlockPos());
-        this.searching = true;
     }
 
     @Override
@@ -54,10 +56,6 @@ public class TronDiscEntity extends PersistentProjectileEntity {
     @Override
     public ItemStack getWeaponStack() {
         return this.getItemStack();
-    }
-
-    public void setSearching(boolean searching) {
-        this.searching = searching;
     }
 
     public void setRebounds(int rebounds) {
@@ -80,69 +78,79 @@ public class TronDiscEntity extends PersistentProjectileEntity {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        LivingEntity owner = (LivingEntity) this.getOwner();
-        if (searching) {
-            targets = this.getTargets();
-            this.targeting = !targets.isEmpty();
-            this.searching = false;
-        }
-        if (targeting) {
-            TargetPredicate targetPredicate = TargetPredicate.createAttackable().setBaseMaxDistance(MAX_DISTANCE).setPredicate(livingEntity -> livingEntity.isAlive() && !livingEntity.isSpectator());
-            target = this.getWorld().getClosestEntity(targets, targetPredicate, owner, this.getX(), this.getY(), this.getZ());
-            this.targeting = false;
-        }
-        if (target != null && this.getRebounds() > 0) {
-            this.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, target.getPos());
-            this.setVelocity(target.getPos().subtract(this.getPos()).normalize().multiply(2));
-        } else {
-            if (owner != null) {
-                this.setOrigin(owner.getBlockPos());
-            }
-            this.returnToOrigin();
-        }
-        //todo fix rotation in super tick method
-    }
-
-    private void returnToOrigin() {
-        Vec3d originVec = new Vec3d(this.getOrigin().getX(), this.getOrigin().getY(), this.getOrigin().getZ());
-        this.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, originVec);
-        this.setVelocity(originVec.subtract(this.getPos()).normalize().multiply(2));
-    }
-
-    @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
-        super.onEntityHit(entityHitResult);
         Entity entity = entityHitResult.getEntity();
         if (entity == this.getOwner() && this.getOwner() != null) {
             this.dropItem(ModItems.TRON_DISC);
             this.getOwner().kill();
-            this.discard();
             return;
         }
 
-        if (targets != null && !targets.isEmpty() && target != null) {
-            this.targets.remove(target);
-            this.setVelocity(Vec3d.ZERO);
-            this.targeting = true;
-
+        if (this.target != null && this.target == entity) {
+            this.exceptionTarget = this.target;
+            this.target = null;
         }
 
+        entity.damage(this.getDamageSources().mobProjectile(this, (LivingEntity) this.getOwner()), 5.0f);
+        Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && entity2 != this.getOwner();
+        this.getNearestEntityInViewPreferPlayer(this, this.getX(), this.getY(), this.getZ(), 20, entityPredicate);
+        if (target != null && this.dataTracker.get(REBOUNDS) > 0) {
+            this.setVelocity(target.getPos().subtract(this.getPos()).normalize().multiply(2));
+            this.updateRotation();
+            this.dataTracker.set(REBOUNDS, this.dataTracker.get(REBOUNDS) - 1);
+        }
     }
 
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {
+        Vec3d rotVec = this.getVelocity();
+        Direction direction = blockHitResult.getSide();
+        if (this.dataTracker.get(REBOUNDS) > 0) {
+            if (direction == Direction.UP || direction == Direction.DOWN) {
+                this.setVelocity(rotVec.x, -rotVec.y, rotVec.z);
+            } else if (direction == Direction.EAST || direction == Direction.WEST) {
+                this.setVelocity(-rotVec.x, rotVec.y, rotVec.z);
+            } else if (direction == Direction.NORTH || direction == Direction.SOUTH) {
+                this.setVelocity(rotVec.x, rotVec.y, -rotVec.z);
+            }
+        } else {
+            this.dropItem(ModItems.TRON_DISC);
+            this.discard();
+        }
+        Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && entity2 != this.getOwner();
+        this.getNearestEntityInViewPreferPlayer(this, this.getX(), this.getY(), this.getZ(), 20, entityPredicate);
+        if (target != null && this.dataTracker.get(REBOUNDS) > 0) {
+            this.setVelocity(target.getPos().subtract(this.getPos()).normalize().multiply(2));
+            this.updateRotation();
+            this.dataTracker.set(REBOUNDS, this.dataTracker.get(REBOUNDS) - 1);
+        }
     }
 
-    private List<LivingEntity> getTargets() {
-        List<LivingEntity> entities = this.getWorld().getEntitiesByClass(LivingEntity.class, this.getBoundingBox().expand(MAX_DISTANCE), entity -> entity.isAlive() && !entity.isSpectator());
-        entities.removeIf(entity -> this.distanceTo(entity) > MAX_DISTANCE || entity == this.getOwner());
-        return entities;
+    public void getNearestEntityInViewPreferPlayer(Entity source, double x, double y, double z, double maxDistance, Predicate<LivingEntity> predicate) {
+        double d = -1.0;
+        List<LivingEntity> livingEntities = source.getWorld().getEntitiesByClass(LivingEntity.class, source.getBoundingBox().expand(maxDistance), predicate);
+        List<PlayerEntity> playerEntities = source.getWorld().getEntitiesByClass(PlayerEntity.class, source.getBoundingBox().expand(maxDistance), predicate);
+        if (!playerEntities.isEmpty()) {
+            predicate = entity2 -> !entity2.isSpectator() && !((PlayerEntity)entity2).isCreative() && entity2 != this.getOwner();
+        }
+        for (LivingEntity livingEntity : playerEntities.isEmpty() ? livingEntities : playerEntities) {
+            if (predicate == null || predicate.test(livingEntity)) {
+                double squaredDistanceTo = livingEntity.squaredDistanceTo(x, y, z);
+                if ((maxDistance < 0.0 || squaredDistanceTo < maxDistance * maxDistance) && (d == -1.0 || squaredDistanceTo < d)) {
+                    RaycastContext raycastContext = new RaycastContext(source.getPos(), livingEntity.getPos(), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, ShapeContext.of(source));
+                    HitResult hitResult = source.getWorld().raycast(raycastContext);
+                    if (hitResult.getType() == HitResult.Type.BLOCK) continue;
+                    if (this.exceptionTarget != null && livingEntity == this.exceptionTarget) continue;
+                    d = squaredDistanceTo;
+                    this.target = livingEntity;
+                }
+            }
+        }
     }
 
     @Override
     public boolean hasNoGravity() {
         return true;
     }
+
 }

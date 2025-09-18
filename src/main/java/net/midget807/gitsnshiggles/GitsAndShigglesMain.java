@@ -27,6 +27,7 @@ public class GitsAndShigglesMain implements ModInitializer {
 		ModItems.registerModItems();
 		ModItemGroups.registerModItemGroups();
 		ModEntities.registerModEntities();
+		ModParticles.registerModParticles();
 		ModEffects.registerModEffects();
 		ModArgumentTypes.registerModArgumentTypes();
 		ModCommands.registerModCommands();

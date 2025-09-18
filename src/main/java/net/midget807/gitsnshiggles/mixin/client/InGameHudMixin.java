@@ -139,6 +139,7 @@ public abstract class InGameHudMixin {
         if (animationTicks != null) {
             if (animationTicks == 60) {
                 ((WizardGamba)cameraPlayer).setGambing(false);
+                ((WizardGamba)cameraPlayer).setGambingAnimationTicks(-1);
             } else if (animationTicks % 10 == 0  && animationTicks > -1) {
                 randomD20 = random.nextBetween(1, 20);
             }

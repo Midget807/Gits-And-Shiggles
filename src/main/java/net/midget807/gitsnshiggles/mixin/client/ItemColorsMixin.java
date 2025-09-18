@@ -2,6 +2,7 @@ package net.midget807.gitsnshiggles.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.midget807.gitsnshiggles.registry.ModItems;
+import net.midget807.gitsnshiggles.util.ModColorUtil;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.component.type.DyedColorComponent;
@@ -21,6 +22,10 @@ public abstract class ItemColorsMixin {
                 ModItems.WIZARD_PANTS,
                 ModItems.WIZARD_BOOTS,
                 ModItems.LEATHER_SANTA_HAT
+        );
+        itemColors.register(
+                (stack, tintIndex) -> tintIndex > 0 ? -1 : DyedColorComponent.getColor(stack, 255 - ModColorUtil.FUCKASS_COLOR_CONSTANT),
+                ModItems.LIGHTSABER
         );
     }
 }

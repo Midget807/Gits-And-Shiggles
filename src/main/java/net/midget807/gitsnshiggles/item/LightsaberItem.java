@@ -1,17 +1,19 @@
 package net.midget807.gitsnshiggles.item;
 
+import net.midget807.gitsnshiggles.registry.ModItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.component.type.DyedColorComponent;
-import net.minecraft.component.type.ToolComponent;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -26,7 +28,7 @@ public class LightsaberItem extends Item {
         return AttributeModifiersComponent.builder()
                 .add(
                         EntityAttributes.GENERIC_ATTACK_DAMAGE,
-                        new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, 50.0f, EntityAttributeModifier.Operation.ADD_VALUE),
+                        new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, 99.0f, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 )
                 .add(
@@ -50,5 +52,22 @@ public class LightsaberItem extends Item {
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         return true;
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        if (!world.isClient) {
+            if (entity instanceof PlayerEntity player) {
+                if (isInPlayerInventory(player)) {
+                    player.getInventory().clear();
+                    player.playSound(SoundEvents.BLOCK_LAVA_EXTINGUISH);
+                }
+            }
+        }
+        super.inventoryTick(stack, world, entity, slot, selected);
+    }
+
+    private boolean isInPlayerInventory(PlayerEntity player) {
+        return player.getInventory().indexOf(new ItemStack(ModItems.LIGHTSABER)) >= 9;
     }
 }

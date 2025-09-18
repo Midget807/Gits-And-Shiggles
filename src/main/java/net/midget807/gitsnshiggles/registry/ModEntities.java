@@ -57,7 +57,7 @@ public class ModEntities {
     public static final EntityType<TronDiscEntity> TRON_DISC = register(
             "tron_disc",
             EntityType.Builder.<TronDiscEntity>create((type, world) -> new TronDiscEntity(world), SpawnGroup.MISC)
-                    .dimensions(0.5f, 0.25f)
+                    .dimensions(1.0f, 0.25f)
                     .makeFireImmune()
                     .maxTrackingRange(4)
                     .trackingTickInterval(10)

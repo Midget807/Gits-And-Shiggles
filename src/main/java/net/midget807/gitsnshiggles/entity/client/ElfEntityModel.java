@@ -2,12 +2,11 @@ package net.midget807.gitsnshiggles.entity.client;
 
 import net.midget807.gitsnshiggles.entity.ElfEntity;
 import net.minecraft.client.model.*;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 
-public class ElfEntityModel extends BipedEntityModel<ElfEntity> {
+public class ElfEntityModel extends EntityModel<ElfEntity> {
 	private final ModelPart hat;
 	private final ModelPart head;
 	private final ModelPart body;
@@ -16,7 +15,6 @@ public class ElfEntityModel extends BipedEntityModel<ElfEntity> {
 	private final ModelPart left_leg;
 	private final ModelPart right_leg;
 	public ElfEntityModel(ModelPart root) {
-        super(root, RenderLayer::getEntityTranslucent);
         this.hat = root.getChild("hat");
 		this.head = root.getChild("head");
 		this.body = root.getChild("body");
@@ -58,7 +56,6 @@ public class ElfEntityModel extends BipedEntityModel<ElfEntity> {
 	}
 	@Override
 	public void setAngles(ElfEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		super.setAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 		this.hat.copyTransform(this.head);
 	}
 	@Override

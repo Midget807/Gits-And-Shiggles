@@ -9,6 +9,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
+import java.util.function.Predicate;
+
 public class TronDiscItem extends Item {
     public TronDiscItem(Settings settings) {
         super(settings);
@@ -16,11 +18,12 @@ public class TronDiscItem extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && entity2 != user;
         ItemStack stack = user.getStackInHand(hand);
         TronDiscEntity tronDiscEntity = new TronDiscEntity(user, world, stack);
+        tronDiscEntity.getNearestEntityInViewPreferPlayer(user, user.getX(), user.getY(), user.getZ(), 20.0, entityPredicate);
         tronDiscEntity.setRebounds(2);
-        tronDiscEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 2, 0);
-        tronDiscEntity.setSearching(true);
+        tronDiscEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 2.0f, 0);
         if (!world.isClient) {
             world.spawnEntity(tronDiscEntity);
         }

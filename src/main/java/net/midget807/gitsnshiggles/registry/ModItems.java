@@ -9,7 +9,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 public class ModItems {
-    public static final Item ICON = registerItem("icon", new Item(new Item.Settings()));
+    public static final Item ICON = registerItem("itemgroup_icon", new Item(new Item.Settings()));
     public static final Item DEBUGGER = registerItem("debugger", new DebuggerItem(new Item.Settings().fireproof()));
 
     public static final Item RAILGUN = registerItem("railgun", new RailgunItem(new Item.Settings().maxCount(1)));
