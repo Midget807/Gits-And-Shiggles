@@ -7,7 +7,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
@@ -18,16 +20,14 @@ public class TronDiscItem extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && entity2 != user;
         ItemStack stack = user.getStackInHand(hand);
-        TronDiscEntity tronDiscEntity = new TronDiscEntity(user, world, stack);
-        tronDiscEntity.getNearestEntityInViewPreferPlayer(user, user.getX(), user.getY(), user.getZ(), 20.0, entityPredicate);
-        tronDiscEntity.setRebounds(2);
-        tronDiscEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 2.0f, 0);
-        if (!world.isClient) {
-            world.spawnEntity(tronDiscEntity);
-        }
-        return TypedActionResult.pass(stack);
+        user.setCurrentHand(hand);
+        return TypedActionResult.consume(stack);
+    }
+
+    @Override
+    public UseAction getUseAction(ItemStack stack) {
+        return UseAction.BOW;
     }
 
     @Override
@@ -37,6 +37,36 @@ public class TronDiscItem extends Item {
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        super.onStoppedUsing(stack, world, user, remainingUseTicks);
+        Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && entity2 != user;
+        TronDiscEntity tronDiscEntity = new TronDiscEntity(user, world, stack);
+        tronDiscEntity.getNearestEntityInViewPreferPlayer(user, user.getX(), user.getY(), user.getZ(), 20.0, entityPredicate);
+        tronDiscEntity.setRebounds(reboundsForPullProgress(user));
+        tronDiscEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 2.0f, 0);
+        if (!world.isClient) {
+            world.spawnEntity(tronDiscEntity);
+        }
+    }
+
+    public static float getPullProgress(int useTicks) {
+        /*Ticks in seconds*/
+        float f  = useTicks / 20.0f;
+        /*Sub f into function fo (x^2+2x)/3*/
+        f = (f * f + f * 2.0f) / 3.0f;
+        /*Maxes f at 1.0f*/
+        if (f > 1.0f) {
+            f = 1.0f;
+        }
+        return f;
+    }
+
+    @Override
+    public int getMaxUseTime(ItemStack stack, LivingEntity user) {
+        return 72000;
+    }
+
+    public static int reboundsForPullProgress(@NotNull LivingEntity user) {
+        int useTicks = user.getItemUseTime();
+        float f = getPullProgress(useTicks);
+        return Math.clamp(Math.round(f / 0.2f), 0, 5);
     }
 }

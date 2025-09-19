@@ -13,6 +13,8 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -26,8 +28,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class TronDiscEntity extends PersistentProjectileEntity {
-    public static final TrackedData<Integer> REBOUNDS = DataTracker.registerData(TronDiscEntity.class, TrackedDataHandlerRegistry.INTEGER);
-    public static final TrackedData<BlockPos> ORIGIN = DataTracker.registerData(TronDiscEntity.class, TrackedDataHandlerRegistry.BLOCK_POS);
+    private int rebounds = 5;
     private LivingEntity target;
     private LivingEntity exceptionTarget;
     public static final int MAX_DISTANCE = 80;
@@ -38,19 +39,15 @@ public class TronDiscEntity extends PersistentProjectileEntity {
 
     public TronDiscEntity(double x, double y, double z, World world, ItemStack stack) {
         super(ModEntities.TRON_DISC, x, y, z, world, stack, stack);
-        this.dataTracker.set(ORIGIN, new BlockPos((int) x, (int) y, (int) z));
     }
 
     public TronDiscEntity(LivingEntity owner, World world, ItemStack stack) {
         super(ModEntities.TRON_DISC, owner, world, stack, null);
-        this.dataTracker.set(ORIGIN, owner.getBlockPos());
     }
 
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
-        builder.add(REBOUNDS, 0);
-        builder.add(ORIGIN, BlockPos.ORIGIN);
     }
 
     @Override
@@ -59,17 +56,10 @@ public class TronDiscEntity extends PersistentProjectileEntity {
     }
 
     public void setRebounds(int rebounds) {
-        this.dataTracker.set(REBOUNDS, rebounds);
+        this.rebounds = rebounds;
     }
     public int getRebounds() {
-        return this.dataTracker.get(REBOUNDS);
-    }
-
-    public void setOrigin(BlockPos origin) {
-        this.dataTracker.set(ORIGIN, origin);
-    }
-    public BlockPos getOrigin() {
-        return this.dataTracker.get(ORIGIN);
+        return rebounds;
     }
 
     @Override
@@ -78,9 +68,31 @@ public class TronDiscEntity extends PersistentProjectileEntity {
     }
 
     @Override
+    public void tick() {
+        if (this.age > 80) {
+            this.dropItem(ModItems.TRON_DISC);
+            this.discard();
+            return;
+        }
+        super.tick();
+    }
+/*
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putInt("Rebounds", this.getRebounds());
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.setRebounds(nbt.getInt("Rebounds"));
+    }*/
+
+    @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
-        if (entity == this.getOwner() && this.getOwner() != null) {
+        if (this.getOwner() != null && entity == this.getOwner()) {
             this.dropItem(ModItems.TRON_DISC);
             this.getOwner().kill();
             return;
@@ -94,10 +106,11 @@ public class TronDiscEntity extends PersistentProjectileEntity {
         entity.damage(this.getDamageSources().mobProjectile(this, (LivingEntity) this.getOwner()), 5.0f);
         Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && entity2 != this.getOwner();
         this.getNearestEntityInViewPreferPlayer(this, this.getX(), this.getY(), this.getZ(), 20, entityPredicate);
-        if (target != null && this.dataTracker.get(REBOUNDS) > 0) {
+        if (target != null && this.rebounds > 0) {
             this.setVelocity(target.getPos().subtract(this.getPos()).normalize().multiply(2));
             this.updateRotation();
-            this.dataTracker.set(REBOUNDS, this.dataTracker.get(REBOUNDS) - 1);
+            this.rebounds--;
+            this.age = 0;
         }
     }
 
@@ -105,24 +118,32 @@ public class TronDiscEntity extends PersistentProjectileEntity {
     protected void onBlockHit(BlockHitResult blockHitResult) {
         Vec3d rotVec = this.getVelocity();
         Direction direction = blockHitResult.getSide();
-        if (this.dataTracker.get(REBOUNDS) > 0) {
+        if (this.rebounds > 0) {
             if (direction == Direction.UP || direction == Direction.DOWN) {
                 this.setVelocity(rotVec.x, -rotVec.y, rotVec.z);
+                this.rebounds--;
+                this.age = 0;
             } else if (direction == Direction.EAST || direction == Direction.WEST) {
                 this.setVelocity(-rotVec.x, rotVec.y, rotVec.z);
+                this.rebounds--;
+                this.age = 0;
             } else if (direction == Direction.NORTH || direction == Direction.SOUTH) {
                 this.setVelocity(rotVec.x, rotVec.y, -rotVec.z);
+                this.rebounds--;
+                this.age = 0;
             }
         } else {
             this.dropItem(ModItems.TRON_DISC);
             this.discard();
+            return;
         }
         Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && entity2 != this.getOwner();
         this.getNearestEntityInViewPreferPlayer(this, this.getX(), this.getY(), this.getZ(), 20, entityPredicate);
-        if (target != null && this.dataTracker.get(REBOUNDS) > 0) {
+        if (target != null && this.rebounds > 0) {
             this.setVelocity(target.getPos().subtract(this.getPos()).normalize().multiply(2));
             this.updateRotation();
-            this.dataTracker.set(REBOUNDS, this.dataTracker.get(REBOUNDS) - 1);
+            this.rebounds--;
+            this.age = 0;
         }
     }
 
@@ -152,5 +173,4 @@ public class TronDiscEntity extends PersistentProjectileEntity {
     public boolean hasNoGravity() {
         return true;
     }
-
 }

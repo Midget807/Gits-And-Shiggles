@@ -23,7 +23,7 @@ public class ModEntities {
     public static final EntityType<ElfEntity> ELF = register(
             "elf",
             EntityType.Builder.<ElfEntity>create((entityType, world) -> new ElfEntity(world), SpawnGroup.MISC)
-                    .dimensions(0.25f, 1.0f)
+                    .dimensions(0.25f, 0.8f)
                     .maxTrackingRange(10)
     );
 

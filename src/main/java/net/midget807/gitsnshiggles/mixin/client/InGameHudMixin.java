@@ -3,6 +3,7 @@ package net.midget807.gitsnshiggles.mixin.client;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.midget807.gitsnshiggles.item.FlamethrowerItem;
+import net.midget807.gitsnshiggles.item.TronDiscItem;
 import net.midget807.gitsnshiggles.item.WizardRobesItem;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.ModTextureIds;
@@ -11,6 +12,7 @@ import net.midget807.gitsnshiggles.util.inject.WizardGamba;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
@@ -53,7 +55,13 @@ public abstract class InGameHudMixin {
             } else {
                 this.railgunScale = 0.5F;
             }
-            this.renderD20(context, this.getCameraPlayer());
+
+            if (this.getCameraPlayer() != null && WizardRobesItem.hasFullSuitOfArmor(this.getCameraPlayer())) {
+                this.renderD20(context, this.getCameraPlayer());
+            }
+            if (this.client.player.isUsingItem() && this.client.player.getActiveItem().isOf(ModItems.TRON_DISC)) {
+                this.renderTronDiscChargeBar(context, this.client.player);
+            }
         }
     }
 
@@ -143,13 +151,18 @@ public abstract class InGameHudMixin {
             } else if (animationTicks % 10 == 0  && animationTicks > -1) {
                 randomD20 = random.nextBetween(1, 20);
             }
-            if (WizardRobesItem.hasFullSuitOfArmor(cameraPlayer)) {
-                context.drawTexture(ModTextureIds.WIZARD_GAMBA, i - 16, j - 80, 0, (randomD20 - 1) * 32, 32, 32, 32, 640);
-            }
+            context.drawTexture(ModTextureIds.WIZARD_GAMBA, i - 16, j - 80, 0, (randomD20 - 1) * 32, 32, 32, 32, 640);
+
         }
         RenderSystem.disableBlend();
         this.client.getProfiler().pop();
+    }
 
-
+    @Unique
+    private void renderTronDiscChargeBar(DrawContext context, ClientPlayerEntity player) {
+        int i = context.getScaledWindowWidth() / 2;
+        int j = context.getScaledWindowHeight() / 2;
+        context.drawGuiTexture(ModTextureIds.TRON_DISC_CHARGE_BG, i - 36, j + 12, 72, 8);
+        context.drawTexture(ModTextureIds.TRON_DISC_BAR, i -36, j + 12, 0, 0, Math.min(TronDiscItem.reboundsForPullProgress(player) * 16, 72), 8, 72, 8);
     }
 }

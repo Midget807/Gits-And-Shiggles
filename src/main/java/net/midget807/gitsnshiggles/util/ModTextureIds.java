@@ -8,6 +8,9 @@ public class ModTextureIds {
 
     public static final Identifier WIZARD_GAMBA = GitsAndShigglesMain.id("textures/misc/wizard_gamba.png");
 
+    public static final Identifier TRON_DISC_CHARGE_BG = GitsAndShigglesMain.id("hud/tron_disc_charge_background");
+    public static final Identifier TRON_DISC_BAR = GitsAndShigglesMain.id("textures/gui/hud/tron_disc_bar.png");
+
     public static final Identifier OVERHEAT_BG = GitsAndShigglesMain.id("hud/overheat_background");
     public static final Identifier OVERHEAT_BAR = GitsAndShigglesMain.id("textures/gui/hud/overheat_bar.png");
     public static final Identifier OVERHEAT_OVERLAY = GitsAndShigglesMain.id("hud/overheat_overlay");
@@ -25,5 +28,6 @@ public class ModTextureIds {
 
     public static final Identifier WIZARD_ROBES_TEXTURE = GitsAndShigglesMain.id("textures/entity/armor/wizard_robes.png");
     public static final Identifier WIZARD_ROBES_OVERLAY_TEXTURE = GitsAndShigglesMain.id("textures/entity/armor/wizard_robes_overlay.png");
+
 
 }
