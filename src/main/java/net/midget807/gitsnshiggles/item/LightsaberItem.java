@@ -13,11 +13,13 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Map;
 
 public class LightsaberItem extends Item {
     public LightsaberItem(Settings settings) {
@@ -68,6 +70,17 @@ public class LightsaberItem extends Item {
     }
 
     private boolean isInPlayerInventory(PlayerEntity player) {
-        return player.getInventory().indexOf(new ItemStack(ModItems.LIGHTSABER)) >= 9;
+        Map<Integer, ItemStack> lightsaberIndex = Map.of();
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            if (player.getInventory().getStack(i).getItem() instanceof LightsaberItem) {
+                lightsaberIndex.put(i, player.getInventory().getStack(i));
+            }
+        }
+        for (int i = 0; i < lightsaberIndex.size(); i++) {
+            if (player.getInventory().indexOf(lightsaberIndex.get(i)) >= 9) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,6 +1,9 @@
 package net.midget807.gitsnshiggles.item;
 
 import net.midget807.gitsnshiggles.entity.TronDiscEntity;
+import net.midget807.gitsnshiggles.util.ColoredItemUtil;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -14,8 +17,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Predicate;
 
 public class TronDiscItem extends Item {
-    public TronDiscItem(Settings settings) {
+    private final ColoredItemUtil.Colors color;
+    public TronDiscItem(Settings settings, ColoredItemUtil.Colors colors) {
         super(settings);
+        this.color = colors;
     }
 
     @Override
@@ -37,11 +42,14 @@ public class TronDiscItem extends Item {
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+        DyedColorComponent dyedColorComponent = stack.get(DataComponentTypes.DYED_COLOR);
         Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && entity2 != user;
-        TronDiscEntity tronDiscEntity = new TronDiscEntity(user, world, stack);
+        TronDiscEntity tronDiscEntity = new TronDiscEntity(user, world, stack, this.color);
         tronDiscEntity.getNearestEntityInViewPreferPlayer(user, user.getX(), user.getY(), user.getZ(), 20.0, entityPredicate);
         tronDiscEntity.setRebounds(reboundsForPullProgress(user));
         tronDiscEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 2.0f, 0);
+        tronDiscEntity.setEnumColor(this.color);
+        //tronDiscEntity.setColor(dyedColorComponent == null ? 0xFFFFFF : dyedColorComponent.rgb());
         if (!world.isClient) {
             world.spawnEntity(tronDiscEntity);
         }

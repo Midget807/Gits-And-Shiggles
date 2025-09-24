@@ -2,8 +2,11 @@ package net.midget807.gitsnshiggles.entity;
 
 import net.midget807.gitsnshiggles.registry.ModEntities;
 import net.midget807.gitsnshiggles.registry.ModItems;
+import net.midget807.gitsnshiggles.util.ColoredItemUtil;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.command.argument.EntityAnchorArgumentType;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.TargetPredicate;
@@ -28,26 +31,55 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class TronDiscEntity extends PersistentProjectileEntity {
+    private static final TrackedData<Integer> COLOR = DataTracker.registerData(TronDiscEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private int rebounds = 5;
     private LivingEntity target;
     private LivingEntity exceptionTarget;
-    public static final int MAX_DISTANCE = 80;
+    private ColoredItemUtil.Colors color;
 
     public TronDiscEntity(World world) {
         super(ModEntities.TRON_DISC, world);
     }
 
-    public TronDiscEntity(double x, double y, double z, World world, ItemStack stack) {
+    public TronDiscEntity(double x, double y, double z, World world, ItemStack stack, ColoredItemUtil.Colors color) {
         super(ModEntities.TRON_DISC, x, y, z, world, stack, stack);
+        this.color = color;
+        this.initColor();
     }
 
-    public TronDiscEntity(LivingEntity owner, World world, ItemStack stack) {
+    public TronDiscEntity(LivingEntity owner, World world, ItemStack stack, ColoredItemUtil.Colors color) {
         super(ModEntities.TRON_DISC, owner, world, stack, null);
+        this.color = color;
+        this.initColor();
+    }
+
+    private void initColor() {
+        DyedColorComponent dyedColorComponent = this.getColorComponent();
+        this.dataTracker.set(COLOR, dyedColorComponent == null ? 0xFFFFFF : dyedColorComponent.rgb());
+    }
+
+    private DyedColorComponent getColorComponent() {
+        return this.getItemStack().get(DataComponentTypes.DYED_COLOR);
+    }
+
+    public int getColor() {
+        return this.dataTracker.get(COLOR);
+    }
+    public void setColor(int rgb) {
+        this.dataTracker.set(COLOR, rgb);
+    }
+
+    public ColoredItemUtil.Colors getEnumColor() {
+        return this.color;
+    }
+    public void setEnumColor(ColoredItemUtil.Colors color) {
+        this.color = color;
     }
 
     @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
+        builder.add(COLOR, 0xFFFFFF);
     }
 
     @Override
@@ -64,36 +96,24 @@ public class TronDiscEntity extends PersistentProjectileEntity {
 
     @Override
     protected ItemStack getDefaultItemStack() {
-        return new ItemStack(ModItems.TRON_DISC);
+        return new ItemStack(ColoredItemUtil.getTronDiscByColor(this.color));
     }
 
     @Override
     public void tick() {
         if (this.age > 80) {
-            this.dropItem(ModItems.TRON_DISC);
+            this.dropItem(ColoredItemUtil.getTronDiscByColor(this.color));
             this.discard();
             return;
         }
         super.tick();
     }
-/*
-    @Override
-    public void writeCustomDataToNbt(NbtCompound nbt) {
-        super.writeCustomDataToNbt(nbt);
-        nbt.putInt("Rebounds", this.getRebounds());
-    }
-
-    @Override
-    public void readCustomDataFromNbt(NbtCompound nbt) {
-        super.readCustomDataFromNbt(nbt);
-        this.setRebounds(nbt.getInt("Rebounds"));
-    }*/
 
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
         if (this.getOwner() != null && entity == this.getOwner()) {
-            this.dropItem(ModItems.TRON_DISC);
+            this.dropItem(ColoredItemUtil.getTronDiscByColor(this.color));
             this.getOwner().kill();
             return;
         }
@@ -133,7 +153,7 @@ public class TronDiscEntity extends PersistentProjectileEntity {
                 this.age = 0;
             }
         } else {
-            this.dropItem(ModItems.TRON_DISC);
+            this.dropItem(ColoredItemUtil.getTronDiscByColor(this.color));
             this.discard();
             return;
         }

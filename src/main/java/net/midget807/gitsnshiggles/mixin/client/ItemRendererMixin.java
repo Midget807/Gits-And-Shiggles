@@ -38,9 +38,7 @@ public abstract class ItemRendererMixin {
 
     @ModifyVariable(method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V", at = @At("HEAD"), argsOnly = true)
     public BakedModel gitsnshiggles$renderDifferentModel(BakedModel value, ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model) {
-        if (stack.isOf(ModItems.LIGHTSABER) && (renderMode == ModelTransformationMode.NONE || renderMode == ModelTransformationMode.THIRD_PERSON_LEFT_HAND || renderMode == ModelTransformationMode.THIRD_PERSON_RIGHT_HAND || renderMode == ModelTransformationMode.FIRST_PERSON_LEFT_HAND || renderMode == ModelTransformationMode.FIRST_PERSON_RIGHT_HAND || renderMode == ModelTransformationMode.HEAD || renderMode == ModelTransformationMode.GROUND)) {
 
-        }
         return value;
     }
 
@@ -57,9 +55,7 @@ public abstract class ItemRendererMixin {
 
     @ModifyVariable(method = "getModel", at = @At("STORE"), ordinal = 1)
     public BakedModel gitsnshiggles$getHeldItemModel(BakedModel value, @Local(argsOnly = true) ItemStack stack) {
-        if (stack.isOf(ModItems.LIGHTSABER)) {
-            return this.models.getModelManager().getModel(ModelIdentifier.ofInventoryVariant(GitsAndShigglesMain.id("lightsaber")));
-        }
+
         return value;
     }
 }

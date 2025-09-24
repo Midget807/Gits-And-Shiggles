@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "gitsnshiggles:item/icon"
+    "layer0": "gitsnshiggles:item/itemgroup_icon"
   }
 }

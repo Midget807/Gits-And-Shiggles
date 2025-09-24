@@ -3,6 +3,7 @@ package net.midget807.gitsnshiggles.entity.client;
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.midget807.gitsnshiggles.entity.TronDiscEntity;
 import net.midget807.gitsnshiggles.registry.client.ModEntityModelLayers;
+import net.midget807.gitsnshiggles.util.ColoredItemUtil;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -15,7 +16,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RotationAxis;
 
 public class TronDiscEntityRenderer extends EntityRenderer<TronDiscEntity> {
-    public static final Identifier TEXTURE = GitsAndShigglesMain.id("textures/entity/tron_disc.png");
+    public static final Identifier TEXTURE = GitsAndShigglesMain.id("textures/entity/tron_disc_white.png");
     private final TronDiscEntityModel model;
 
     public TronDiscEntityRenderer(EntityRendererFactory.Context ctx) {
@@ -28,17 +29,20 @@ public class TronDiscEntityRenderer extends EntityRenderer<TronDiscEntity> {
         matrices.push();
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(MathHelper.lerp(tickDelta, entity.prevYaw, entity.getYaw()) - 90.0f));
         matrices.translate(0.0f, -1.25f, 0.0f);
-        //matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(MathHelper.lerp(tickDelta, entity.prevPitch, entity.getPitch()) + 90.0F));
         VertexConsumer vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(
                 vertexConsumers, this.model.getLayer(this.getTexture(entity)), false, false
         );
-        this.model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
+        VertexConsumer vertexConsumer2 = vertexConsumers.getBuffer(this.model.getLayer(this.getTexture(entity)));
+        vertexConsumer2.color(0x0000FF);
+        this.model.render(matrices, vertexConsumer2, light, OverlayTexture.DEFAULT_UV);
         matrices.pop();
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
     }
 
     @Override
     public Identifier getTexture(TronDiscEntity entity) {
-        return TEXTURE;
+        ColoredItemUtil.Colors colors = entity.getEnumColor();
+        colors = colors == null ? ColoredItemUtil.Colors.WHITE : colors;
+        return GitsAndShigglesMain.id("textures/entity/tron_disc_" + colors.getColor() + ".png");
     }
 }

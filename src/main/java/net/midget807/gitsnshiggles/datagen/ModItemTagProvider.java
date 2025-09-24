@@ -19,6 +19,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     public static final TagKey<Item> SANTA_HATS = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("santa_hats"));
     public static final TagKey<Item> FLAMETHROWER_INSERTABLE = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("flamethrower_insertable"));
     public static final TagKey<Item> FLAMETHROWER_POWER = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("flamethrower_power"));
+    public static final TagKey<Item> LIGHTSABERS = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("lightsabers"));
+    public static final TagKey<Item> TRON_DISCS = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("tron_discs"));
 
     public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
         super(output, completableFuture);
@@ -53,9 +55,26 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                         ModItems.WIZARD_HAT,
                         ModItems.WIZARD_ROBE,
                         ModItems.WIZARD_PANTS,
-                        ModItems.WIZARD_BOOTS,
-                        ModItems.LIGHTSABER,
-                        ModItems.TRON_DISC
+                        ModItems.WIZARD_BOOTS
+                );
+        this.getOrCreateTagBuilder(LIGHTSABERS)
+                .add(
+                        ModItems.LIGHTSABER_WHITE,
+                        ModItems.LIGHTSABER_ORANGE,
+                        ModItems.LIGHTSABER_MAGENTA,
+                        ModItems.LIGHTSABER_LIGHT_BLUE,
+                        ModItems.LIGHTSABER_YELLOW,
+                        ModItems.LIGHTSABER_LIME,
+                        ModItems.LIGHTSABER_PINK,
+                        ModItems.LIGHTSABER_GRAY,
+                        ModItems.LIGHTSABER_LIGHT_GRAY,
+                        ModItems.LIGHTSABER_CYAN,
+                        ModItems.LIGHTSABER_PURPLE,
+                        ModItems.LIGHTSABER_BLUE,
+                        ModItems.LIGHTSABER_BROWN,
+                        ModItems.LIGHTSABER_GREEN,
+                        ModItems.LIGHTSABER_RED,
+                        ModItems.LIGHTSABER_BLACK
                 );
     }
 }

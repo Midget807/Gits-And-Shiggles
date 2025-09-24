@@ -6,6 +6,7 @@ import net.midget807.gitsnshiggles.util.ModColorUtil;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.component.type.DyedColorComponent;
+import net.minecraft.util.math.ColorHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,10 +23,6 @@ public abstract class ItemColorsMixin {
                 ModItems.WIZARD_PANTS,
                 ModItems.WIZARD_BOOTS,
                 ModItems.LEATHER_SANTA_HAT
-        );
-        itemColors.register(
-                (stack, tintIndex) -> tintIndex > 0 ? -1 : DyedColorComponent.getColor(stack, 255 - ModColorUtil.FUCKASS_COLOR_CONSTANT),
-                ModItems.LIGHTSABER
         );
     }
 }
