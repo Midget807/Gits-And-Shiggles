@@ -1,9 +1,9 @@
 {
 	"format_version": "1.9.0",
 	"textures": {
-		"layer1": "gitsnshiggles:item/lightsaber_beam",
-		"layer0": "gitsnshiggles:item/lightsaber_beam_overlay",
-		"layer3": "gitsnshiggles:item/lightsaber_handle"
+		"layer1": "gitsnshiggles:item/lightsaber/white_beam",
+		"layer0": "gitsnshiggles:item/lightsaber/white_beam_overlay",
+		"layer3": "gitsnshiggles:item/lightsaber/handle"
 	},
 	"elements": [
 		{

@@ -1,11 +1,10 @@
 package net.midget807.gitsnshiggles.item;
 
-import net.midget807.gitsnshiggles.registry.ModItems;
+import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -13,12 +12,11 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 public class LightsaberItem extends Item {
@@ -41,10 +39,6 @@ public class LightsaberItem extends Item {
                 .build();
     }
 
-
-    public static DyedColorComponent createColorComponent() {
-        return new DyedColorComponent(0x0000FF, true);
-    }
 
     @Override
     public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
@@ -70,14 +64,8 @@ public class LightsaberItem extends Item {
     }
 
     private boolean isInPlayerInventory(PlayerEntity player) {
-        Map<Integer, ItemStack> lightsaberIndex = Map.of();
-        for (int i = 0; i < player.getInventory().size(); i++) {
-            if (player.getInventory().getStack(i).getItem() instanceof LightsaberItem) {
-                lightsaberIndex.put(i, player.getInventory().getStack(i));
-            }
-        }
-        for (int i = 0; i < lightsaberIndex.size(); i++) {
-            if (player.getInventory().indexOf(lightsaberIndex.get(i)) >= 9) {
+        for (int i = 9; i < player.getInventory().size() - 1; i++) {
+            if (player.getInventory().getStack(i) != null && player.getInventory().getStack(i).isIn(ModItemTagProvider.LIGHTSABERS)) {
                 return true;
             }
         }

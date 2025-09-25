@@ -63,6 +63,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .offerTo(recipeExporter, Identifier.of(getRecipeName(ModItems.DIAMOND_SANTA_HAT)));
         RecipeProvider.offerNetheriteUpgradeRecipe(recipeExporter, ModItems.DIAMOND_SANTA_HAT, RecipeCategory.COMBAT, ModItems.NETHERITE_SANTA_HAT);
 
+        this.createLightsaberRecipe();
+
+    }
+
+    private void createLightsaberRecipe() {
 
     }
 }

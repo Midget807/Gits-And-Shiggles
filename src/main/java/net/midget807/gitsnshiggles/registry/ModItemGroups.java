@@ -22,7 +22,6 @@ public class ModItemGroups {
                         entries.add(ModItems.RANDOM_EGG);
                         entries.add(ModItems.INFINITY_GAUNTLET);
                         entries.add(ModItems.INVERTED_TRIDENT);
-                        entries.add(ModItems.TRON_DISC_WHITE);
                         entries.add(ModItems.WIZARD_HAT);
                         entries.add(ModItems.WIZARD_ROBE);
                         entries.add(ModItems.WIZARD_PANTS);
@@ -46,6 +45,8 @@ public class ModItemGroups {
                         entries.add(ModItems.LIGHTSABER_GREEN);
                         entries.add(ModItems.LIGHTSABER_RED);
                         entries.add(ModItems.LIGHTSABER_BLACK);
+
+                        entries.add(ModItems.TRON_DISC_WHITE);
 
                     })
                     .build()

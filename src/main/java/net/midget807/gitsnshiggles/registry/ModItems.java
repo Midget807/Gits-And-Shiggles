@@ -39,6 +39,7 @@ public class ModItems {
     public static final Item TRON_DISC_RED = registerItem("tron_disc_red", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.RED));
     public static final Item TRON_DISC_BLACK = registerItem("tron_disc_black", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.BLACK));
 
+    public static final Item KYBER_CRYSTAL = registerItem("kyber_crystal", new Item(new Item.Settings()));
     public static final Item LIGHTSABER_WHITE = registerItem("lightsaber_white", new LightsaberItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(LightsaberItem.createAttributeModifiers())));
     public static final Item LIGHTSABER_ORANGE = registerItem("lightsaber_orange", new LightsaberItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(LightsaberItem.createAttributeModifiers())));
     public static final Item LIGHTSABER_MAGENTA = registerItem("lightsaber_magenta", new LightsaberItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(LightsaberItem.createAttributeModifiers())));
