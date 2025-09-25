@@ -1,12 +1,15 @@
 package net.midget807.gitsnshiggles.mixin;
 
+import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.util.inject.RailgunRecoil;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,6 +17,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements Attackable, RailgunRecoil {
@@ -24,6 +28,10 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
     @Shadow public abstract boolean damage(DamageSource source, float amount);
 
     @Shadow protected abstract SoundEvent getFallSound(int distance);
+
+    @Shadow @NotNull public abstract ItemStack getWeaponStack();
+
+    @Shadow public abstract void remove(RemovalReason reason);
 
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -92,5 +100,12 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
     @Unique
     private SoundEvent gitsnshiggles$getFallSound(int o) {
         return null;
+    }
+
+    @Inject(method = "disablesShield", at = @At("HEAD"), cancellable = true)
+    private void gitsnshiggles$moreItemsThatDisableShield(CallbackInfoReturnable<Boolean> cir) {
+        if (this.getWeaponStack().isIn(ModItemTagProvider.DISABLES_SHIELD)) {
+            cir.setReturnValue(Boolean.TRUE);
+        }
     }
 }

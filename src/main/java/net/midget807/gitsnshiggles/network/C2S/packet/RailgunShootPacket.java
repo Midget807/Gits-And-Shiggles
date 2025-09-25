@@ -63,7 +63,7 @@ public class RailgunShootPacket {
     private static void raycast(float clientPitch, float clientYaw, ServerPlayerEntity player, World world, ItemStack projectile, int power) {
         Vec3d start = player.getEyePos();
         Vec3d direction = player.getRotationVector(clientPitch, clientYaw).normalize();
-        double maxDistance = 128 + RailgunScalar.getScalar(power);
+        double maxDistance = 512 + RailgunScalar.getScalar(power);
         Vec3d end = start.add(direction.multiply(maxDistance));
 
         HitResult hitResult = player.raycast(maxDistance, 0, false);

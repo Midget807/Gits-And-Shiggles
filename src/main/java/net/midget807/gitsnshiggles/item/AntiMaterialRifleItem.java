@@ -18,12 +18,12 @@ public class AntiMaterialRifleItem extends Item {
         return AttributeModifiersComponent.builder()
                 .add(
                         EntityAttributes.GENERIC_ATTACK_DAMAGE,
-                        new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, 14.0f, EntityAttributeModifier.Operation.ADD_VALUE),
+                        new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, 19.0f, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 )
                 .add(
                         EntityAttributes.GENERIC_ATTACK_SPEED,
-                        new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, -3.4f, EntityAttributeModifier.Operation.ADD_VALUE),
+                        new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, -3.3f, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 )
                 .build();
@@ -33,4 +33,5 @@ public class AntiMaterialRifleItem extends Item {
     public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
         return !miner.isCreative();
     }
+
 }

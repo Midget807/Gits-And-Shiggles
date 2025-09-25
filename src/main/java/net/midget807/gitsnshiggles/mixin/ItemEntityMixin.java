@@ -56,8 +56,8 @@ public abstract class ItemEntityMixin extends Entity implements Ownable {
     private void gitsnshiggles$lightsaberDrill(CallbackInfo ci) {
         if (this.getStack().isIn(ModItemTagProvider.LIGHTSABERS) ) {
             this.getWorld().breakBlock(this.getBlockPos().offset(Direction.DOWN), false);
+            this.killOtherItems();
         }
-        this.killOtherItems();
     }
 
     @Unique

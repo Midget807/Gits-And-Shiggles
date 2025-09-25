@@ -21,6 +21,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     public static final TagKey<Item> FLAMETHROWER_POWER = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("flamethrower_power"));
     public static final TagKey<Item> LIGHTSABERS = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("lightsabers"));
     public static final TagKey<Item> TRON_DISCS = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("tron_discs"));
+    public static final TagKey<Item> DISABLES_SHIELD = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("custom_disables_shield"));
 
     public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
         super(output, completableFuture);
@@ -76,5 +77,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                         ModItems.LIGHTSABER_RED,
                         ModItems.LIGHTSABER_BLACK
                 );
+        this.getOrCreateTagBuilder(DISABLES_SHIELD)
+                .add(ModItems.AM_RIFLE);
     }
 }
