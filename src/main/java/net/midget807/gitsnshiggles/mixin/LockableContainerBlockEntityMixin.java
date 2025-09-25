@@ -36,9 +36,8 @@ public abstract class LockableContainerBlockEntityMixin extends BlockEntity impl
     @Inject(method = "writeNbt", at = @At("TAIL"))
     private void gitsnshiggles$clearInventoryForLightsaber(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup, CallbackInfo ci) {
         if (this.getHeldStacks().stream().anyMatch(itemStack -> itemStack.isIn(ModItemTagProvider.LIGHTSABERS))) {
-            //this.getHeldStacks().clear();
             if (this.getWorld() != null && (this.getWorld().getBlockState(this.getPos()).hasBlockEntity() && this.getWorld().getBlockState(this.getPos()).getBlock() != Blocks.AIR)) {
-                this.getWorld().removeBlock(this.getPos(), false);
+                this.getWorld().breakBlock(this.getPos(), true);
             }
         }
     }
