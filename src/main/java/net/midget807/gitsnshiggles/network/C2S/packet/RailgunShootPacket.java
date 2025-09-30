@@ -21,6 +21,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -100,29 +101,14 @@ public class RailgunShootPacket {
                 hits.add(new EntityHitResult(entity, intersection.get()));
             }
         }
-        Vec3d current = start;
-        for (double d = 0; d < maxDistance; d += 5) {
-            current = start.add(direction.multiply(d));
-            assert MinecraftClient.getInstance().player != null;
-            MinecraftClient.getInstance().player.clientWorld.addParticle(
-                    ParticleTypes.SMOKE,
-                    current.x,
-                    current.y,
-                    current.z,
-                    0,
-                    0,
-                    0
-            );
-        }
+
+
         hits.sort(Comparator.comparingDouble(hit -> start.squaredDistanceTo(hit.getPos())));
         for (EntityHitResult hit : hits) {
             Entity target = hit.getEntity();
             target.damage(ModDamages.create(world, ModDamages.RAILGUN, player), (float) 5.0f + (float) RailgunScalar.getScalar(power));
-        }/*
-        Vec3d recoilVec = player.getRotationVector().negate().normalize();
-        player.setVelocity(recoilVec.multiply(RailgunScalar.getScalar(power) * 2 + 2.0f));
-        player.velocityModified = true;
-        player.move(MovementType.SELF, player.getVelocity());*/
+        }
+
         projectile.decrement(player.getAbilities().creativeMode ? 0 : 1);
         player.getItemCooldownManager().set(ModItems.RAILGUN, 40);
     }

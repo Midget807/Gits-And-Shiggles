@@ -21,7 +21,7 @@ public class TimeStoneRingsParticle extends ExplosionLargeParticle {
 
     public TimeStoneRingsParticle(ClientWorld world, double x, double y, double z, double d, SpriteProvider spriteProvider) {
         super(world, x, y, z, d, spriteProvider);
-        this.maxAge = 30;
+        this.maxAge = 60;
         this.scale = 4.0f;
         this.gravityStrength = 0.0f;
         this.velocityX = 0.0f;
@@ -39,10 +39,15 @@ public class TimeStoneRingsParticle extends ExplosionLargeParticle {
         this.buildGeometry(vertexConsumer, camera, tickDelta, (quaternion) -> {
             quaternion.mul(new Quaternionf().rotateX((float) -Math.PI * 0.5f));
             quaternion.mul(new Quaternionf().rotateY((float) -Math.PI));
+            quaternion.mul(new Quaternionf().rotateY((float) Math.clamp((this.age - 10.0) * (Math.PI / 20.0), 0, Math.PI / 2)));
         });
         this.buildGeometry(vertexConsumer, camera, tickDelta, (quaternion) -> {
-            quaternion.mul(new Quaternionf().rotateX((float) Math.PI * 0.5f));
-            quaternion.mul(new Quaternionf().rotateY((float) Math.PI));
+            quaternion.mul(new Quaternionf().rotateY((float) Math.PI * 0.5f));
+            //quaternion.mul(new Quaternionf().rotateY((float) Math.PI));
+        });
+        this.buildGeometry(vertexConsumer, camera, tickDelta, (quaternion) -> {
+            //quaternion.mul(new Quaternionf().rotateY((float) Math.PI * 0.5f));
+            //quaternion.mul(new Quaternionf().rotateZ((float) Math.PI));
         });
     }
     private void buildGeometry(VertexConsumer vertexConsumer, Camera camera, float tickDelta, Consumer<Quaternionf> rotator) {
