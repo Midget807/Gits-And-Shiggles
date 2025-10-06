@@ -96,7 +96,7 @@ public class TronDiscEntity extends PersistentProjectileEntity {
         }
 
         entity.damage(this.getDamageSources().mobProjectile(this, (LivingEntity) this.getOwner()), 5.0f);
-        Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && entity2 != this.getOwner();
+        Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() /*&& entity2 != this.getOwner()*/;
         this.getNearestEntityInViewPreferPlayer(this, this.getX(), this.getY(), this.getZ(), 20, entityPredicate);
         if (target != null && this.rebounds > 0) {
             this.setVelocity(target.getPos().subtract(this.getPos()).normalize().multiply(2));
@@ -141,12 +141,18 @@ public class TronDiscEntity extends PersistentProjectileEntity {
 
     public void getNearestEntityInViewPreferPlayer(Entity source, double x, double y, double z, double maxDistance, Predicate<LivingEntity> predicate) {
         double d = -1.0;
+        Predicate<PlayerEntity> ownerPredicate = entity2 -> entity2 == this.getOwner();
         List<LivingEntity> livingEntities = source.getWorld().getEntitiesByClass(LivingEntity.class, source.getBoundingBox().expand(maxDistance), predicate);
         List<PlayerEntity> playerEntities = source.getWorld().getEntitiesByClass(PlayerEntity.class, source.getBoundingBox().expand(maxDistance), predicate);
         if (!playerEntities.isEmpty()) {
             predicate = entity2 -> !entity2.isSpectator() && !((PlayerEntity)entity2).isCreative() && entity2 != this.getOwner();
         }
         for (LivingEntity livingEntity : playerEntities.isEmpty() ? livingEntities : playerEntities) {
+            if (livingEntities.isEmpty() && playerEntities.size() == 1 {
+                if (ownerPredicate.test(livingEntity)) {
+                    this.target = livingEntity;
+                }
+            }
             if (predicate == null || predicate.test(livingEntity)) {
                 double squaredDistanceTo = livingEntity.squaredDistanceTo(x, y, z);
                 if ((maxDistance < 0.0 || squaredDistanceTo < maxDistance * maxDistance) && (d == -1.0 || squaredDistanceTo < d)) {
