@@ -2,11 +2,13 @@ package net.midget807.gitsnshiggles.mixin;
 
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.util.inject.RailgunRecoil;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
@@ -16,12 +18,14 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements Attackable, RailgunRecoil {
+    @Unique
     private boolean hasRailgunRecoil = false;
+    @Unique
+    private Vec3d recoilVec = Vec3d.ZERO;
 
     @Shadow public abstract void playSound(@Nullable SoundEvent sound);
 
@@ -47,59 +51,32 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
         return this.hasRailgunRecoil;
     }
 
-    @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getFluidState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/fluid/FluidState;"))
-    private void gitsnshiggles$recoilDamage(Vec3d movementInput, CallbackInfo ci) {
+    @Override
+    public void setRecoilVec(Vec3d recoilVec) {
+        this.recoilVec = recoilVec;
+    }
+
+    @Override
+    public Vec3d getRecoilVec() {
+        return this.recoilVec;
+    }
+
+    @Override
+    protected void onBlockCollision(BlockState state) {
+        super.onBlockCollision(state);
+        ((LivingEntity)((Object)this)).sendMessage(Text.literal("collision: true"));
         if (this.hasRailgunRecoil) {
             this.calculateRecoilDamage();
+            this.hasRailgunRecoil = false;
         }
     }
 
     @Unique
     private void calculateRecoilDamage() {
-        Vec3d velocity = this.getVelocity();
-        Vec3d rotVec = this.getRotationVector().negate();
-        float pitchFunction = this.getPitch() * (float) (Math.PI / 180);
-        double rotVecHorizontalLength = Math.sqrt(rotVec.x * rotVec.x + rotVec.z * rotVec.z);
-        double velocityHorizontalLength = velocity.horizontalLength();
-        double rotVecLength = rotVec.length();
-        double cosOfPitch = Math.cos(pitchFunction);
-        cosOfPitch = cosOfPitch * cosOfPitch * Math.min(1.0, rotVecLength / 4.0);
-        velocity = this.getVelocity().add(0.0, this.getFinalGravity() * (-1.0 + cosOfPitch * 0.75), 0.0);
-        if (velocity.y < 0.0 && rotVecHorizontalLength > 0.0) {
-            double m = velocity.y * -0.1 * cosOfPitch;
-            velocity = velocity.add(rotVec.x * m / rotVecHorizontalLength, m, rotVec.z * m / rotVecHorizontalLength);
-        }
-
-        if (pitchFunction < 0.0f && cosOfPitch > 0.0) {
-            double m = velocityHorizontalLength * -MathHelper.sin(pitchFunction) * 0.04;
-            velocity = velocity.add(-rotVec.x * m / rotVecHorizontalLength, m * 3.2, -rotVec.z * m / rotVecHorizontalLength);
-        }
-
-        if (cosOfPitch > 0.0) {
-            velocity = velocity.add((rotVec.x / rotVecHorizontalLength * velocityHorizontalLength - velocity.x) * 0.1, 0.0, (rotVec.z / rotVecHorizontalLength * velocityHorizontalLength - velocity.z) * 0.1);
-        }
-
-        this.setVelocity(velocity.multiply(0.99f, 0.98f, 0.99f));
-        this.move(MovementType.SELF, this.getVelocity());
-        if (this.horizontalCollision && !this.getWorld().isClient) {
-            double m = this.getVelocity().horizontalLength();
-            double n = velocityHorizontalLength - m;
-            float o = (float) (n *  10.0 - 3.0);
-            if (o > 0.0f) {
-                //this.playSound(this.gitsnshiggles$getFallSound((int)o), 1.0F, 1.0F);
-                this.damage(this.getDamageSources().flyIntoWall(), o);
-            }
-        }
-        if ((this.getVelocity().length() == 0 || this.isOnGround()) && !this.getWorld().isClient) {
-            this.setFlag(Entity.FALL_FLYING_FLAG_INDEX, false);
-            this.setRailgunRecoil(false);
-        }
-
-    }
-
-    @Unique
-    private SoundEvent gitsnshiggles$getFallSound(int o) {
-        return null;
+        this.damage(this.getDamageSources().flyIntoWall(), (float) (this.getVelocity().length() * 0.6f));
+        this.playSound(getFallSound(10));
+        ((LivingEntity)((Object)this)).sendMessage(Text.literal("Speed: " + this.getVelocity().length() * 0.6f));
+        ((LivingEntity)((Object)this)).sendMessage(Text.literal("recoil: " + this.hasRailgunRecoil));
     }
 
     @Inject(method = "disablesShield", at = @At("HEAD"), cancellable = true)

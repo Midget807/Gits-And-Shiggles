@@ -10,6 +10,15 @@
   "key.gitsnshiggles.mindStone": "Mind Stone",
   "key.gitsnshiggles.summonElves.too_many": "Too Many Elves Exist",
   "commands.gitsnshiggles.player_lock.query.item.success": "%s is locked to %s",
+  "commands.gitsnshiggles.player_lock.query.item.fail.player": "Player does not have a locked item or does not exist",
+  "commands.gitsnshiggles.player_lock.query.item.fail.item": "Item is not locked to player",
+  "commands.gitsnshiggles.player_lock.query.item.fail.item.null": "Item does not exist",
   "commands.gitsnshiggles.player_lock.query.player.success": "%s is locked to %s",
-  "commands.gitsnshiggles.player_lock.set.success": "\"%s is locked to %s\""
+  "commands.gitsnshiggles.player_lock.query.player.fail": "No item is locked to %s",
+  "commands.gitsnshiggles.player_lock.set.success": "%s is locked to %s",
+  "commands.gitsnshiggles.player_lock.clear.item.success": "%s is no longer locked",
+  "commands.gitsnshiggles.player_lock.clear.item.fail.null": "Item does not exist",
+  "commands.gitsnshiggles.player_lock.clear.item.fail": "Item was already unlocked",
+  "commands.gitsnshiggles.player_lock.clear.player.success": "%s has been unlocked from %s",
+  "commands.gitsnshiggles.player_lock.clear.player.fail": "%s did not have a locked item"
 }

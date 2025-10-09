@@ -3,10 +3,12 @@
   "package": "net.midget807.gitsnshiggles.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "EntityMixin",
     "ItemEntityMixin",
     "LivingEntityMixin",
     "LockableContainerBlockEntityMixin",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "ServerPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

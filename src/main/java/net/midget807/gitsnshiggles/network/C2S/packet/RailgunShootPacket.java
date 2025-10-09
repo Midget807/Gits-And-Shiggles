@@ -9,29 +9,20 @@ import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.RailgunScalar;
 import net.midget807.gitsnshiggles.util.inject.RailgunLoading;
 import net.midget807.gitsnshiggles.util.inject.RailgunRecoil;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MovementType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.AdvancedExplosionBehavior;
-import net.minecraft.world.explosion.ExplosionBehavior;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -50,13 +41,10 @@ public class RailgunShootPacket {
             int power = RailgunItem.PROJECTILE_POWERS.get(projectile.getItem());
 
             if (!projectile.isEmpty() && !railgunStack.isEmpty()) {
-                /*if (projectile.isOf(Items.IRON_NUGGET)) {
-                    shoot(clientPitch, clientYaw, power, player, projectile, world);
-                } else {
-                    raycast(clientPitch, clientYaw, player, world, projectile, power);
-                }*/
                 raycast(clientPitch, clientYaw, player, world, projectile, power);
                 ((RailgunRecoil)player).setRailgunRecoil(true);
+                Vec3d recoilVec = player.getRotationVector(clientPitch, clientYaw).negate().normalize();
+                ((RailgunRecoil)player).setRecoilVec(recoilVec);
             }
         });
     }
@@ -64,7 +52,7 @@ public class RailgunShootPacket {
     private static void raycast(float clientPitch, float clientYaw, ServerPlayerEntity player, World world, ItemStack projectile, int power) {
         Vec3d start = player.getEyePos();
         Vec3d direction = player.getRotationVector(clientPitch, clientYaw).normalize();
-        double maxDistance = 512 + RailgunScalar.getScalar(power);
+        double maxDistance = 512.0 + RailgunScalar.getScalar(power);
         Vec3d end = start.add(direction.multiply(maxDistance));
 
         HitResult hitResult = player.raycast(maxDistance, 0, false);
@@ -111,6 +99,7 @@ public class RailgunShootPacket {
 
         projectile.decrement(player.getAbilities().creativeMode ? 0 : 1);
         player.getItemCooldownManager().set(ModItems.RAILGUN, 40);
+        ((RailgunRecoil)player).setRailgunRecoil(true);
     }
 
     public static void shoot(float clientPitch, float clientYaw, int power, ServerPlayerEntity player, ItemStack projectile, World world) {
