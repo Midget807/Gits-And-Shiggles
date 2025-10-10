@@ -11,6 +11,7 @@ import net.midget807.gitsnshiggles.util.inject.RailgunLoading;
 import net.midget807.gitsnshiggles.util.inject.RailgunRecoil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MovementType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -44,7 +45,8 @@ public class RailgunShootPacket {
                 raycast(clientPitch, clientYaw, player, world, projectile, power);
                 ((RailgunRecoil)player).setRailgunRecoil(true);
                 Vec3d recoilVec = player.getRotationVector(clientPitch, clientYaw).negate().normalize();
-                ((RailgunRecoil)player).setRecoilVec(recoilVec);
+                ((RailgunRecoil)player).setRecoilPower(power);
+                player.move(MovementType.SELF, recoilVec.multiply(RailgunScalar.getScalar(power) + 2.0f));
             }
         });
     }

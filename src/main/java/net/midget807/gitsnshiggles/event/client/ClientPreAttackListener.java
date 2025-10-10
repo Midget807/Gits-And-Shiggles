@@ -64,7 +64,9 @@ public class ClientPreAttackListener {
             /*Moves Player*/
             Vec3d recoilVec = player.getRotationVector().negate().normalize();
             player.setVelocity(recoilVec.multiply(RailgunScalar.getScalar(power) + 2.0f));
-            player.networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY(), player.getZ(), player.getYaw(), player.getPitch(), player.isOnGround()));
+            player.move(MovementType.SELF, recoilVec.multiply(RailgunScalar.getScalar(power) + 2.0f));
+            ((RailgunRecoil)player).setRailgunRecoil(true);
+            //player.networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY(), player.getZ(), player.getYaw(), player.getPitch(), player.isOnGround()));
             ClientPlayNetworking.send(new RailgunShootPayload(player.getStackInHand(Hand.MAIN_HAND), player.getPitch(), player.getYaw()));
             return true;
         }

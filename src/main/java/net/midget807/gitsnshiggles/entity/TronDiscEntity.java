@@ -148,8 +148,8 @@ public class TronDiscEntity extends PersistentProjectileEntity {
             predicate = entity2 -> !entity2.isSpectator() && !((PlayerEntity)entity2).isCreative() && entity2 != this.getOwner();
         }
         for (LivingEntity livingEntity : playerEntities.isEmpty() ? livingEntities : playerEntities) {
-            if (livingEntities.isEmpty() && playerEntities.size() == 1 {
-                if (ownerPredicate.test(livingEntity)) {
+            if (livingEntities.isEmpty() && playerEntities.size() == 1) {
+                if (ownerPredicate.test((PlayerEntity) livingEntity)) {
                     this.target = livingEntity;
                 }
             }
