@@ -108,6 +108,6 @@ public class ElfEntityRenderer extends MobEntityRenderer<ElfEntity, ElfEntityMod
 
     @Override
     public Identifier getTexture(ElfEntity entity) {
-        return entity.hasAngerTime() ? ANGRY_TEXTURE : TEXTURE;
+        return /*entity.hasAngerTime() ? ANGRY_TEXTURE :*/ TEXTURE;
     }
 }

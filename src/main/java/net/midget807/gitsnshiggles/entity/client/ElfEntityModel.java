@@ -13,6 +13,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
+import org.joml.Quaternionf;
 
 public class ElfEntityModel extends EntityModel<ElfEntity> implements ModelWithArms, ModelWithHead {
 	public final ModelPart hat;
@@ -37,34 +38,35 @@ public class ElfEntityModel extends EntityModel<ElfEntity> implements ModelWithA
 		this.rightLeg = root.getChild("right_leg");
 	}
 	public static TexturedModelData getTexturedModelData() {
+
 		ModelData modelData = new ModelData();
 		ModelPartData modelPartData = modelData.getRoot();
-		ModelPartData head = modelPartData.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -29.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 17.0F, 0.0F));
+		ModelPartData head = modelPartData.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, 0.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 28.0F, 0.0F));
 
-		ModelPartData hat = modelPartData.addChild("hat", ModelPartBuilder.create().uv(0, 28).cuboid(-4.0F, -35.5F, -4.0F, 8.0F, 1.0F, 8.0F, new Dilation(0.5F))
-				.uv(0, 16).cuboid(-4.0F, -39.0F, -4.0F, 8.0F, 4.0F, 8.0F, new Dilation(0.0F))
-				.uv(48, 24).cuboid(-3.0F, -41.0F, -3.0F, 6.0F, 2.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+		ModelPartData hat = modelPartData.addChild("hat", ModelPartBuilder.create().uv(0, 28).cuboid(-4.0F, 6.5F, -4.0F, 8.0F, 1.0F, 8.0F, new Dilation(0.5F))
+				.uv(0, 16).cuboid(-4.0F, 7.0F, -4.0F, 8.0F, 4.0F, 8.0F, new Dilation(0.0F))
+				.uv(48, 24).cuboid(-3.0F, 11.0F, -3.0F, 6.0F, 2.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 28.0F, 0.0F));
 
-		ModelPartData ball_r1 = hat.addChild("ball_r1", ModelPartBuilder.create().uv(56, 8).cuboid(-4.0F, -8.0F, 0.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.0F))
-				.uv(0, 57).cuboid(-3.5F, -4.0F, 0.5F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, -43.0F, -2.0F, -0.5236F, 0.0F, 0.0F));
+		ModelPartData ball_r1 = hat.addChild("ball_r1", ModelPartBuilder.create().uv(56, 8).cuboid(-4.0F, 4.0F, 0.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.0F))
+				.uv(0, 57).cuboid(-3.5F, 1.0F, 0.5F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 15.0F, -2.0F, -0.5236F, 0.0F, 0.0F));
 
-		ModelPartData middle_top_r1 = hat.addChild("middle_top_r1", ModelPartBuilder.create().uv(32, 56).cuboid(-4.0F, -3.0F, 0.0F, 4.0F, 3.0F, 4.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, -41.0F, -2.0F, -0.2182F, 0.0F, 0.0F));
+		ModelPartData middle_top_r1 = hat.addChild("middle_top_r1", ModelPartBuilder.create().uv(32, 56).cuboid(-4.0F, 0.0F, 0.0F, 4.0F, 3.0F, 4.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 13.0F, -2.0F, -0.2182F, 0.0F, 0.0F));
 
-		ModelPartData body = modelPartData.addChild("body", ModelPartBuilder.create().uv(32, 0).cuboid(-4.0F, -28.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F))
-				.uv(48, 32).cuboid(-4.0F, -17.0F, -2.0F, 8.0F, 1.0F, 4.0F, new Dilation(0.1F))
-				.uv(48, 16).cuboid(-4.0F, -28.0F, -2.0F, 8.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+		ModelPartData body = modelPartData.addChild("body", ModelPartBuilder.create().uv(32, 0).cuboid(-4.0F, -5.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F))
+				.uv(48, 32).cuboid(-4.0F, -5.0F, -2.0F, 8.0F, 1.0F, 4.0F, new Dilation(0.1F))
+				.uv(48, 16).cuboid(-4.0F, 3.0F, -2.0F, 8.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, 21.0F, 0.0F));
 
-		ModelPartData left_leg = modelPartData.addChild("left_leg", ModelPartBuilder.create().uv(32, 36).cuboid(-1.0F, -16.0F, -2.0F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
-				.uv(48, 37).cuboid(-1.0F, -4.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(-3.0F, 24.0F, 0.0F));
+		ModelPartData left_leg = modelPartData.addChild("left_leg", ModelPartBuilder.create().uv(32, 36).cuboid(-4.0F, -16.0F, -2.0F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
+				.uv(48, 37).cuboid(-4.0F, -16.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, 16.0F, 0.0F));
 
-		ModelPartData right_leg = modelPartData.addChild("right_leg", ModelPartBuilder.create().uv(32, 16).cuboid(-1.0F, -16.0F, -2.0F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
-				.uv(48, 45).cuboid(-1.0F, -4.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(1.0F, 24.0F, 0.0F));
+		ModelPartData right_leg = modelPartData.addChild("right_leg", ModelPartBuilder.create().uv(32, 16).cuboid(0.0F, -16.0F, -2.0F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
+				.uv(48, 45).cuboid(0.0F, -16.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, 16.0F, 0.0F));
 
-		ModelPartData left_arm = modelPartData.addChild("left_arm", ModelPartBuilder.create().uv(0, 37).cuboid(-8.0F, -28.0F, -2.0F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
-				.uv(48, 53).cuboid(-8.0F, -16.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
+		ModelPartData left_arm = modelPartData.addChild("left_arm", ModelPartBuilder.create().uv(0, 37).cuboid(-8.0F, -16.0F, -2.0F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
+				.uv(48, 53).cuboid(-8.0F, -16.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, 28.0F, 0.0F));
 
-		ModelPartData right_arm = modelPartData.addChild("right_arm", ModelPartBuilder.create().uv(16, 37).cuboid(-8.0F, -28.0F, -2.0F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
-				.uv(56, 0).cuboid(-8.0F, -16.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(12.0F, 24.0F, 0.0F));
+		ModelPartData right_arm = modelPartData.addChild("right_arm", ModelPartBuilder.create().uv(16, 37).cuboid(0.0F, -16.0F, -2.0F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
+				.uv(56, 0).cuboid(0.0F, -16.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(4.0F, 28.0F, 0.0F));
 		return TexturedModelData.of(modelData, 128, 128);
 	}
 
@@ -76,13 +78,15 @@ public class ElfEntityModel extends EntityModel<ElfEntity> implements ModelWithA
 
 	@Override
 	public void setAngles(ElfEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		boolean bl = entity.getFallFlyingTicks() > 4;
-		boolean bl2 = entity.isInSwimmingPose();
-		this.head.yaw = netHeadYaw * (float) (Math.PI / 180.0);
-		if (bl) {
+		boolean isElytraFlying = entity.getFallFlyingTicks() > 4;
+		boolean isSwimmingPose = entity.isInSwimmingPose();
+
+		this.head.yaw = netHeadYaw * (float) (Math.PI / 4);
+
+		if (isElytraFlying) {
 			this.head.pitch = (float) (-Math.PI / 4);
-		} else if (this.leaningPitch > 0.0F) {
-			if (bl2) {
+		} else if (this.leaningPitch > 0.0f) {
+			if (isSwimmingPose) {
 				this.head.pitch = this.lerpAngle(this.leaningPitch, this.head.pitch, (float) (-Math.PI / 4));
 			} else {
 				this.head.pitch = this.lerpAngle(this.leaningPitch, this.head.pitch, headPitch * (float) (Math.PI / 180.0));
@@ -91,134 +95,22 @@ public class ElfEntityModel extends EntityModel<ElfEntity> implements ModelWithA
 			this.head.pitch = headPitch * (float) (Math.PI / 180.0);
 		}
 
-		this.body.yaw = 0.0F;
-		this.rightArm.pivotZ = 0.0F;
-		this.rightArm.pivotX = -5.0F;
-		this.leftArm.pivotZ = 0.0F;
-		this.leftArm.pivotX = 5.0F;
-		float k = 1.0F;
-		if (bl) {
-			k = (float)entity.getVelocity().lengthSquared();
-			k /= 0.2F;
+		this.body.yaw = 0.0f;
+		float k = 1.0f;
+		if (isElytraFlying) {
+			k = (float) entity.getVelocity().lengthSquared();
+			k /= 0.2f;
 			k *= k * k;
 		}
-
-		if (k < 1.0F) {
-			k = 1.0F;
+		if (k < 1.0f) {
+			k = 1.0f;
 		}
+		this.leftArm.pivotY = 28.0f;
 
 		this.rightArm.pitch = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F / k;
 		this.leftArm.pitch = MathHelper.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F / k;
-		this.rightArm.roll = 0.0F;
-		this.leftArm.roll = 0.0F;
-		this.rightLeg.pitch = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / k;
-		this.leftLeg.pitch = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / k;
-		this.rightLeg.yaw = 0.005F;
-		this.leftLeg.yaw = -0.005F;
-		this.rightLeg.roll = 0.005F;
-		this.leftLeg.roll = -0.005F;
-		if (this.riding) {
-			this.rightArm.pitch += (float) (-Math.PI / 5);
-			this.leftArm.pitch += (float) (-Math.PI / 5);
-			this.rightLeg.pitch = -1.4137167F;
-			this.rightLeg.yaw = (float) (Math.PI / 10);
-			this.rightLeg.roll = 0.07853982F;
-			this.leftLeg.pitch = -1.4137167F;
-			this.leftLeg.yaw = (float) (-Math.PI / 10);
-			this.leftLeg.roll = -0.07853982F;
-		}
-
-		this.rightArm.yaw = 0.0F;
-		this.leftArm.yaw = 0.0F;
-		boolean bl3 = entity.getMainArm() == Arm.RIGHT;
-		if (entity.isUsingItem()) {
-			boolean bl4 = entity.getActiveHand() == Hand.MAIN_HAND;
-			if (bl4 == bl3) {
-				this.positionRightArm(entity);
-			} else {
-				this.positionLeftArm(entity);
-			}
-		} else {
-			boolean bl4 = bl3 ? this.leftArmPose.isTwoHanded() : this.rightArmPose.isTwoHanded();
-			if (bl3 != bl4) {
-				this.positionLeftArm(entity);
-				this.positionRightArm(entity);
-			} else {
-				this.positionRightArm(entity);
-				this.positionLeftArm(entity);
-			}
-		}
 
 		this.animateArms(entity, ageInTicks);
-		if (this.sneaking) {
-			this.body.pitch = 0.5F;
-			this.rightArm.pitch += 0.4F;
-			this.leftArm.pitch += 0.4F;
-			this.rightLeg.pivotZ = 4.0F;
-			this.leftLeg.pivotZ = 4.0F;
-			this.rightLeg.pivotY = 12.2F;
-			this.leftLeg.pivotY = 12.2F;
-			this.head.pivotY = 4.2F;
-			this.body.pivotY = 3.2F;
-			this.leftArm.pivotY = 5.2F;
-			this.rightArm.pivotY = 5.2F;
-		} else {
-			this.body.pitch = 0.0F;
-			this.rightLeg.pivotZ = 0.0F;
-			this.leftLeg.pivotZ = 0.0F;
-			this.rightLeg.pivotY = 12.0F;
-			this.leftLeg.pivotY = 12.0F;
-			this.head.pivotY = 0.0F;
-			this.body.pivotY = 0.0F;
-			this.leftArm.pivotY = 2.0F;
-			this.rightArm.pivotY = 2.0F;
-		}
-
-		if (this.rightArmPose != ArmPose.SPYGLASS) {
-			CrossbowPosing.swingArm(this.rightArm, ageInTicks, 1.0F);
-		}
-
-		if (this.leftArmPose != ArmPose.SPYGLASS) {
-			CrossbowPosing.swingArm(this.leftArm, ageInTicks, -1.0F);
-		}
-
-		if (this.leaningPitch > 0.0F) {
-			float l = limbSwing % 26.0F;
-			Arm arm = this.getPreferredArm(entity);
-			float m = arm == Arm.RIGHT && this.handSwingProgress > 0.0F ? 0.0F : this.leaningPitch;
-			float n = arm == Arm.LEFT && this.handSwingProgress > 0.0F ? 0.0F : this.leaningPitch;
-			if (!entity.isUsingItem()) {
-				if (l < 14.0F) {
-					this.leftArm.pitch = this.lerpAngle(n, this.leftArm.pitch, 0.0F);
-					this.rightArm.pitch = MathHelper.lerp(m, this.rightArm.pitch, 0.0F);
-					this.leftArm.yaw = this.lerpAngle(n, this.leftArm.yaw, (float) Math.PI);
-					this.rightArm.yaw = MathHelper.lerp(m, this.rightArm.yaw, (float) Math.PI);
-					this.leftArm.roll = this.lerpAngle(n, this.leftArm.roll, (float) Math.PI + 1.8707964F * this.method_2807(l) / this.method_2807(14.0F));
-					this.rightArm.roll = MathHelper.lerp(m, this.rightArm.roll, (float) Math.PI - 1.8707964F * this.method_2807(l) / this.method_2807(14.0F));
-				} else if (l >= 14.0F && l < 22.0F) {
-					float o = (l - 14.0F) / 8.0F;
-					this.leftArm.pitch = this.lerpAngle(n, this.leftArm.pitch, (float) (Math.PI / 2) * o);
-					this.rightArm.pitch = MathHelper.lerp(m, this.rightArm.pitch, (float) (Math.PI / 2) * o);
-					this.leftArm.yaw = this.lerpAngle(n, this.leftArm.yaw, (float) Math.PI);
-					this.rightArm.yaw = MathHelper.lerp(m, this.rightArm.yaw, (float) Math.PI);
-					this.leftArm.roll = this.lerpAngle(n, this.leftArm.roll, 5.012389F - 1.8707964F * o);
-					this.rightArm.roll = MathHelper.lerp(m, this.rightArm.roll, 1.2707963F + 1.8707964F * o);
-				} else if (l >= 22.0F && l < 26.0F) {
-					float o = (l - 22.0F) / 4.0F;
-					this.leftArm.pitch = this.lerpAngle(n, this.leftArm.pitch, (float) (Math.PI / 2) - (float) (Math.PI / 2) * o);
-					this.rightArm.pitch = MathHelper.lerp(m, this.rightArm.pitch, (float) (Math.PI / 2) - (float) (Math.PI / 2) * o);
-					this.leftArm.yaw = this.lerpAngle(n, this.leftArm.yaw, (float) Math.PI);
-					this.rightArm.yaw = MathHelper.lerp(m, this.rightArm.yaw, (float) Math.PI);
-					this.leftArm.roll = this.lerpAngle(n, this.leftArm.roll, (float) Math.PI);
-					this.rightArm.roll = MathHelper.lerp(m, this.rightArm.roll, (float) Math.PI);
-				}
-			}
-
-			float o = 0.3F;
-			float p = 0.33333334F;
-			this.leftLeg.pitch = MathHelper.lerp(this.leaningPitch, this.leftLeg.pitch, 0.3F * MathHelper.cos(limbSwing * 0.33333334F + (float) Math.PI));
-			this.rightLeg.pitch = MathHelper.lerp(this.leaningPitch, this.rightLeg.pitch, 0.3F * MathHelper.cos(limbSwing * 0.33333334F));
-		}
 
 		this.hat.copyTransform(this.head);
 	}
@@ -428,32 +320,12 @@ public class ElfEntityModel extends EntityModel<ElfEntity> implements ModelWithA
 	@Override
 	public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, int color) {
 		matrices.push();
-		matrices.translate(0.0, 1.5625, 0.0);
+		matrices.multiply(new Quaternionf().rotateZ((float) Math.PI));
 		hat.render(matrices, vertexConsumer, light, overlay, color);
-		matrices.pop();
-
-		matrices.push();
-		matrices.translate(0.0, 1.125, 0.0);
 		head.render(matrices, vertexConsumer, light, overlay, color);
-		matrices.pop();
-
-		matrices.push();
-		matrices.translate(0.0, 1.5625, 0.0);
 		body.render(matrices, vertexConsumer, light, overlay, color);
-		matrices.pop();
-
-		matrices.push();
-		matrices.translate(0.125, 1.25, 0.0);
 		leftArm.render(matrices, vertexConsumer, light, overlay, color);
-		matrices.pop();
-
-		matrices.push();
-		matrices.translate(-0.25, 1.25, 0.0); //todo translate pos and pivot point correctly
 		rightArm.render(matrices, vertexConsumer, light, overlay, color);
-		matrices.pop();
-
-		matrices.push();
-		matrices.translate(0.0, 0.75, 0.0);
 		leftLeg.render(matrices, vertexConsumer, light, overlay, color);
 		rightLeg.render(matrices, vertexConsumer, light, overlay, color);
 		matrices.pop();
