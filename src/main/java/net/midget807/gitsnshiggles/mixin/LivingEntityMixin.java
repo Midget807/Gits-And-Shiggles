@@ -72,7 +72,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
         if (((LivingEntity)((Object)this)) instanceof PlayerEntity player) {
             player.sendMessage(Text.literal("horiColl: " + this.horizontalCollision + "   recoil: " + this.hasRailgunRecoil), true);
         }
-        if (this.isOnGround() && this.fallDistance == 0) {
+        if (this.isOnGround() && this.fallDistance > 0) {
             this.hasRailgunRecoil = false;
         }
         if (this.hasRailgunRecoil && (this.horizontalCollision || this.verticalCollision)) {
