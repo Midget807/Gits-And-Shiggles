@@ -10,6 +10,9 @@ import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import static net.midget807.gitsnshiggles.registry.ModItems.BLOCK_INTERACTION_RANGE_MODIFIER_ID;
+import static net.midget807.gitsnshiggles.registry.ModItems.ENTITY_INTERACTION_RANGE_MODIFIER_ID;
+
 public class AntiMaterialRifleItem extends Item {
     public AntiMaterialRifleItem(Settings settings) {
         super(settings);
@@ -24,6 +27,16 @@ public class AntiMaterialRifleItem extends Item {
                 .add(
                         EntityAttributes.GENERIC_ATTACK_SPEED,
                         new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, -3.3f, EntityAttributeModifier.Operation.ADD_VALUE),
+                        AttributeModifierSlot.MAINHAND
+                )
+                .add(
+                        EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE,
+                        new EntityAttributeModifier(ENTITY_INTERACTION_RANGE_MODIFIER_ID, 1.0f, EntityAttributeModifier.Operation.ADD_VALUE),
+                        AttributeModifierSlot.MAINHAND
+                )
+                .add(
+                        EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE,
+                        new EntityAttributeModifier(BLOCK_INTERACTION_RANGE_MODIFIER_ID, 1.0f, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 )
                 .build();

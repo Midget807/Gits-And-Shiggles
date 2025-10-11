@@ -1,5 +1,6 @@
 package net.midget807.gitsnshiggles.item;
 
+import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.cauldron.CauldronBehavior;
@@ -13,13 +14,18 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.midget807.gitsnshiggles.registry.ModItems.BLOCK_INTERACTION_RANGE_MODIFIER_ID;
+import static net.midget807.gitsnshiggles.registry.ModItems.ENTITY_INTERACTION_RANGE_MODIFIER_ID;
+
 public class LightsaberItem extends Item {
+
     public LightsaberItem(Settings settings) {
         super(settings);
         CauldronBehavior.WATER_CAULDRON_BEHAVIOR.map().put(this, CauldronBehavior.CLEAN_DYEABLE_ITEM);
@@ -34,6 +40,16 @@ public class LightsaberItem extends Item {
                 .add(
                         EntityAttributes.GENERIC_ATTACK_SPEED,
                         new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, -2.0f, EntityAttributeModifier.Operation.ADD_VALUE),
+                        AttributeModifierSlot.MAINHAND
+                )
+                .add(
+                        EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE,
+                        new EntityAttributeModifier(ENTITY_INTERACTION_RANGE_MODIFIER_ID, -0.75f, EntityAttributeModifier.Operation.ADD_VALUE),
+                        AttributeModifierSlot.MAINHAND
+                )
+                .add(
+                        EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE,
+                        new EntityAttributeModifier(BLOCK_INTERACTION_RANGE_MODIFIER_ID, -0.75f, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 )
                 .build();

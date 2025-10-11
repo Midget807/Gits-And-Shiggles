@@ -38,23 +38,22 @@ public class ElfEntityModel extends EntityModel<ElfEntity> implements ModelWithA
 		this.rightLeg = root.getChild("right_leg");
 	}
 	public static TexturedModelData getTexturedModelData() {
-
 		ModelData modelData = new ModelData();
 		ModelPartData modelPartData = modelData.getRoot();
-		ModelPartData head = modelPartData.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, 0.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 28.0F, 0.0F));
+		ModelPartData head = modelPartData.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -40.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 28.0F, 0.0F));
 
-		ModelPartData hat = modelPartData.addChild("hat", ModelPartBuilder.create().uv(0, 28).cuboid(-4.0F, 6.5F, -4.0F, 8.0F, 1.0F, 8.0F, new Dilation(0.5F))
-				.uv(0, 16).cuboid(-4.0F, 7.0F, -4.0F, 8.0F, 4.0F, 8.0F, new Dilation(0.0F))
-				.uv(48, 24).cuboid(-3.0F, 11.0F, -3.0F, 6.0F, 2.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 28.0F, 0.0F));
+		ModelPartData hat = modelPartData.addChild("hat", ModelPartBuilder.create().uv(0, 28).cuboid(-4.0F, -39.5F, -4.0F, 8.0F, 1.0F, 8.0F, new Dilation(0.5F))
+				.uv(0, 16).cuboid(-4.0F, -43.0F, -4.0F, 8.0F, 4.0F, 8.0F, new Dilation(0.0F))
+				.uv(48, 24).cuboid(-3.0F, -45.0F, -3.0F, 6.0F, 2.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 28.0F, 0.0F));
 
-		ModelPartData ball_r1 = hat.addChild("ball_r1", ModelPartBuilder.create().uv(56, 8).cuboid(-4.0F, 4.0F, 0.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.0F))
-				.uv(0, 57).cuboid(-3.5F, 1.0F, 0.5F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 15.0F, -2.0F, -0.5236F, 0.0F, 0.0F));
+		ModelPartData ball_r1 = hat.addChild("ball_r1", ModelPartBuilder.create().uv(56, 8).cuboid(-4.0F, -61.5F, -31.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.0F))
+				.uv(0, 57).cuboid(-3.5F, -57.5F, -30.5F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 15.0F, -2.0F, -0.5236F, 0.0F, 0.0F));
 
-		ModelPartData middle_top_r1 = hat.addChild("middle_top_r1", ModelPartBuilder.create().uv(32, 56).cuboid(-4.0F, 0.0F, 0.0F, 4.0F, 3.0F, 4.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 13.0F, -2.0F, -0.2182F, 0.0F, 0.0F));
+		ModelPartData middle_top_r1 = hat.addChild("middle_top_r1", ModelPartBuilder.create().uv(32, 56).cuboid(-4.0F, -59.5F, -12.5F, 4.0F, 3.0F, 4.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 13.0F, -2.0F, -0.2182F, 0.0F, 0.0F));
 
-		ModelPartData body = modelPartData.addChild("body", ModelPartBuilder.create().uv(32, 0).cuboid(-4.0F, -5.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F))
-				.uv(48, 32).cuboid(-4.0F, -5.0F, -2.0F, 8.0F, 1.0F, 4.0F, new Dilation(0.1F))
-				.uv(48, 16).cuboid(-4.0F, 3.0F, -2.0F, 8.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, 21.0F, 0.0F));
+		ModelPartData body = modelPartData.addChild("body", ModelPartBuilder.create().uv(32, 0).cuboid(-4.0F, -6.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F))
+				.uv(48, 32).cuboid(-4.0F, -6.0F, -2.0F, 8.0F, 1.0F, 4.0F, new Dilation(0.1F))
+				.uv(48, 16).cuboid(-4.0F, 2.0F, -2.0F, 8.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, 22.0F, 0.0F));
 
 		ModelPartData left_leg = modelPartData.addChild("left_leg", ModelPartBuilder.create().uv(32, 36).cuboid(-4.0F, -16.0F, -2.0F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
 				.uv(48, 37).cuboid(-4.0F, -16.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, 16.0F, 0.0F));
@@ -62,8 +61,8 @@ public class ElfEntityModel extends EntityModel<ElfEntity> implements ModelWithA
 		ModelPartData right_leg = modelPartData.addChild("right_leg", ModelPartBuilder.create().uv(32, 16).cuboid(0.0F, -16.0F, -2.0F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
 				.uv(48, 45).cuboid(0.0F, -16.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, 16.0F, 0.0F));
 
-		ModelPartData left_arm = modelPartData.addChild("left_arm", ModelPartBuilder.create().uv(0, 37).cuboid(-8.0F, -16.0F, -2.0F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
-				.uv(48, 53).cuboid(-8.0F, -16.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(0.0F, 28.0F, 0.0F));
+		ModelPartData left_arm = modelPartData.addChild("left_arm", ModelPartBuilder.create().uv(0, 37).cuboid(-4.0F, -16.0F, -2.0F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
+				.uv(48, 53).cuboid(-4.0F, -16.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(-4.0F, 28.0F, 0.0F));
 
 		ModelPartData right_arm = modelPartData.addChild("right_arm", ModelPartBuilder.create().uv(16, 37).cuboid(0.0F, -16.0F, -2.0F, 4.0F, 16.0F, 4.0F, new Dilation(0.0F))
 				.uv(56, 0).cuboid(0.0F, -16.0F, -2.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.1F)), ModelTransform.pivot(4.0F, 28.0F, 0.0F));
@@ -109,6 +108,11 @@ public class ElfEntityModel extends EntityModel<ElfEntity> implements ModelWithA
 
 		this.rightArm.pitch = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 2.0F * limbSwingAmount * 0.5F / k;
 		this.leftArm.pitch = MathHelper.cos(limbSwing * 0.6662F) * 2.0F * limbSwingAmount * 0.5F / k;
+		this.rightArm.roll = 0.0F;
+		this.leftArm.roll = 0.0F;
+
+		this.rightLeg.pitch = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / k;
+		this.leftLeg.pitch = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / k;
 
 		this.animateArms(entity, ageInTicks);
 
@@ -320,9 +324,16 @@ public class ElfEntityModel extends EntityModel<ElfEntity> implements ModelWithA
 	@Override
 	public void render(MatrixStack matrices, VertexConsumer vertexConsumer, int light, int overlay, int color) {
 		matrices.push();
-		matrices.multiply(new Quaternionf().rotateZ((float) Math.PI));
+		matrices.scale(0.4f, 0.4f, 0.4f);
+		matrices.translate(0.0f, 2.25f, 0.0f);
 		hat.render(matrices, vertexConsumer, light, overlay, color);
 		head.render(matrices, vertexConsumer, light, overlay, color);
+		matrices.pop();
+
+		matrices.push();
+		matrices.multiply(new Quaternionf().rotateZ((float) Math.PI));
+		matrices.translate(0.0f, -1.5f, 0.0f);
+		matrices.scale(0.4f, 0.4f, 0.4f);
 		body.render(matrices, vertexConsumer, light, overlay, color);
 		leftArm.render(matrices, vertexConsumer, light, overlay, color);
 		rightArm.render(matrices, vertexConsumer, light, overlay, color);

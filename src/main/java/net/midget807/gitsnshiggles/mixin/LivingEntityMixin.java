@@ -69,9 +69,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
     @Inject(method = "baseTick", at = @At("HEAD"))
     private void gitsnshiggles$railgunDamage(CallbackInfo ci) {
         this.getWorld().getProfiler().push("recoilDamage");
-        if (((LivingEntity)((Object)this)) instanceof PlayerEntity player) {
-            player.sendMessage(Text.literal("horiColl: " + this.horizontalCollision + "   recoil: " + this.hasRailgunRecoil), true);
-        }
+
         if (this.isOnGround() && this.fallDistance > 0) {
             this.hasRailgunRecoil = false;
         }

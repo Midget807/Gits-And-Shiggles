@@ -8,8 +8,12 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 
 public class ModItems {
+    public static final Identifier ENTITY_INTERACTION_RANGE_MODIFIER_ID = GitsAndShigglesMain.id("entity_interaction_range");
+    public static final Identifier BLOCK_INTERACTION_RANGE_MODIFIER_ID = GitsAndShigglesMain.id("block_interaction_range");
+
     public static final Item ICON = registerItem("itemgroup_icon", new Item(new Item.Settings()));
     public static final Item DEBUGGER = registerItem("debugger", new DebuggerItem(new Item.Settings().fireproof()));
 
