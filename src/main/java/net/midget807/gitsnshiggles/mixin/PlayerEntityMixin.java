@@ -1,23 +1,29 @@
 package net.midget807.gitsnshiggles.mixin;
 
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.midget807.gitsnshiggles.item.RailgunItem;
-import net.midget807.gitsnshiggles.item.WizardRobesItem;
-import net.midget807.gitsnshiggles.util.inject.ElfCount;
-import net.midget807.gitsnshiggles.util.inject.RailgunAds;
 import net.midget807.gitsnshiggles.registry.ModItems;
-import net.midget807.gitsnshiggles.util.inject.RailgunLoading;
-import net.midget807.gitsnshiggles.util.inject.WizardGamba;
+import net.midget807.gitsnshiggles.util.ModDebugUtil;
+import net.midget807.gitsnshiggles.util.inject.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.particle.ParticleType;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.ColorHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,17 +31,21 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, ElfCount, WizardGamba {
+public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, ElfCount, WizardGamba, RealityStoneTransform {
     @Shadow @Final private PlayerInventory inventory;
     @Shadow @Final private PlayerAbilities abilities;
 
     @Shadow public abstract boolean damage(DamageSource source, float amount);
 
     @Shadow public abstract void remove(RemovalReason reason);
+
+    @Shadow public abstract boolean canBeHitByProjectile();
 
     @Unique
     private float fovScale = RailgunItem.FOV_MULTIPLIER;
@@ -45,6 +55,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     private boolean isGambing = false;
     @Unique
     private int gambingAnimationTicks = 0;
+    @Unique
+    private boolean shouldTransformProjectiles = false;
 
     @Override
     public void setUsingRailgun(boolean usingRailgun) {
@@ -92,6 +104,15 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         this.gambingAnimationTicks = gambingAnimationTicks;
     }
 
+    @Override
+    public boolean shouldTransformProjectiles() {
+        return this.shouldTransformProjectiles;
+    }
+    @Override
+    public void setTransformProjectiles(boolean shouldTransform) {
+        this.shouldTransformProjectiles = shouldTransform;
+    }
+
     public PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
@@ -128,6 +149,51 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
             this.gambingAnimationTicks++;
         } else if (this.gambingAnimationTicks != -1) {
             this.gambingAnimationTicks = -1;
+        }
+        if (this.shouldTransformProjectiles) {
+            this.getWorld().getEntitiesByClass(
+                    ProjectileEntity.class,
+                    this.getBoundingBox().expand(1.25),
+                    projectileEntity -> {
+                        if (projectileEntity.getOwner() != null) {
+                            return !projectileEntity.getOwner().equals((PlayerEntity)((Object)this));
+                        }
+                        return true;
+                    }
+            ).forEach(projectileEntity -> {
+                Vec3d pos = projectileEntity.getPos();
+                World world = this.getWorld();
+                if (world.isClient) {
+                    for (int i = 0; i < 5; i++) {
+                        DustParticleEffect dustParticleEffect = new DustParticleEffect(new Vector3f(0.592f, 0, 0.0667f), 1.0f);
+                        world.addParticle(
+                                dustParticleEffect,
+                                pos.getX() + world.random.nextFloat(),
+                                pos.getY() + world.random.nextFloat(),
+                                pos.getZ() + world.random.nextFloat(),
+                                0,
+                                0,
+                                0
+                        );
+                        world.addParticle(
+                                ParticleTypes.BUBBLE,
+                                pos.getX() + world.random.nextFloat(),
+                                pos.getY() + world.random.nextFloat(),
+                                pos.getZ() + world.random.nextFloat(),
+                                0,
+                                0.7,
+                                0
+                        );
+                    }
+                }
+                projectileEntity.discard();
+            });
+        }
+    }
+    @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
+    private void gitsnshiggles$noProjectileDamage(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+        if (damageSource.isIn(DamageTypeTags.IS_PROJECTILE)) {
+            cir.setReturnValue(this.shouldTransformProjectiles);
         }
     }
 }

@@ -85,7 +85,7 @@ public class TronDiscEntity extends PersistentProjectileEntity {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
         if (this.getOwner() != null && entity == this.getOwner()) {
-            this.dropItem(ColoredItemUtil.getTronDiscByColor(this.color));
+            this.dropItem(this.color != null ? ColoredItemUtil.getTronDiscByColor(this.color) : ModItems.TRON_DISC_WHITE);
             this.getOwner().kill();
             return;
         }
@@ -125,7 +125,7 @@ public class TronDiscEntity extends PersistentProjectileEntity {
                 this.age = 0;
             }
         } else {
-            this.dropItem(ColoredItemUtil.getTronDiscByColor(this.color));
+            this.dropItem(this.color != null ? ColoredItemUtil.getTronDiscByColor(this.color) : ModItems.TRON_DISC_WHITE);
             this.discard();
             return;
         }

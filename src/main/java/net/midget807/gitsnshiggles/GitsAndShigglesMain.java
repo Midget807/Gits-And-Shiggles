@@ -2,6 +2,7 @@ package net.midget807.gitsnshiggles;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.midget807.gitsnshiggles.event.server.UseBlockListener;
 import net.midget807.gitsnshiggles.item.ModArmorMaterials;
 import net.midget807.gitsnshiggles.registry.*;
 import net.minecraft.entity.attribute.DefaultAttributeRegistry;
@@ -34,5 +35,7 @@ public class GitsAndShigglesMain implements ModInitializer {
 		ModPackets.registerGlobalC2S();
 		ModDataHandlers.registerModDataHandlers();
 		ModRegistryKeys.registerModRegistryKeys();
+
+		UseBlockListener.execute();
 	}
 }

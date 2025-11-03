@@ -17,6 +17,8 @@ public class SummonElvesPacket {
             if (((ElfCount)player).getElfCount() < ElfEntity.MAX_ELF_COUNT) {
                 ElfEntity elfEntity = new ElfEntity(world, player);
                 elfEntity.setPosition(player.getPos());
+                elfEntity.setOwner(player);
+                elfEntity.setTamed(true, true);
                 world.spawnEntity(elfEntity);
             } else {
                 player.sendMessage(Text.translatable("key.gitsnshiggles.summonElves.too_many"), true);

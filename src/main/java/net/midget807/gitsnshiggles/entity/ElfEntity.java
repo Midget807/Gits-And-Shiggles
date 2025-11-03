@@ -1,10 +1,12 @@
 package net.midget807.gitsnshiggles.entity;
 
+import net.midget807.gitsnshiggles.entity.goal.ElfMeleeAttackGoal;
 import net.midget807.gitsnshiggles.registry.ModEntities;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.Tameable;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -54,7 +56,19 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
 
     @Override
     protected void initGoals() {
-
+        this.goalSelector.add(1, new SwimGoal(this));
+        this.goalSelector.add(2, new ElfMeleeAttackGoal(this, 1.0d, true));
+        //this.goalSelector.add(2, new PickupItemGoal());
+        //this.goalSelector.add(6, new FollowOwnerRatGoal(this, 1.0D, 20.0F, 2.0F, false));
+        this.goalSelector.add(7, new AnimalMateGoal(this, 1.0D));
+        this.goalSelector.add(8, new WanderAroundFarGoal(this, 1.0D));
+        this.goalSelector.add(10, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(10, new LookAroundGoal(this));
+        this.targetSelector.add(1, new TrackOwnerAttackerGoal(this));
+        this.targetSelector.add(2, new AttackWithOwnerGoal(this));
+        this.targetSelector.add(3, new RevengeGoal(this).setGroupRevenge());
+        //this.targetSelector.add(4, new TargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
+        this.targetSelector.add(8, new UniversalAngerGoal<>(this, true));
     }
 
     @Override
@@ -62,6 +76,7 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
         super.initDataTracker(builder);
         builder.add(ANGER_TIME, 0);
     }
+
     public static DefaultAttributeContainer.Builder createElfAttributes() {
         return LivingEntity.createLivingAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0)

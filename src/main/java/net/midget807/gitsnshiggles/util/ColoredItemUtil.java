@@ -37,8 +37,9 @@ public class ColoredItemUtil {
         }
     }
 
+
     public static Item getTronDiscByColor(Colors color) {
-        Optional<Item> item = Registries.ITEM.getOrEmpty(GitsAndShigglesMain.id("tron_disc_" + color.getColor()));
+        Optional<Item> item = Registries.ITEM.getOrEmpty(GitsAndShigglesMain.id("tron_disc_" + color.getColor() == null ? Colors.WHITE.getColor() : color.getColor()));
         return item.orElse(ModItems.TRON_DISC_WHITE);
     }
 
