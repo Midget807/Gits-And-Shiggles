@@ -12,7 +12,7 @@ import org.lwjgl.glfw.GLFW;
 @Environment(EnvType.CLIENT)
 public class ModKeyBindings {
     
-    public static final KeyBinding railgunShoot = registerMain("key.gitsnshiggles.railgunShoot", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_LEFT);
+    //public static final KeyBinding railgunShoot = registerMain("key.gitsnshiggles.railgunShoot", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_LEFT);
 
     public static final KeyBinding summonElves = registerMain("key.gitsnshiggles.summonElves", InputUtil.UNKNOWN_KEY.getCode());
 

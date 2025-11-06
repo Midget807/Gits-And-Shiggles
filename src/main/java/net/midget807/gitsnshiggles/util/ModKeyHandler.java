@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.network.C2S.payload.RealityStonePayload;
+import net.midget807.gitsnshiggles.network.C2S.payload.SpaceStonePayload;
 import net.midget807.gitsnshiggles.network.C2S.payload.SummonElvesPayload;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.inject.RealityStoneTransform;
@@ -33,13 +34,12 @@ public class ModKeyHandler {
                     client.player.sendMessage(Text.literal("power stone pressed"), false);
                 }
                 while (ModKeyBindings.spaceStone.wasPressed()) {
-                    SpaceStoneUtil.runSpaceStoneTeleport(player);
+                    SpaceStoneUtil.getSpaceStoneTeleport(player);
                     client.player.sendMessage(Text.literal("space stone pressed"), false);
                 }
                 while (ModKeyBindings.realityStone.wasPressed()) {
                     ((RealityStoneTransform)client.player).setTransformProjectiles(!((RealityStoneTransform) client.player).shouldTransformProjectiles());
                     ClientPlayNetworking.send(new RealityStonePayload(((RealityStoneTransform) client.player).shouldTransformProjectiles()));
-                    client.player.sendMessage(Text.literal("reality stone " + ((RealityStoneTransform) client.player).shouldTransformProjectiles()), false);
                 }
                 while (ModKeyBindings.soulStone.wasPressed()) {
                     client.player.sendMessage(Text.literal("soul stone pressed"), false);

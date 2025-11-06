@@ -1,0 +1,12 @@
+{
+  "values": [
+    "minecraft:water",
+    "minecraft:snow",
+    "minecraft:torch",
+    "minecraft:soul_torch",
+    "minecraft:redstone_torch",
+    "minecraft:wall_torch",
+    "minecraft:weeping_vines",
+    "minecraft:twisting_vines"
+  ]
+}

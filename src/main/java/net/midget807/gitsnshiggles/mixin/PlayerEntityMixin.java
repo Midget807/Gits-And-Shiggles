@@ -143,6 +143,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         this.isGambing = true /*WizardRobesItem.hasFullSuitOfArmor(((PlayerEntity)((Object) this))) && !this.isGambing*/;
         super.onDamaged(damageSource);
     }
+
     @Inject(method = "tick", at = @At("HEAD"))
     private void gitsnshiggles$tickVariables(CallbackInfo ci) {
         if (this.isGambing) {
@@ -151,7 +152,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
             this.gambingAnimationTicks = -1;
         }
         if (this.shouldTransformProjectiles) {
-            this.getWorld().getEntitiesByClass(
+            List<ProjectileEntity> projectiles = this.getWorld().getEntitiesByClass(
                     ProjectileEntity.class,
                     this.getBoundingBox().expand(1.25),
                     projectileEntity -> {
@@ -160,7 +161,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
                         }
                         return true;
                     }
-            ).forEach(projectileEntity -> {
+            );
+            for (ProjectileEntity projectileEntity : projectiles) {
                 Vec3d pos = projectileEntity.getPos();
                 World world = this.getWorld();
                 if (world.isClient) {
@@ -187,7 +189,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
                     }
                 }
                 projectileEntity.discard();
-            });
+            }
         }
     }
     @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)

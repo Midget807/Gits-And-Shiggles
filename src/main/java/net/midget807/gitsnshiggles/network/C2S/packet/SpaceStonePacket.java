@@ -2,9 +2,11 @@ package net.midget807.gitsnshiggles.network.C2S.packet;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.network.C2S.payload.SpaceStonePayload;
+import net.midget807.gitsnshiggles.util.SpaceStoneUtil;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class SpaceStonePacket {
@@ -12,20 +14,23 @@ public class SpaceStonePacket {
     public static void receive(SpaceStonePayload payload, ServerPlayNetworking.Context context) {
         context.server().execute(() -> {
             ServerPlayerEntity player = context.player();
-            World world = player.getWorld();
-            ArmorStandEntity armorStandEntity = new ArmorStandEntity(EntityType.ARMOR_STAND, world);
-            armorStandEntity.setPosition(
-                    payload.blockPos().getX(),
-                    payload.blockPos().getY(),
-                    payload.blockPos().getZ()
-            );
-            world.spawnEntity(armorStandEntity);
-            /*player.teleport(
+            World world = player.getWorld();/*
+            BlockPos blockPos = SpaceStoneUtil.getSpaceStoneTeleport(player);
+            if (blockPos != null) {
+                ArmorStandEntity armorStandEntity = new ArmorStandEntity(EntityType.ARMOR_STAND, world);
+                armorStandEntity.setPosition(
+                        blockPos.getX(),
+                        blockPos.getY(),
+                        blockPos.getZ()
+                );
+                world.spawnEntity(armorStandEntity);
+            player.teleport(
                     payload.blockPos().getX(),
                     payload.blockPos().getY(),
                     payload.blockPos().getZ(),
                     false
-            );*/
+            );
+            }*/
         });
     }
 }
