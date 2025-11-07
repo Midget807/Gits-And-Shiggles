@@ -63,6 +63,7 @@ public class ModEntities {
                     .trackingTickInterval(10)
     );
 
+
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> type) {
         return Registry.register(Registries.ENTITY_TYPE, GitsAndShigglesMain.id(name), type.build());
     }

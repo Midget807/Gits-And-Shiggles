@@ -7,11 +7,11 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.math.BlockPos;
 
-public record SpaceStonePayload(boolean isActive) implements CustomPayload {
+public record SpaceStonePayload(BlockPos tpBlockPos) implements CustomPayload {
     public static final Id<SpaceStonePayload> PAYLOAD_ID = new Id<>(ModPackets.SPACE_STONE);
 
     public static final PacketCodec<RegistryByteBuf, SpaceStonePayload> CODEC = PacketCodec.tuple(
-            PacketCodecs.BOOL, SpaceStonePayload::isActive,
+            BlockPos.PACKET_CODEC, SpaceStonePayload::tpBlockPos,
             SpaceStonePayload::new
     );
 

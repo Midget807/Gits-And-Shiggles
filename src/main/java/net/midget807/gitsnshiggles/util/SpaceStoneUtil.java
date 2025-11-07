@@ -26,22 +26,24 @@ public class SpaceStoneUtil {
             BlockPos hitPos = blockHitResult.getBlockPos();
             Direction hitSide = blockHitResult.getSide();
             BlockPos sidePos = hitPos.offset(hitSide);
-            if (stateIsSafe(player, sidePos) && hitSide != Direction.DOWN && hitSide != Direction.UP) {
-                if (!stateIsSafe(player, sidePos.offset(Direction.DOWN)) && stateIsSafe(player, sidePos.offset(Direction.UP))) {
-                    tpTarget = sidePos;
+            if (hitSide != Direction.DOWN && hitSide != Direction.UP) {
+                if (stateIsSafe(player, hitPos)) {
+                    if (!stateIsSafe(player, sidePos.offset(Direction.DOWN)) && stateIsSafe(player, sidePos.offset(Direction.UP))) {
+                        tpTarget = sidePos;
+                    }
                 }
             } else if (hitSide == Direction.UP) {
                 if (stateIsSafe(player, sidePos) && stateIsSafe(player, sidePos.offset(Direction.UP))) {
                     tpTarget = sidePos;
                 }
-            } else if (hitSide == Direction.DOWN) {
+            } else { /*hitSide == DOWN*/
                 if (stateIsSafe(player, sidePos) && stateIsSafe(player, sidePos.offset(Direction.DOWN)) && !stateIsSafe(player, sidePos.offset(Direction.DOWN, 2))) {
                     tpTarget = sidePos.offset(Direction.DOWN);
                 }
             }
-            if (tpTarget != null) {
 
-                ClientPlayNetworking.send(new SpaceStonePayload(true));
+            if (tpTarget != null) {
+                ClientPlayNetworking.send(new SpaceStonePayload(tpTarget));
                 ModDebugUtil.debugMessage(player, "hitPos: " + hitPos);
                 ModDebugUtil.debugMessage(player, "hitSide: " + hitSide);
                 ModDebugUtil.debugMessage(player, "sidePos: " + sidePos);
@@ -58,6 +60,6 @@ public class SpaceStoneUtil {
     @Environment(EnvType.CLIENT)
     public static boolean stateIsSafe(ClientPlayerEntity player, BlockPos blockPos) {
         BlockState state = player.getWorld().getBlockState(blockPos);
-        return state.isIn(ModBlockTagProvider.SPACE_STONE_SAFE);
+        return state.isIn(ModBlockTagProvider.SPACE_STONE_SAFE) || !state.isSolid();
     }
 }
