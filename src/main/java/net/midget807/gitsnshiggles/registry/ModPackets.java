@@ -14,6 +14,7 @@ public class ModPackets {
     public static final Identifier SPACE_STONE = registerC2SId("space_stone");
     public static final Identifier REALITY_STONE = registerC2SId("reality_stone");
     public static final Identifier TIME_STONE = registerC2SId("time_stone");
+    public static final Identifier MIND_STONE = registerC2SId("mind_stone");
 
     public static void registerGlobalC2S() {
         PayloadTypeRegistry.playC2S().register(RailgunShootPayload.PAYLOAD_ID, RailgunShootPayload.CODEC);

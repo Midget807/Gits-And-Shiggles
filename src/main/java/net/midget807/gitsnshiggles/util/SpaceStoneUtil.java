@@ -27,7 +27,7 @@ public class SpaceStoneUtil {
             Direction hitSide = blockHitResult.getSide();
             BlockPos sidePos = hitPos.offset(hitSide);
             if (hitSide != Direction.DOWN && hitSide != Direction.UP) {
-                if (stateIsSafe(player, hitPos)) {
+                if (stateIsSafe(player, sidePos)) {
                     if (!stateIsSafe(player, sidePos.offset(Direction.DOWN)) && stateIsSafe(player, sidePos.offset(Direction.UP))) {
                         tpTarget = sidePos;
                     }
@@ -43,16 +43,16 @@ public class SpaceStoneUtil {
             }
 
             if (tpTarget != null) {
-                ClientPlayNetworking.send(new SpaceStonePayload(tpTarget));
+                ClientPlayNetworking.send(new SpaceStonePayload(tpTarget));/*
                 ModDebugUtil.debugMessage(player, "hitPos: " + hitPos);
                 ModDebugUtil.debugMessage(player, "hitSide: " + hitSide);
                 ModDebugUtil.debugMessage(player, "sidePos: " + sidePos);
-                ModDebugUtil.debugMessage(player, "tpTarget: " + tpTarget);
-            } else {
+                ModDebugUtil.debugMessage(player, "tpTarget: " + tpTarget);*/
+            } else {/*
                 ModDebugUtil.debugMessage(player, "hitPos: " + hitPos);
                 ModDebugUtil.debugMessage(player, "hitSide: " + hitSide);
                 ModDebugUtil.debugMessage(player, "sidePos: " + sidePos);
-                ModDebugUtil.debugMessage(player, "tpTarget null");
+                ModDebugUtil.debugMessage(player, "tpTarget null");*/
             }
         }
     }

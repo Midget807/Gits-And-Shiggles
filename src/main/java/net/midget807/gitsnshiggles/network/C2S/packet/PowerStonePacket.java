@@ -28,7 +28,7 @@ public class PowerStonePacket {
                 }
                 return predicate.test(entity);
             });
-            List<Entity> radiusEntities = List.of();
+            List<Entity> radiusEntities = new java.util.ArrayList<>(List.of());
             squareEntities.forEach(entity -> {
                 if (entity.distanceTo(player) <= MAX_RADIUS) {
                     radiusEntities.add(entity);
@@ -38,14 +38,13 @@ public class PowerStonePacket {
                 entity.damage(player.getDamageSources().magic(), 3);
                 knockbackEntity(entity, player);
             });
-            player.sendMessage(Text.literal("No Entities PS: " + radiusEntities.size()));
         });
     }
 
     private static void knockbackEntity(Entity entity, ServerPlayerEntity player) {
         Vec3d kbVec = entity.getPos().subtract(player.getPos());
-        double length = kbVec.lengthSquared();
+        double length = Math.clamp((MAX_RADIUS - kbVec.length()) / 2, 0, 4);
         kbVec = kbVec.normalize().multiply(length);
-        entity.setVelocityClient(kbVec.getX(), kbVec.getY() < 0 ? -0.1 : 0.1, kbVec.getZ());//todo check for threaded anvil bullshit
+        entity.setVelocityClient(kbVec.getX(), kbVec.getY() < 0 ? -0.1 : 0.1, kbVec.getZ());
     }
 }

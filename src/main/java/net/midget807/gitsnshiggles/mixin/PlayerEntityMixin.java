@@ -8,6 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -37,7 +39,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, ElfCount, WizardGamba, RealityStoneTransform {
+public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, ElfCount, WizardGamba, RealityStoneTransform, SoulStoneRevive, InfinityStoneCooldown {
     @Shadow @Final private PlayerInventory inventory;
     @Shadow @Final private PlayerAbilities abilities;
 
@@ -57,6 +59,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     private int gambingAnimationTicks = 0;
     @Unique
     private boolean shouldTransformProjectiles = false;
+    @Unique
+    private boolean isReviveAvailable = false;
+
+    private int soulStoneCD = 0;
 
     @Override
     public void setUsingRailgun(boolean usingRailgun) {
@@ -102,6 +108,15 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     @Override
     public void setGambingAnimationTicks(int gambingAnimationTicks) {
         this.gambingAnimationTicks = gambingAnimationTicks;
+    }
+
+    @Override
+    public boolean isReviveAvailable() {
+        return this.isReviveAvailable = this.soulStoneCD <= 0;
+    }
+    @Override
+    public void setReviveAvailable(boolean reviveAvailable) {
+        this.isReviveAvailable = reviveAvailable;
     }
 
     @Override
@@ -196,6 +211,22 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     private void gitsnshiggles$noProjectileDamage(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         if (damageSource.isIn(DamageTypeTags.IS_PROJECTILE)) {
             cir.setReturnValue(this.shouldTransformProjectiles);
+        }
+    }
+
+    @Unique
+    private boolean tryUseSoulStoneRevive(DamageSource source) {
+        if (source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            return false;
+        } else {
+            if (this.isReviveAvailable()) {
+                this.setHealth(1.0f);
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
+                return true;
+            }
+            return this.isReviveAvailable();
         }
     }
 }

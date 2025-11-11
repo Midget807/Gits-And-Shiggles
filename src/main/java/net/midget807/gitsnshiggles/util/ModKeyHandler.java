@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
+import net.midget807.gitsnshiggles.network.C2S.payload.PowerStonePayload;
 import net.midget807.gitsnshiggles.network.C2S.payload.RealityStonePayload;
 import net.midget807.gitsnshiggles.network.C2S.payload.SpaceStonePayload;
 import net.midget807.gitsnshiggles.network.C2S.payload.SummonElvesPayload;
@@ -31,19 +32,18 @@ public class ModKeyHandler {
             /** Checks for the player holding Infinity Gauntlet before handling keys */
             if (player.isHolding(ModItems.INFINITY_GAUNTLET)) {
                 while (ModKeyBindings.powerStone.wasPressed()) {
-                    client.player.sendMessage(Text.literal("power stone pressed"), false);
+                    ClientPlayNetworking.send(new PowerStonePayload(player.getBlockPos()));
                 }
                 while (ModKeyBindings.spaceStone.wasPressed()) {
                     SpaceStoneUtil.getSpaceStoneTeleport(player);
-                    client.player.sendMessage(Text.literal("space stone pressed"), false);
                 }
                 while (ModKeyBindings.realityStone.wasPressed()) {
                     ((RealityStoneTransform)client.player).setTransformProjectiles(!((RealityStoneTransform) client.player).shouldTransformProjectiles());
                     ClientPlayNetworking.send(new RealityStonePayload(((RealityStoneTransform) client.player).shouldTransformProjectiles()));
                 }
-                while (ModKeyBindings.soulStone.wasPressed()) {
+                /*while (ModKeyBindings.soulStone.wasPressed()) {
                     client.player.sendMessage(Text.literal("soul stone pressed"), false);
-                }
+                }*/
                 while (ModKeyBindings.timeStone.wasPressed()) {
                     client.player.sendMessage(Text.literal("time stone pressed"), false);
                 }

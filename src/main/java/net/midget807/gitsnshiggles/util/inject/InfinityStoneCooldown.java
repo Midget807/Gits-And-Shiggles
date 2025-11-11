@@ -13,4 +13,10 @@ public interface InfinityStoneCooldown {
     void setSoulStoneCD(int cooldown);
     void setTimeStoneCD(int cooldown);
     void setMindStoneCD(int cooldown);
+    boolean isPowerStoneOnCD();
+    boolean isSpaceStoneOnCD();
+    boolean isRealityStoneOnCD();
+    boolean isSoulStoneOnCD();
+    boolean isTimeStoneOnCD();
+    boolean isMindStoneOnCD();
 }
