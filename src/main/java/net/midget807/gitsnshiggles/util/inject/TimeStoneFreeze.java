@@ -5,6 +5,6 @@ public interface TimeStoneFreeze {
     boolean shouldTimeFreeze();
     int getTimeTicksFrozen();
     void setTimeFrozen(boolean timeFrozen);
-    void setTimeFreeze(boolean timeFreeze);
+    void setShouldTimeFreeze(boolean timeFreeze);
     void setTimeTicksFrozen(int ticksFrozen);
 }

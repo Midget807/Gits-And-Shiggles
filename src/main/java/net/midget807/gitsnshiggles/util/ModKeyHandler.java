@@ -5,12 +5,10 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
-import net.midget807.gitsnshiggles.network.C2S.payload.PowerStonePayload;
-import net.midget807.gitsnshiggles.network.C2S.payload.RealityStonePayload;
-import net.midget807.gitsnshiggles.network.C2S.payload.SpaceStonePayload;
-import net.midget807.gitsnshiggles.network.C2S.payload.SummonElvesPayload;
+import net.midget807.gitsnshiggles.network.C2S.payload.*;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.inject.RealityStoneTransform;
+import net.midget807.gitsnshiggles.util.inject.TimeStoneFreeze;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 
@@ -45,7 +43,7 @@ public class ModKeyHandler {
                     client.player.sendMessage(Text.literal("soul stone pressed"), false);
                 }*/
                 while (ModKeyBindings.timeStone.wasPressed()) {
-                    client.player.sendMessage(Text.literal("time stone pressed"), false);
+                    ClientPlayNetworking.send(new TimeStonePayload(true));
                 }
                 while (ModKeyBindings.mindStone.wasPressed()) {
                     client.player.sendMessage(Text.literal("mind stone pressed"), false);

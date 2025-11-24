@@ -1,10 +1,12 @@
 package net.midget807.gitsnshiggles.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.midget807.gitsnshiggles.item.RailgunItem;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.ModDebugUtil;
 import net.midget807.gitsnshiggles.util.inject.*;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -49,6 +51,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
 
     @Shadow public abstract boolean canBeHitByProjectile();
 
+    @Shadow public abstract void onDeath(DamageSource damageSource);
+
     @Unique
     private float fovScale = RailgunItem.FOV_MULTIPLIER;
     @Unique
@@ -60,9 +64,20 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     @Unique
     private boolean shouldTransformProjectiles = false;
     @Unique
-    private boolean isReviveAvailable = false;
+    private boolean isReviveAvailable = true;
 
+    @Unique
+    private int powerStoneCD = 0;
+    @Unique
+    private int spaceStoneCD = 0;
+    @Unique
+    private int realityStoneCD = 0;
+    @Unique
     private int soulStoneCD = 0;
+    @Unique
+    private int timeStoneCD = 0;
+    @Unique
+    private int mindStoneCD = 0;
 
     @Override
     public void setUsingRailgun(boolean usingRailgun) {
@@ -112,7 +127,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
 
     @Override
     public boolean isReviveAvailable() {
-        return this.isReviveAvailable = this.soulStoneCD <= 0;
+        return this.isReviveAvailable;
     }
     @Override
     public void setReviveAvailable(boolean reviveAvailable) {
@@ -167,46 +182,59 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
             this.gambingAnimationTicks = -1;
         }
         if (this.shouldTransformProjectiles) {
-            List<ProjectileEntity> projectiles = this.getWorld().getEntitiesByClass(
-                    ProjectileEntity.class,
-                    this.getBoundingBox().expand(1.25),
-                    projectileEntity -> {
-                        if (projectileEntity.getOwner() != null) {
-                            return !projectileEntity.getOwner().equals((PlayerEntity)((Object)this));
-                        }
-                        return true;
+            this.transformProjectiles();
+        }
+        if (this.soulStoneCD > 0) {
+            this.soulStoneCD--;
+        } else if (this.soulStoneCD < 0) {
+            this.soulStoneCD = 0;
+        }
+        this.isReviveAvailable = this.soulStoneCD <= 0;
+        ModDebugUtil.debugMessage((PlayerEntity)((Object)this), "revive: " + this.isReviveAvailable + "   CD: " + this.soulStoneCD, true);
+    }
+
+    @Unique
+    private void transformProjectiles() {
+        List<ProjectileEntity> projectiles = this.getWorld().getEntitiesByClass(
+                ProjectileEntity.class,
+                this.getBoundingBox().expand(1.25),
+                projectileEntity -> {
+                    if (projectileEntity.getOwner() != null) {
+                        return !projectileEntity.getOwner().equals((PlayerEntity)((Object)this));
                     }
-            );
-            for (ProjectileEntity projectileEntity : projectiles) {
-                Vec3d pos = projectileEntity.getPos();
-                World world = this.getWorld();
-                if (world.isClient) {
-                    for (int i = 0; i < 5; i++) {
-                        DustParticleEffect dustParticleEffect = new DustParticleEffect(new Vector3f(0.592f, 0, 0.0667f), 1.0f);
-                        world.addParticle(
-                                dustParticleEffect,
-                                pos.getX() + world.random.nextFloat(),
-                                pos.getY() + world.random.nextFloat(),
-                                pos.getZ() + world.random.nextFloat(),
-                                0,
-                                0,
-                                0
-                        );
-                        world.addParticle(
-                                ParticleTypes.BUBBLE,
-                                pos.getX() + world.random.nextFloat(),
-                                pos.getY() + world.random.nextFloat(),
-                                pos.getZ() + world.random.nextFloat(),
-                                0,
-                                0.7,
-                                0
-                        );
-                    }
+                    return true;
                 }
-                projectileEntity.discard();
+        );
+        for (ProjectileEntity projectileEntity : projectiles) {
+            Vec3d pos = projectileEntity.getPos();
+            World world = this.getWorld();
+            if (world.isClient) {
+                for (int i = 0; i < 5; i++) {
+                    DustParticleEffect dustParticleEffect = new DustParticleEffect(new Vector3f(0.592f, 0, 0.0667f), 1.0f);
+                    world.addParticle(
+                            dustParticleEffect,
+                            pos.getX() + world.random.nextFloat(),
+                            pos.getY() + world.random.nextFloat(),
+                            pos.getZ() + world.random.nextFloat(),
+                            0,
+                            0,
+                            0
+                    );
+                    world.addParticle(
+                            ParticleTypes.BUBBLE,
+                            pos.getX() + world.random.nextFloat(),
+                            pos.getY() + world.random.nextFloat(),
+                            pos.getZ() + world.random.nextFloat(),
+                            0,
+                            0.7,
+                            0
+                    );
+                }
             }
+            projectileEntity.discard();
         }
     }
+
     @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
     private void gitsnshiggles$noProjectileDamage(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         if (damageSource.isIn(DamageTypeTags.IS_PROJECTILE)) {
@@ -224,9 +252,20 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
+                this.getWorld().sendEntityStatus(this, EntityStatuses.USE_TOTEM_OF_UNDYING);
+                this.soulStoneCD = 60 * 60 * 20;
                 return true;
+            } else {
+                return !this.isReviveAvailable();
             }
-            return this.isReviveAvailable();
+        }
+    }
+    @Inject(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;isDead()Z", shift = At.Shift.BEFORE))
+    private void gitsnshiggles$extraRevive(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        if (this.isDead()) {
+            if (!tryUseSoulStoneRevive(source)) {
+                this.onDeath(source);
+            }
         }
     }
 }

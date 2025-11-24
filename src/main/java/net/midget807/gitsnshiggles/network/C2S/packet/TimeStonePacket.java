@@ -22,7 +22,7 @@ public class TimeStonePacket {
                     sphereEntities.add(entity);
                 }
             }
-            squareEntities.forEach(entity -> ((TimeStoneFreeze)entity).setTimeFreeze(true));
+            squareEntities.forEach(entity -> ((TimeStoneFreeze)entity).setShouldTimeFreeze(payload.shouldTimeFreeze()));
         });
     }
 }

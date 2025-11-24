@@ -1,7 +1,10 @@
 package net.midget807.gitsnshiggles.mixin;
 
+import net.midget807.gitsnshiggles.util.ModDebugUtil;
 import net.midget807.gitsnshiggles.util.inject.TimeStoneFreeze;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.MovementType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -25,22 +28,16 @@ public abstract class EntityMixin implements TimeStoneFreeze {
     @Shadow public boolean velocityModified;
     @Shadow public boolean velocityDirty;
 
-    @Unique
-    private boolean isTimeFrozen = false;
+    @Shadow public abstract void setNoGravity(boolean noGravity);
+
+    @Shadow protected abstract void tryCheckBlockCollision();
+
+    @Shadow public abstract void setVelocity(Vec3d velocity);
+
     @Unique
     private boolean shouldTimeFreeze = false;
     @Unique
     private int timeTicksFrozen = 0;
-
-    @Override
-    public boolean isTimeFrozen() {
-        return this.isTimeFrozen;
-    }
-
-    @Override
-    public void setTimeFrozen(boolean timeFrozen) {
-        this.isTimeFrozen = timeFrozen;
-    }
 
     @Override
     public boolean shouldTimeFreeze() {
@@ -48,7 +45,7 @@ public abstract class EntityMixin implements TimeStoneFreeze {
     }
 
     @Override
-    public void setTimeFreeze(boolean shouldTimeFreeze) {
+    public void setShouldTimeFreeze(boolean shouldTimeFreeze) {
         this.shouldTimeFreeze = shouldTimeFreeze;
     }
 
@@ -65,22 +62,31 @@ public abstract class EntityMixin implements TimeStoneFreeze {
     @Inject(method = "baseTick", at = @At("HEAD"))
     private void gitsnshiggles$independentlyTickTimeFreeze(CallbackInfo ci) {
         this.getWorld().getProfiler().push("entityTimeFreezeBaseTick");
-        if (this.shouldTimeFreeze) {
+        if (this.shouldTimeFreeze && this.timeTicksFrozen <= 0) {
             this.timeTicksFrozen = 100; //Five seconds
-            this.isTimeFrozen = true;
             this.shouldTimeFreeze = false;
-        } else {
-            if (this.timeTicksFrozen > 0) {
-                this.timeTicksFrozen--;
-            } else {
-                this.isTimeFrozen = false;
-            }
+        }
+        if (this.timeTicksFrozen > 0) {
+            this.timeTicksFrozen--;
         }
         this.getWorld().getProfiler().pop();
     }
     //todo here be dragons
     @Inject(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V", shift = At.Shift.AFTER), cancellable = true)
     private void gitsnshiggles$timeStoneFreezesEntity(CallbackInfo ci) {
-        if (this.isTimeFrozen) ci.cancel();
+        this.setNoGravity(this.timeTicksFrozen > 0);
+        if (this.timeTicksFrozen > 0) {
+            this.setVelocity(Vec3d.ZERO);
+            ci.cancel();
+            return;
+        }
+
+    }
+    @Inject(method = "move", at = @At("HEAD"), cancellable = true)
+    private void gitsnshiggles$timeStoneFreezesMovement(MovementType movementType, Vec3d movement, CallbackInfo ci) {
+        if (this.timeTicksFrozen > 0) {
+            ci.cancel();
+            return;
+        }
     }
 }
