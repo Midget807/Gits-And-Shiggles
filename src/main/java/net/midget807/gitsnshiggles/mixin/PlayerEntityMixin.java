@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, ElfCount, WizardGamba, RealityStoneTransform, SoulStoneRevive, InfinityStoneCooldown {
+public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, ElfCount, WizardGamba, RealityStoneTransform {
     @Shadow @Final private PlayerInventory inventory;
     @Shadow @Final private PlayerAbilities abilities;
 
@@ -63,21 +63,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     private int gambingAnimationTicks = 0;
     @Unique
     private boolean shouldTransformProjectiles = false;
-    @Unique
-    private boolean isReviveAvailable = true;
-
-    @Unique
-    private int powerStoneCD = 0;
-    @Unique
-    private int spaceStoneCD = 0;
-    @Unique
-    private int realityStoneCD = 0;
-    @Unique
-    private int soulStoneCD = 0;
-    @Unique
-    private int timeStoneCD = 0;
-    @Unique
-    private int mindStoneCD = 0;
 
     @Override
     public void setUsingRailgun(boolean usingRailgun) {
@@ -125,14 +110,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         this.gambingAnimationTicks = gambingAnimationTicks;
     }
 
-    @Override
-    public boolean isReviveAvailable() {
-        return this.isReviveAvailable;
-    }
-    @Override
-    public void setReviveAvailable(boolean reviveAvailable) {
-        this.isReviveAvailable = reviveAvailable;
-    }
+
 
     @Override
     public boolean shouldTransformProjectiles() {
@@ -184,13 +162,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         if (this.shouldTransformProjectiles) {
             this.transformProjectiles();
         }
-        if (this.soulStoneCD > 0) {
-            this.soulStoneCD--;
-        } else if (this.soulStoneCD < 0) {
-            this.soulStoneCD = 0;
-        }
-        this.isReviveAvailable = this.soulStoneCD <= 0;
-        ModDebugUtil.debugMessage((PlayerEntity)((Object)this), "revive: " + this.isReviveAvailable + "   CD: " + this.soulStoneCD, true);
     }
 
     @Unique
@@ -242,30 +213,5 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         }
     }
 
-    @Unique
-    private boolean tryUseSoulStoneRevive(DamageSource source) {
-        if (source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-            return false;
-        } else {
-            if (this.isReviveAvailable()) {
-                this.setHealth(1.0f);
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
-                this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
-                this.getWorld().sendEntityStatus(this, EntityStatuses.USE_TOTEM_OF_UNDYING);
-                this.soulStoneCD = 60 * 60 * 20;
-                return true;
-            } else {
-                return !this.isReviveAvailable();
-            }
-        }
-    }
-    @Inject(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;isDead()Z", shift = At.Shift.BEFORE))
-    private void gitsnshiggles$extraRevive(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if (this.isDead()) {
-            if (!tryUseSoulStoneRevive(source)) {
-                this.onDeath(source);
-            }
-        }
-    }
+
 }
