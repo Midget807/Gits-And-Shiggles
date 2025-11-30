@@ -30,6 +30,8 @@ public class ModPackets {
         ServerPlayNetworking.registerGlobalReceiver(RealityStonePayload.PAYLOAD_ID, RealityStonePacket::receive);
         PayloadTypeRegistry.playC2S().register(TimeStonePayload.PAYLOAD_ID, TimeStonePayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(TimeStonePayload.PAYLOAD_ID, TimeStonePacket::receive);
+        PayloadTypeRegistry.playC2S().register(MindStonePayload.PAYLOAD_ID, MindStonePayload.CODEC);
+        ServerPlayNetworking.registerGlobalReceiver(MindStonePayload.PAYLOAD_ID, MindStonePacket::receive);
     }
 
     public static void registerGlobalS2C() {

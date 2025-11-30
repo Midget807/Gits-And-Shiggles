@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, ElfCount, WizardGamba, RealityStoneTransform {
+public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, ElfCount, WizardGamba, RealityStoneTransform, MindStoneInvert {
     @Shadow @Final private PlayerInventory inventory;
     @Shadow @Final private PlayerAbilities abilities;
 
@@ -63,9 +63,14 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     private int gambingAnimationTicks = 0;
     @Unique
     private boolean shouldTransformProjectiles = false;
+    @Unique
+    private boolean isInvertedControls = false;
+    @Unique
+    private int timeTicksInverted = 0;
 
     @Override
     public void setUsingRailgun(boolean usingRailgun) {
+
     }
 
     @Override
@@ -110,7 +115,23 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         this.gambingAnimationTicks = gambingAnimationTicks;
     }
 
+    @Override
+    public boolean isInverted() {
+        return this.isInvertedControls;
+    }
+    @Override
+    public void setInverted(boolean inverted) {
+        this.isInvertedControls = inverted;
+    }
 
+    @Override
+    public int getTimeTicksInverted() {
+        return this.timeTicksInverted;
+    }
+    @Override
+    public void setTimeTicksInverted(int timeTicksInverted) {
+        this.timeTicksInverted = timeTicksInverted;
+    }
 
     @Override
     public boolean shouldTransformProjectiles() {
@@ -161,6 +182,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         }
         if (this.shouldTransformProjectiles) {
             this.transformProjectiles();
+        }
+        this.isInvertedControls = this.timeTicksInverted > 0;
+        if (this.timeTicksInverted > 0) {
+            this.timeTicksInverted--;
+        } else if (this.timeTicksInverted < 0) {
+            this.timeTicksInverted = 0;
         }
     }
 

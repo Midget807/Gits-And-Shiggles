@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.network.C2S.payload.*;
 import net.midget807.gitsnshiggles.registry.ModItems;
+import net.midget807.gitsnshiggles.util.inject.MindStoneInvert;
 import net.midget807.gitsnshiggles.util.inject.RealityStoneTransform;
 import net.midget807.gitsnshiggles.util.inject.TimeStoneFreeze;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -39,14 +40,12 @@ public class ModKeyHandler {
                     ((RealityStoneTransform)client.player).setTransformProjectiles(!((RealityStoneTransform) client.player).shouldTransformProjectiles());
                     ClientPlayNetworking.send(new RealityStonePayload(((RealityStoneTransform) client.player).shouldTransformProjectiles()));
                 }
-                /*while (ModKeyBindings.soulStone.wasPressed()) {
-                    client.player.sendMessage(Text.literal("soul stone pressed"), false);
-                }*/
+                /*Soul Stone Revive is Passive*/
                 while (ModKeyBindings.timeStone.wasPressed()) {
                     ClientPlayNetworking.send(new TimeStonePayload(true));
                 }
                 while (ModKeyBindings.mindStone.wasPressed()) {
-                    client.player.sendMessage(Text.literal("mind stone pressed"), false);
+                    ClientPlayNetworking.send(new MindStonePayload(200));
                 }
             }
         });
