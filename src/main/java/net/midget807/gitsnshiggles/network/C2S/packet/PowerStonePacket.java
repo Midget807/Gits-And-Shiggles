@@ -2,6 +2,8 @@ package net.midget807.gitsnshiggles.network.C2S.packet;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.network.C2S.payload.PowerStonePayload;
+import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
+import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -38,6 +40,7 @@ public class PowerStonePacket {
                 entity.damage(player.getDamageSources().magic(), 3);
                 knockbackEntity(entity, player);
             });
+            ((InfinityStoneCooldown) player).setPowerStoneCD(InfinityStoneUtil.POWER_STONE_CD);
         });
     }
 

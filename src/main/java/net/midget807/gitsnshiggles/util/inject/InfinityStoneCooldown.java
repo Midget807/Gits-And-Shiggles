@@ -1,6 +1,7 @@
 package net.midget807.gitsnshiggles.util.inject;
 
 public interface InfinityStoneCooldown {
+
     int getPowerStoneCD();
     int getSpaceStoneCD();
     int getRealityStoneCD();

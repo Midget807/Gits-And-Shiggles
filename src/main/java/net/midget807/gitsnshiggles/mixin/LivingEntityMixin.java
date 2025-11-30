@@ -2,6 +2,7 @@ package net.midget807.gitsnshiggles.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
+import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.ModDebugUtil;
 import net.midget807.gitsnshiggles.util.RailgunScalar;
 import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
@@ -110,6 +111,81 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
         return this.recoilPower;
     }
 
+    @Override
+    public boolean isPowerStoneOnCD() {
+        return this.powerStoneCD > 0;
+    }
+    @Override
+    public boolean isSpaceStoneOnCD() {
+        return this.spaceStoneCD > 0;
+    }
+    @Override
+    public boolean isRealityStoneOnCD() {
+        return this.realityStoneCD > 0;
+    }
+    @Override
+    public boolean isSoulStoneOnCD() {
+        return this.soulStoneCD > 0;
+    }
+    @Override
+    public boolean isTimeStoneOnCD() {
+        return this.timeStoneCD > 0;
+    }
+    @Override
+    public boolean isMindStoneOnCD() {
+        return this.mindStoneCD > 0;
+    }
+
+    @Override
+    public void setPowerStoneCD(int powerStoneCD) {
+        this.powerStoneCD = powerStoneCD;
+    }
+    @Override
+    public void setSpaceStoneCD(int spaceStoneCD) {
+        this.spaceStoneCD = spaceStoneCD;
+    }
+    @Override
+    public void setRealityStoneCD(int realityStoneCD) {
+        this.realityStoneCD = realityStoneCD;
+    }
+    @Override
+    public void setSoulStoneCD(int soulStoneCD) {
+        this.soulStoneCD = soulStoneCD;
+    }
+    @Override
+    public void setTimeStoneCD(int timeStoneCD) {
+        this.timeStoneCD = timeStoneCD;
+    }
+    @Override
+    public void setMindStoneCD(int mindStoneCD) {
+        this.mindStoneCD = mindStoneCD;
+    }
+
+    @Override
+    public int getPowerStoneCD() {
+        return this.powerStoneCD;
+    }
+    @Override
+    public int getSpaceStoneCD() {
+        return this.spaceStoneCD;
+    }
+    @Override
+    public int getRealityStoneCD() {
+        return this.realityStoneCD;
+    }
+    @Override
+    public int getSoulStoneCD() {
+        return this.soulStoneCD;
+    }
+    @Override
+    public int getTimeStoneCD() {
+        return this.timeStoneCD;
+    }
+    @Override
+    public int getMindStoneCD() {
+        return this.mindStoneCD;
+    }
+
     @Inject(method = "baseTick", at = @At("HEAD"))
     private void gitsnshiggles$railgunDamage(CallbackInfo ci) {
         this.getWorld().getProfiler().push("recoilDamage");
@@ -126,12 +202,37 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void gitsnshiggles$tickVariables(CallbackInfo ci) {
+        if (this.powerStoneCD > 0) {
+            this.powerStoneCD--;
+        } else if (powerStoneCD < 0) {
+            this.powerStoneCD = 0;
+        }
+        if (this.spaceStoneCD > 0) {
+            this.spaceStoneCD--;
+        } else if (spaceStoneCD < 0) {
+            this.spaceStoneCD = 0;
+        }
+        if (this.realityStoneCD > 0) {
+            this.realityStoneCD--;
+        } else if (realityStoneCD < 0) {
+            this.realityStoneCD = 0;
+        }
         if (this.soulStoneCD > 0) {
             this.soulStoneCD--;
         } else if (this.soulStoneCD < 0) {
             this.soulStoneCD = 0;
         }
         this.isReviveAvailable = this.soulStoneCD <= 0;
+        if (this.timeStoneCD > 0) {
+            this.timeStoneCD--;
+        } else if (timeStoneCD < 0) {
+            this.timeStoneCD = 0;
+        }
+        if (this.mindStoneCD > 0) {
+            this.mindStoneCD--;
+        } else if (mindStoneCD < 0) {
+            this.mindStoneCD = 0;
+        }
     }
 
     @Unique
@@ -157,7 +258,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
-                this.soulStoneCD = 60 * 60 * 20;
+                this.soulStoneCD = InfinityStoneUtil.SOUL_STONE_CD;
                 return true;
             } else {
                 return !this.isReviveAvailable();

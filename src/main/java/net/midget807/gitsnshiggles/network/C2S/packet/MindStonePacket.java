@@ -3,6 +3,8 @@ package net.midget807.gitsnshiggles.network.C2S.packet;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.network.C2S.payload.MindStonePayload;
 import net.midget807.gitsnshiggles.network.C2S.payload.TimeStonePayload;
+import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
+import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.midget807.gitsnshiggles.util.inject.MindStoneInvert;
 import net.midget807.gitsnshiggles.util.inject.TimeStoneFreeze;
 import net.minecraft.entity.Entity;
@@ -32,6 +34,7 @@ public class MindStonePacket {
                 }
             }
             squareEntities.forEach(entity -> ((MindStoneInvert)entity).setTimeTicksInverted(payload.timeTicksInverted()));
+            ((InfinityStoneCooldown) player).setMindStoneCD(InfinityStoneUtil.MIND_STONE_CD);
         });
     }
 }

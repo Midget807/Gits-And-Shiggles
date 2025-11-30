@@ -10,4 +10,5 @@ public class ModEffectUtil {
                 : player.hasStatusEffect(ModEffects.STEPHEN_HAWKING)
                 || ((TimeStoneFreeze)player).getTimeTicksFrozen() > 0;
     }
+
 }

@@ -2,6 +2,8 @@ package net.midget807.gitsnshiggles.network.C2S.packet;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.network.C2S.payload.TimeStonePayload;
+import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
+import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.midget807.gitsnshiggles.util.inject.TimeStoneFreeze;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -23,6 +25,7 @@ public class TimeStonePacket {
                 }
             }
             squareEntities.forEach(entity -> ((TimeStoneFreeze)entity).setShouldTimeFreeze(payload.shouldTimeFreeze()));
+            ((InfinityStoneCooldown) player).setTimeStoneCD(InfinityStoneUtil.TIME_STONE_CD);
         });
     }
 }

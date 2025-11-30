@@ -19,7 +19,7 @@ public class ModKeyBindings {
     public static final KeyBinding powerStone = registerMain("key.gitsnshiggles.powerStone", InputUtil.UNKNOWN_KEY.getCode());
     public static final KeyBinding spaceStone = registerMain("key.gitsnshiggles.spaceStone", InputUtil.UNKNOWN_KEY.getCode());
     public static final KeyBinding realityStone = registerMain("key.gitsnshiggles.realityStone", InputUtil.UNKNOWN_KEY.getCode());
-    //public static final KeyBinding soulStone = registerMain("key.gitsnshiggles.soulStone", InputUtil.UNKNOWN_KEY.getCode());
+    //Soul Stone is passive
     public static final KeyBinding timeStone = registerMain("key.gitsnshiggles.timeStone", InputUtil.UNKNOWN_KEY.getCode());
     public static final KeyBinding mindStone = registerMain("key.gitsnshiggles.mindStone", InputUtil.UNKNOWN_KEY.getCode());
 

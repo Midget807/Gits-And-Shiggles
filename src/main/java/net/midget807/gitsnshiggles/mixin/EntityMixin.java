@@ -1,5 +1,6 @@
 package net.midget807.gitsnshiggles.mixin;
 
+import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.ModDebugUtil;
 import net.midget807.gitsnshiggles.util.inject.TimeStoneFreeze;
 import net.minecraft.entity.Entity;
@@ -63,7 +64,7 @@ public abstract class EntityMixin implements TimeStoneFreeze {
     private void gitsnshiggles$independentlyTickTimeFreeze(CallbackInfo ci) {
         this.getWorld().getProfiler().push("entityTimeFreezeBaseTick");
         if (this.shouldTimeFreeze && this.timeTicksFrozen <= 0) {
-            this.timeTicksFrozen = 100; //Five seconds
+            this.timeTicksFrozen = InfinityStoneUtil.TIMER_TIME_STONE;
             this.shouldTimeFreeze = false;
         }
         if (this.timeTicksFrozen > 0) {

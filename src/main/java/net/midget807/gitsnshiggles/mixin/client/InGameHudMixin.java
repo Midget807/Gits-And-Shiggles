@@ -9,12 +9,14 @@ import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.ModTextureIds;
 import net.midget807.gitsnshiggles.util.inject.RailgunAds;
 import net.midget807.gitsnshiggles.util.inject.WizardGamba;
+import net.midget807.gitsnshiggles.util.state.ItemForPlayerState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Colors;
 import net.minecraft.util.math.MathHelper;
@@ -39,6 +41,8 @@ public abstract class InGameHudMixin {
     @Shadow @Final private MinecraftClient client;
 
     @Shadow @Final private Random random;
+    @Unique
+    private boolean shouldRenderInfinityStoneCD = false;
 
     @Inject(method = "renderMainHud", at = @At("TAIL"))
     private void gitsnshiggles$renderMain(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
@@ -61,6 +65,10 @@ public abstract class InGameHudMixin {
             }
             if (this.client.player.isUsingItem() && this.client.player.getActiveItem().getItem() instanceof TronDiscItem) {
                 this.renderTronDiscChargeBar(context, this.client.player);
+            }
+            shouldRenderInfinityStoneCD = this.client.player.isHolding(ModItems.INFINITY_GAUNTLET);
+            if (this.shouldRenderInfinityStoneCD) {
+                renderInfinityStoneCD(context, this.client.player);
             }
         }
     }
@@ -164,5 +172,32 @@ public abstract class InGameHudMixin {
         int j = context.getScaledWindowHeight() / 2;
         context.drawGuiTexture(ModTextureIds.TRON_DISC_CHARGE_BG, i - 36, j + 12, 72, 8);
         context.drawTexture(ModTextureIds.TRON_DISC_BAR, i -36, j + 12, 0, 0, Math.min(TronDiscItem.reboundsForPullProgress(player) * 16, 72), 8, 72, 8);
+    }
+
+    @Unique
+    private void renderInfinityStoneCD(DrawContext context, ClientPlayerEntity player) {
+        this.client.getProfiler().push("infinity_stone_cooldown");
+        int i = context.getScaledWindowWidth() / 2;
+        int j = context.getScaledWindowHeight() / 2;
+        int bg_size = 24;
+        int icon_size = 16;
+        for (int k = 0; k < 6; k++) {
+            context.drawTexture(ModTextureIds.INFINITY_STONE_BG, 0, k * bg_size, 0, 0, 0, bg_size, bg_size, bg_size, bg_size);
+        }
+        context.drawTexture(ModTextureIds.POWER_STONE_BG, 4, 4, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
+        context.drawTexture(ModTextureIds.SPACE_STONE_BG, 4, 4 + bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
+        context.drawTexture(ModTextureIds.REALITY_STONE_BG, 4, 4 + 2 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
+        context.drawTexture(ModTextureIds.SOUL_STONE_BG, 4, 4 + 3 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
+        context.drawTexture(ModTextureIds.TIME_STONE_BG, 4, 4 + 4 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
+        context.drawTexture(ModTextureIds.MIND_STONE_BG, 4, 4 + 5 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
+
+        context.drawTexture(ModTextureIds.POWER_STONE_OVERLAY, 4, 4, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
+        context.drawTexture(ModTextureIds.SPACE_STONE_OVERLAY, 4, 4 + bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
+        context.drawTexture(ModTextureIds.REALITY_STONE_OVERLAY, 4, 4 + 2 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
+        context.drawTexture(ModTextureIds.SOUL_STONE_OVERLAY, 4, 4 + 3 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
+        context.drawTexture(ModTextureIds.TIME_STONE_OVERLAY, 4, 4 + 4 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
+        context.drawTexture(ModTextureIds.MIND_STONE_OVERLAY, 4, 4 + 5 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
+        //todo render timer as text beside icon
+        this.client.getProfiler().pop();
     }
 }

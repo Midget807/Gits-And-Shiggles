@@ -3,6 +3,8 @@ package net.midget807.gitsnshiggles.network.C2S.packet;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.network.C2S.payload.PowerStonePayload;
 import net.midget807.gitsnshiggles.network.C2S.payload.RealityStonePayload;
+import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
+import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.midget807.gitsnshiggles.util.inject.RealityStoneTransform;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,13 +17,13 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class RealityStonePacket {
-    public static final int MAX_RADIUS = 8;
 
     public static void receive(RealityStonePayload payload, ServerPlayNetworking.Context context) {
         context.server().execute(() -> {
             ServerPlayerEntity player = context.player();
             World world = player.getWorld();
-            ((RealityStoneTransform)player).setTransformProjectiles(payload.shouldTransform());
+            ((RealityStoneTransform)player).setTimeTicksForTransform(payload.timeTicksForTransform());
+            ((InfinityStoneCooldown) player).setRealityStoneCD(InfinityStoneUtil.REALITY_STONE_CD);
         });
     }
 }

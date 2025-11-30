@@ -67,6 +67,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     private boolean isInvertedControls = false;
     @Unique
     private int timeTicksInverted = 0;
+    @Unique
+    private int timeTicksForTransform = 0;
 
     @Override
     public void setUsingRailgun(boolean usingRailgun) {
@@ -141,6 +143,14 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     public void setTransformProjectiles(boolean shouldTransform) {
         this.shouldTransformProjectiles = shouldTransform;
     }
+    @Override
+    public int getTimeTicksForTransform() {
+        return this.timeTicksForTransform;
+    }
+    @Override
+    public void setTimeTicksForTransform(int timeTicksForTransform) {
+        this.timeTicksForTransform = timeTicksForTransform;
+    }
 
     public PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -180,8 +190,14 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         } else if (this.gambingAnimationTicks != -1) {
             this.gambingAnimationTicks = -1;
         }
+        this.shouldTransformProjectiles = this.timeTicksForTransform > 0;
         if (this.shouldTransformProjectiles) {
             this.transformProjectiles();
+        }
+        if (this.timeTicksForTransform > 0) {
+            this.timeTicksForTransform--;
+        } else if (this.timeTicksForTransform < 0) {
+            this.timeTicksForTransform = 0;
         }
         this.isInvertedControls = this.timeTicksInverted > 0;
         if (this.timeTicksInverted > 0) {
