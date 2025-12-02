@@ -1,13 +1,17 @@
 package net.midget807.gitsnshiggles.registry;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.midget807.gitsnshiggles.network.C2S.packet.*;
 import net.midget807.gitsnshiggles.network.C2S.payload.*;
+import net.midget807.gitsnshiggles.network.S2C.packet.SoulStonePacket;
+import net.midget807.gitsnshiggles.network.S2C.payload.SoulStonePayload;
 import net.minecraft.util.Identifier;
 
 public class ModPackets {
+    /**C2S Packets*/
     public static final Identifier RAILGUN_SHOOT = registerC2SId("railgun_shoot");
     public static final Identifier SUMMON_ELVES = registerC2SId("summon_elves");
     public static final Identifier POWER_STONE = registerC2SId("power_stone");
@@ -15,6 +19,10 @@ public class ModPackets {
     public static final Identifier REALITY_STONE = registerC2SId("reality_stone");
     public static final Identifier TIME_STONE = registerC2SId("time_stone");
     public static final Identifier MIND_STONE = registerC2SId("mind_stone");
+    public static final Identifier MIND_STONE_CD_SYNC = registerC2SId("mind_stone_cd_sync");
+
+    /**S2C Packets*/
+    public static final Identifier SOUL_STONE = registerS2CId("soul_stone");
 
     public static void registerGlobalC2S() {
         PayloadTypeRegistry.playC2S().register(RailgunShootPayload.PAYLOAD_ID, RailgunShootPayload.CODEC);
@@ -32,10 +40,13 @@ public class ModPackets {
         ServerPlayNetworking.registerGlobalReceiver(TimeStonePayload.PAYLOAD_ID, TimeStonePacket::receive);
         PayloadTypeRegistry.playC2S().register(MindStonePayload.PAYLOAD_ID, MindStonePayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(MindStonePayload.PAYLOAD_ID, MindStonePacket::receive);
+        PayloadTypeRegistry.playC2S().register(MindStoneCDSyncPayload.PAYLOAD_ID, MindStoneCDSyncPayload.CODEC);
+        ServerPlayNetworking.registerGlobalReceiver(MindStoneCDSyncPayload.PAYLOAD_ID, MindStoneCDSyncPacket::receive);
     }
 
     public static void registerGlobalS2C() {
-
+        PayloadTypeRegistry.playS2C().register(SoulStonePayload.PAYLOAD_ID, SoulStonePayload.CODEC);
+        ClientPlayNetworking.registerGlobalReceiver(SoulStonePayload.PAYLOAD_ID, SoulStonePacket::receive);
     }
 
     private static Identifier registerC2SId(String name) {

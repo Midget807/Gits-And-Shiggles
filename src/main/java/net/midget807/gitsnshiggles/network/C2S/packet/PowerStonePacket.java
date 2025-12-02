@@ -40,7 +40,7 @@ public class PowerStonePacket {
                 entity.damage(player.getDamageSources().magic(), 3);
                 knockbackEntity(entity, player);
             });
-            ((InfinityStoneCooldown) player).setPowerStoneCD(InfinityStoneUtil.POWER_STONE_CD);
+            InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.POWER);
         });
     }
 

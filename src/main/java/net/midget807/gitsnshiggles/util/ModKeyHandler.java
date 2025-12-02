@@ -5,14 +5,18 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
+import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.network.C2S.payload.*;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
-import net.midget807.gitsnshiggles.util.inject.MindStoneInvert;
 import net.midget807.gitsnshiggles.util.inject.RealityStoneTransform;
-import net.midget807.gitsnshiggles.util.inject.TimeStoneFreeze;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class ModKeyHandler {
@@ -37,28 +41,29 @@ public class ModKeyHandler {
 
             /** Checks for the player holding Infinity Gauntlet before handling keys */
             if (player.isHolding(ModItems.INFINITY_GAUNTLET)) {
-                while (ModKeyBindings.powerStone.wasPressed() && !((InfinityStoneCooldown) player).isPowerStoneOnCD()) {
-                    ClientPlayNetworking.send(new PowerStonePayload(player.getBlockPos()));
-                    ((InfinityStoneCooldown) player).setPowerStoneCD(InfinityStoneUtil.POWER_STONE_CD);
-                }
-                while (ModKeyBindings.spaceStone.wasPressed() && !((InfinityStoneCooldown) player).isSpaceStoneOnCD()) {
-                    InfinityStoneUtil.getSpaceStoneTeleport(player);
-                    ((InfinityStoneCooldown) player).setSpaceStoneCD(InfinityStoneUtil.SPACE_STONE_CD);
-                }
-                while (ModKeyBindings.realityStone.wasPressed() && !((InfinityStoneCooldown) player).isRealityStoneOnCD()) {
-                    ((RealityStoneTransform)client.player).setTimeTicksForTransform(InfinityStoneUtil.TIMER_REALITY_STONE);
-                    ClientPlayNetworking.send(new RealityStonePayload(((RealityStoneTransform) client.player).getTimeTicksForTransform()));
-                    ((InfinityStoneCooldown) player).setRealityStoneCD(InfinityStoneUtil.REALITY_STONE_CD);
-                }
-                /*Soul Stone Revive is Passive*/
-                while (ModKeyBindings.timeStone.wasPressed() && !((InfinityStoneCooldown) player).isTimeStoneOnCD()) {
-                    ClientPlayNetworking.send(new TimeStonePayload(true));
-                    ((InfinityStoneCooldown) player).setTimeStoneCD(InfinityStoneUtil.TIMER_MIND_STONE);
-                }
-                while (ModKeyBindings.mindStone.wasPressed() && !((InfinityStoneCooldown) player).isMindStoneOnCD()) {
-                    ClientPlayNetworking.send(new MindStonePayload(InfinityStoneUtil.TIMER_TIME_STONE));
-                    ((InfinityStoneCooldown) player).setMindStoneCD(InfinityStoneUtil.MIND_STONE_CD);
-                }
+                client.player.getHandItems().forEach(itemStack -> {
+                    if (itemStack.getItem() instanceof InfinityGauntletItem gauntletItem) {
+                        while (ModKeyBindings.powerStone.wasPressed() && gauntletItem.powerStoneCD == 0) {
+                            ClientPlayNetworking.send(new PowerStonePayload(player.getBlockPos()));
+                        }
+                        while (ModKeyBindings.spaceStone.wasPressed() && gauntletItem.spaceStoneCD == 0) {
+                            InfinityStoneUtil.getSpaceStoneTeleport(player);
+                        }
+                        while (ModKeyBindings.realityStone.wasPressed() && gauntletItem.realityStoneCD == 0) {
+                            ((RealityStoneTransform) client.player).setTimeTicksForTransform(InfinityStoneUtil.TIMER_REALITY_STONE);
+                            ClientPlayNetworking.send(new RealityStonePayload(((RealityStoneTransform) client.player).getTimeTicksForTransform()));
+                        }
+                        /*Soul Stone Revive is Passive*/
+                        while (ModKeyBindings.timeStone.wasPressed() && gauntletItem.timeStoneCD == 0) {
+                            ClientPlayNetworking.send(new TimeStonePayload(true));
+                        }
+                        while (ModKeyBindings.mindStone.wasPressed() && gauntletItem.mindStoneCD == 0) {
+                            InfinityStoneUtil.syncClientMindStoneStatus(player);
+                            ClientPlayNetworking.send(new MindStoneCDSyncPayload(InfinityStoneUtil.MIND_STONE_CD));
+                        }
+                    }
+                });
+
             } else {
                 if (ModKeyBindings.powerStone.wasPressed()) {
                     ModKeyBindings.powerStone.setPressed(false);
@@ -79,6 +84,8 @@ public class ModKeyHandler {
             }
         });
     }
+
+
 
 
 }

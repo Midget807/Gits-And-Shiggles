@@ -6,6 +6,7 @@ import net.midget807.gitsnshiggles.util.inject.TimeStoneFreeze;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -16,6 +17,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements TimeStoneFreeze {
@@ -72,7 +74,7 @@ public abstract class EntityMixin implements TimeStoneFreeze {
         }
         this.getWorld().getProfiler().pop();
     }
-    //todo here be dragons
+
     @Inject(method = "baseTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V", shift = At.Shift.AFTER), cancellable = true)
     private void gitsnshiggles$timeStoneFreezesEntity(CallbackInfo ci) {
         this.setNoGravity(this.timeTicksFrozen > 0);
@@ -89,5 +91,17 @@ public abstract class EntityMixin implements TimeStoneFreeze {
             ci.cancel();
             return;
         }
+    }
+
+    @Inject(method = "writeNbt", at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NbtCompound;putUuid(Ljava/lang/String;Ljava/util/UUID;)V"))
+    private void gitsnshiggles$writeNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
+        nbt.putInt(InfinityStoneUtil.TIME_STONE_TIMER_KEY, this.timeTicksFrozen);
+        nbt.putBoolean(InfinityStoneUtil.TIME_STONE_BOOL_KEY, this.shouldTimeFreeze);
+    }
+
+    @Inject(method = "readNbt", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;onGround:Z"))
+    private void gitsnshiggles$readNbt(NbtCompound nbt, CallbackInfo ci) {
+        this.timeTicksFrozen = nbt.getInt(InfinityStoneUtil.TIME_STONE_TIMER_KEY);
+        this.shouldTimeFreeze = nbt.getBoolean(InfinityStoneUtil.TIME_STONE_BOOL_KEY);
     }
 }

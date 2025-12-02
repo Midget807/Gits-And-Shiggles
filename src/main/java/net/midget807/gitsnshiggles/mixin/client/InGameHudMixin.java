@@ -3,14 +3,19 @@ package net.midget807.gitsnshiggles.mixin.client;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.midget807.gitsnshiggles.item.FlamethrowerItem;
+import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.item.TronDiscItem;
 import net.midget807.gitsnshiggles.item.WizardRobesItem;
 import net.midget807.gitsnshiggles.registry.ModItems;
+import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.ModTextureIds;
+import net.midget807.gitsnshiggles.util.ModUtil;
+import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.midget807.gitsnshiggles.util.inject.RailgunAds;
 import net.midget807.gitsnshiggles.util.inject.WizardGamba;
 import net.midget807.gitsnshiggles.util.state.ItemForPlayerState;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -68,7 +73,12 @@ public abstract class InGameHudMixin {
             }
             shouldRenderInfinityStoneCD = this.client.player.isHolding(ModItems.INFINITY_GAUNTLET);
             if (this.shouldRenderInfinityStoneCD) {
-                renderInfinityStoneCD(context, this.client.player);
+                this.client.player.getHandItems().forEach(itemStack -> {
+                    if (itemStack.getItem() instanceof InfinityGauntletItem gauntletItem) {
+                        renderInfinityStoneCD(context, this.client.player, gauntletItem);
+                    }
+                });
+
             }
         }
     }
@@ -175,7 +185,7 @@ public abstract class InGameHudMixin {
     }
 
     @Unique
-    private void renderInfinityStoneCD(DrawContext context, ClientPlayerEntity player) {
+    private void renderInfinityStoneCD(DrawContext context, ClientPlayerEntity player, InfinityGauntletItem gauntletItem) {
         this.client.getProfiler().push("infinity_stone_cooldown");
         int i = context.getScaledWindowWidth() / 2;
         int j = context.getScaledWindowHeight() / 2;
@@ -184,12 +194,6 @@ public abstract class InGameHudMixin {
         for (int k = 0; k < 6; k++) {
             context.drawTexture(ModTextureIds.INFINITY_STONE_BG, 0, k * bg_size, 0, 0, 0, bg_size, bg_size, bg_size, bg_size);
         }
-        context.drawTexture(ModTextureIds.POWER_STONE_BG, 4, 4, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
-        context.drawTexture(ModTextureIds.SPACE_STONE_BG, 4, 4 + bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
-        context.drawTexture(ModTextureIds.REALITY_STONE_BG, 4, 4 + 2 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
-        context.drawTexture(ModTextureIds.SOUL_STONE_BG, 4, 4 + 3 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
-        context.drawTexture(ModTextureIds.TIME_STONE_BG, 4, 4 + 4 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
-        context.drawTexture(ModTextureIds.MIND_STONE_BG, 4, 4 + 5 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
 
         context.drawTexture(ModTextureIds.POWER_STONE_OVERLAY, 4, 4, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
         context.drawTexture(ModTextureIds.SPACE_STONE_OVERLAY, 4, 4 + bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
@@ -197,6 +201,111 @@ public abstract class InGameHudMixin {
         context.drawTexture(ModTextureIds.SOUL_STONE_OVERLAY, 4, 4 + 3 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
         context.drawTexture(ModTextureIds.TIME_STONE_OVERLAY, 4, 4 + 4 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
         context.drawTexture(ModTextureIds.MIND_STONE_OVERLAY, 4, 4 + 5 * bg_size, 0, 0, 0, icon_size, icon_size, icon_size, icon_size);
+
+        context.drawTexture(
+                ModTextureIds.POWER_STONE_BG,
+                4,
+                5,
+                1,
+                0,
+                1,
+                icon_size,
+                InfinityStoneUtil.getCDTextureRatio(
+                        gauntletItem.powerStoneCD,
+                        InfinityStoneUtil.POWER_STONE_CD,
+                        13
+                ),
+                icon_size,
+                icon_size
+        );
+        context.drawTexture(
+                ModTextureIds.SPACE_STONE_BG,
+                4,
+                4 + bg_size,
+                1,
+                0,
+                0,
+                icon_size,
+                InfinityStoneUtil.getCDTextureRatio(
+                        gauntletItem.spaceStoneCD ,
+                        InfinityStoneUtil.SPACE_STONE_CD,
+                        16
+                ),
+                icon_size,
+                icon_size
+        );
+        context.drawTexture(
+                ModTextureIds.REALITY_STONE_BG,
+                4,
+                5 + 2 * bg_size,
+                1,
+                0,
+                1,
+                icon_size,
+                InfinityStoneUtil.getCDTextureRatio(
+                        gauntletItem.realityStoneCD,
+                        InfinityStoneUtil.REALITY_STONE_CD,
+                        15
+                ),
+                icon_size,
+                icon_size
+        );
+        context.drawTexture(
+                ModTextureIds.SOUL_STONE_BG,
+                4,
+                7 + 3 * bg_size,
+                1,
+                0,
+                3,
+                icon_size,
+                InfinityStoneUtil.getCDTextureRatio(
+                        gauntletItem.soulStoneCD,
+                        InfinityStoneUtil.SOUL_STONE_CD,
+                        11
+                ),
+                icon_size,
+                icon_size
+        );
+        context.drawTexture(
+                ModTextureIds.TIME_STONE_BG,
+                4,
+                5 + 4 * bg_size,
+                1,
+                0,
+                1,
+                icon_size,
+                InfinityStoneUtil.getCDTextureRatio(
+                        gauntletItem.timeStoneCD,
+                        InfinityStoneUtil.TIME_STONE_CD,
+                        15
+                ),
+                icon_size,
+                icon_size
+        );
+        context.drawTexture(
+                ModTextureIds.MIND_STONE_BG,
+                4,
+                4 + 5 * bg_size,
+                1,
+                0,
+                0,
+                icon_size,
+                InfinityStoneUtil.getCDTextureRatio(
+                        gauntletItem.mindStoneCD,
+                        InfinityStoneUtil.MIND_STONE_CD,
+                        16
+                ),
+                icon_size,
+                icon_size
+        );
+
+        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+        context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.powerStoneCD), bg_size + 2, (bg_size / 2) - 4, Colors.WHITE, false);
+        context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.spaceStoneCD), bg_size + 2, (bg_size / 2) - 4 + bg_size, Colors.WHITE, false);
+        context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.realityStoneCD), bg_size + 2, (bg_size / 2) - 4 + (2 * bg_size), Colors.WHITE, false);
+        context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.soulStoneCD), bg_size + 2, (bg_size / 2) - 4 + (3 * bg_size), Colors.WHITE, false);
+        context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.timeStoneCD), bg_size + 2, (bg_size / 2) - 4 + (4 * bg_size), Colors.WHITE, false);
+        context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.mindStoneCD), bg_size + 2, (bg_size / 2) - 4 + (5 * bg_size), Colors.WHITE, false);
         //todo render timer as text beside icon
         this.client.getProfiler().pop();
     }

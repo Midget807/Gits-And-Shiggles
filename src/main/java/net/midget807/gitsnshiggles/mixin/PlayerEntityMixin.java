@@ -1,8 +1,10 @@
 package net.midget807.gitsnshiggles.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.item.RailgunItem;
 import net.midget807.gitsnshiggles.registry.ModItems;
+import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.ModDebugUtil;
 import net.midget807.gitsnshiggles.util.inject.*;
 import net.minecraft.entity.Entity;
@@ -19,6 +21,7 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.particle.ParticleTypes;
@@ -154,6 +157,18 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
 
     public PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
+    }
+
+    @Inject(method = "writeCustomDataToNbt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;writeCustomDataToNbt(Lnet/minecraft/nbt/NbtCompound;)V"))
+    private void gitsnshiggles$writeNbt(NbtCompound nbt, CallbackInfo ci) {
+        nbt.putInt(InfinityStoneUtil.REALITY_STONE_TIMER_KEY, this.timeTicksForTransform);
+        nbt.putInt(InfinityStoneUtil.MIND_STONE_TIMER_KEY, this.timeTicksInverted);
+    }
+
+    @Inject(method = "readCustomDataFromNbt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;readCustomDataFromNbt(Lnet/minecraft/nbt/NbtCompound;)V"))
+    private void gitsnshiggles$readNbt(NbtCompound nbt, CallbackInfo ci) {
+        this.timeTicksForTransform =nbt.getInt(InfinityStoneUtil.REALITY_STONE_TIMER_KEY);
+        this.timeTicksInverted = nbt.getInt(InfinityStoneUtil.MIND_STONE_TIMER_KEY);
     }
 
     @Override
