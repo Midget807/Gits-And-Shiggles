@@ -6,7 +6,9 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.midget807.gitsnshiggles.network.C2S.packet.*;
 import net.midget807.gitsnshiggles.network.C2S.payload.*;
+import net.midget807.gitsnshiggles.network.S2C.packet.MindStoneInvertPacket;
 import net.midget807.gitsnshiggles.network.S2C.packet.SoulStonePacket;
+import net.midget807.gitsnshiggles.network.S2C.payload.MindStoneInvertPayload;
 import net.midget807.gitsnshiggles.network.S2C.payload.SoulStonePayload;
 import net.minecraft.util.Identifier;
 
@@ -23,6 +25,7 @@ public class ModPackets {
 
     /**S2C Packets*/
     public static final Identifier SOUL_STONE = registerS2CId("soul_stone");
+    public static final Identifier MIND_STONE_INVERT = registerS2CId("mind_stone_invert");
 
     public static void registerGlobalC2S() {
         PayloadTypeRegistry.playC2S().register(RailgunShootPayload.PAYLOAD_ID, RailgunShootPayload.CODEC);
@@ -47,6 +50,8 @@ public class ModPackets {
     public static void registerGlobalS2C() {
         PayloadTypeRegistry.playS2C().register(SoulStonePayload.PAYLOAD_ID, SoulStonePayload.CODEC);
         ClientPlayNetworking.registerGlobalReceiver(SoulStonePayload.PAYLOAD_ID, SoulStonePacket::receive);
+        PayloadTypeRegistry.playS2C().register(MindStoneInvertPayload.PAYLOAD_ID, MindStoneInvertPayload.CODEC);
+        ClientPlayNetworking.registerGlobalReceiver(MindStoneInvertPayload.PAYLOAD_ID, MindStoneInvertPacket::receive);
     }
 
     private static Identifier registerC2SId(String name) {

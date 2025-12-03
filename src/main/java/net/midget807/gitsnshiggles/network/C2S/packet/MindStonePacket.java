@@ -3,10 +3,12 @@ package net.midget807.gitsnshiggles.network.C2S.packet;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.network.C2S.payload.MindStonePayload;
 import net.midget807.gitsnshiggles.network.C2S.payload.TimeStonePayload;
+import net.midget807.gitsnshiggles.network.S2C.payload.MindStoneInvertPayload;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.midget807.gitsnshiggles.util.inject.MindStoneInvert;
 import net.midget807.gitsnshiggles.util.inject.TimeStoneFreeze;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -20,7 +22,21 @@ public class MindStonePacket {
         context.server().execute(() -> {
             ServerPlayerEntity player = context.player();
             World world = player.getWorld();
-            ((MindStoneInvert)player).setTimeTicksInverted(payload.timeTicksInverted());
+            List<Entity> squareEntities = world.getOtherEntities(player, player.getBoundingBox().expand(20, 10, 20));
+            ArrayList<PlayerEntity> squarePlayerEntities = new ArrayList<>(List.of());
+            for (Entity entity : squareEntities) {
+                if (entity instanceof ClientPlayerEntity) {
+                    squarePlayerEntities.add(player);
+                }
+            }
+            ArrayList<PlayerEntity> sphereEntities = new ArrayList<>(List.of());
+            for (PlayerEntity entity : squarePlayerEntities) {
+                if (player.getPos().squaredDistanceTo(entity.getPos()) <= 100) {
+                    sphereEntities.add(entity);
+                }
+            }
+            sphereEntities.forEach(playerEntity -> ServerPlayNetworking.send(player, new MindStoneInvertPayload(payload.timeTicksInverted())));
+            sphereEntities.forEach(playerEntity -> ((MindStoneInvert)playerEntity).setTimeTicksInverted(payload.timeTicksInverted()));
         });
     }
 }

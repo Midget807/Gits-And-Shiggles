@@ -33,7 +33,7 @@ public class ClientTickEventsListener {
         int xChanges = getXShaking(xDeltas);
         int yChanges = getYShaking(yDeltas);
 
-        boolean isShaking = xChanges >= 5 || yChanges >= 5 || (xChanges + yChanges) >= 10;
+        boolean isShaking = xChanges >= 10 || yChanges >= 10 || (xChanges + yChanges) >= 20;
         if (client.player != null) {
             Hand hand = client.player.getStackInHand(Hand.MAIN_HAND).isOf(ModItems.DICE) ? Hand.MAIN_HAND : client.player.getStackInHand(Hand.OFF_HAND).isOf(ModItems.DICE) ? Hand.OFF_HAND : null;
             if (hand != null) {

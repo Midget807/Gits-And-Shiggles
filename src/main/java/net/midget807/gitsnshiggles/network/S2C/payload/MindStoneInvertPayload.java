@@ -5,14 +5,13 @@ import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.math.BlockPos;
 
-public record SoulStonePayload(int timeSync) implements CustomPayload {
-    public static final Id<SoulStonePayload> PAYLOAD_ID = new Id<>(ModPackets.SOUL_STONE);
+public record MindStoneInvertPayload(int timeTicksInvert) implements CustomPayload {
+    public static final Id<MindStoneInvertPayload> PAYLOAD_ID = new Id<>(ModPackets.MIND_STONE_INVERT);
 
-    public static final PacketCodec<RegistryByteBuf, SoulStonePayload> CODEC = PacketCodec.tuple(
-            PacketCodecs.INTEGER, SoulStonePayload::timeSync,
-            SoulStonePayload::new
+    public static final PacketCodec<RegistryByteBuf, MindStoneInvertPayload> CODEC = PacketCodec.tuple(
+            PacketCodecs.INTEGER, MindStoneInvertPayload::timeTicksInvert,
+            MindStoneInvertPayload::new
     );
 
     @Override

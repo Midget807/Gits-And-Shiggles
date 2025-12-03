@@ -8,15 +8,8 @@ import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.network.C2S.payload.*;
 import net.midget807.gitsnshiggles.registry.ModItems;
-import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.midget807.gitsnshiggles.util.inject.RealityStoneTransform;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class ModKeyHandler {
@@ -58,7 +51,7 @@ public class ModKeyHandler {
                             ClientPlayNetworking.send(new TimeStonePayload(true));
                         }
                         while (ModKeyBindings.mindStone.wasPressed() && gauntletItem.mindStoneCD == 0) {
-                            InfinityStoneUtil.syncClientMindStoneStatus(player);
+                            ClientPlayNetworking.send(new MindStonePayload(InfinityStoneUtil.TIMER_MIND_STONE));
                             ClientPlayNetworking.send(new MindStoneCDSyncPayload(InfinityStoneUtil.MIND_STONE_CD));
                         }
                     }
