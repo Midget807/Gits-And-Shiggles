@@ -3,6 +3,7 @@ package net.midget807.gitsnshiggles.network.C2S.packet;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.network.C2S.payload.TimeStonePayload;
+import net.midget807.gitsnshiggles.network.S2C.payload.TimeStoneSyncPayload;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
@@ -27,6 +28,7 @@ public class TimeStonePacket {
                 }
             }
             squareEntities.forEach(entity -> ((TimeStoneFreeze)entity).setShouldTimeFreeze(payload.shouldTimeFreeze()));
+            squareEntities.forEach(entity -> {if (entity instanceof ServerPlayerEntity serverPlayerEntity) ServerPlayNetworking.send(serverPlayerEntity, new TimeStoneSyncPayload(payload.shouldTimeFreeze()));});
             InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.TIME);
         });
     }
