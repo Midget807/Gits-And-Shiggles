@@ -237,7 +237,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         for (ProjectileEntity projectileEntity : projectiles) {
             Vec3d pos = projectileEntity.getPos();
             World world = this.getWorld();
-            if (world.isClient) {
+            if (!world.isClient) {
                 for (int i = 0; i < 5; i++) {
                     DustParticleEffect dustParticleEffect = new DustParticleEffect(new Vector3f(0.592f, 0, 0.0667f), 1.0f);
                     world.addParticle(

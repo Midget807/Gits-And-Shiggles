@@ -52,7 +52,7 @@ public class ModKeyHandler {
                         }
                         while (ModKeyBindings.mindStone.wasPressed() && gauntletItem.mindStoneCD == 0) {
                             ClientPlayNetworking.send(new MindStonePayload(InfinityStoneUtil.TIMER_MIND_STONE));
-                            ClientPlayNetworking.send(new MindStoneCDSyncPayload(InfinityStoneUtil.MIND_STONE_CD));
+                            //ClientPlayNetworking.send(new MindStoneCDSyncPayload(InfinityStoneUtil.MIND_STONE_CD));
                         }
                     }
                 });

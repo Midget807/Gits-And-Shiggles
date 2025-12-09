@@ -27,8 +27,12 @@ public class TimeStonePacket {
                     sphereEntities.add(entity);
                 }
             }
-            squareEntities.forEach(entity -> ((TimeStoneFreeze)entity).setShouldTimeFreeze(payload.shouldTimeFreeze()));
-            squareEntities.forEach(entity -> {if (entity instanceof ServerPlayerEntity serverPlayerEntity) ServerPlayNetworking.send(serverPlayerEntity, new TimeStoneSyncPayload(payload.shouldTimeFreeze()));});
+            squareEntities.forEach(entity -> {
+                ((TimeStoneFreeze)entity).setShouldTimeFreeze(payload.shouldTimeFreeze());
+                if (entity instanceof ServerPlayerEntity serverPlayerEntity) {
+                    ServerPlayNetworking.send(serverPlayerEntity, new TimeStoneSyncPayload(payload.shouldTimeFreeze()));
+                }
+            });
             InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.TIME);
         });
     }

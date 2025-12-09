@@ -23,20 +23,22 @@ public class MindStonePacket {
             ServerPlayerEntity player = context.player();
             World world = player.getWorld();
             List<Entity> squareEntities = world.getOtherEntities(player, player.getBoundingBox().expand(20, 10, 20));
-            ArrayList<PlayerEntity> squarePlayerEntities = new ArrayList<>(List.of());
+            ArrayList<ServerPlayerEntity> squarePlayerEntities = new ArrayList<>(List.of());
             for (Entity entity : squareEntities) {
                 if (entity instanceof ClientPlayerEntity) {
                     squarePlayerEntities.add(player);
                 }
             }
-            ArrayList<PlayerEntity> sphereEntities = new ArrayList<>(List.of());
-            for (PlayerEntity entity : squarePlayerEntities) {
+            ArrayList<ServerPlayerEntity> sphereEntities = new ArrayList<>(List.of());
+            for (ServerPlayerEntity entity : squarePlayerEntities) {
                 if (player.getPos().squaredDistanceTo(entity.getPos()) <= 100) {
                     sphereEntities.add(entity);
                 }
             }
-            sphereEntities.forEach(playerEntity -> ServerPlayNetworking.send(player, new MindStoneInvertPayload(payload.timeTicksInverted())));
-            sphereEntities.forEach(playerEntity -> ((MindStoneInvert)playerEntity).setTimeTicksInverted(payload.timeTicksInverted()));
+            sphereEntities.forEach(playerEntity -> {
+                ((MindStoneInvert)playerEntity).setTimeTicksInverted(payload.timeTicksInverted());
+                ServerPlayNetworking.send(playerEntity, new MindStoneInvertPayload(payload.timeTicksInverted()));
+            });
         });
     }
 }
