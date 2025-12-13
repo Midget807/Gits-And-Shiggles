@@ -1,14 +1,10 @@
 package net.midget807.gitsnshiggles.item;
 
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.midget807.gitsnshiggles.util.ModTextureIds;
-import net.midget807.gitsnshiggles.util.inject.WizardGamba;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
+import net.midget807.gitsnshiggles.util.ModDebugUtil;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -20,9 +16,20 @@ public class DebuggerItem extends Item {
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        world.createExplosion(user, user.getX(), user.getY(), user.getZ(), 20, World.ExplosionSourceType.TNT);
-        return TypedActionResult.pass(user.getStackInHand(hand));
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        player.getAbilities().allowFlying = !player.getAbilities().allowFlying;
+        if (!player.getAbilities().allowFlying) {
+            player.getAbilities().flying = false;
+        }
+        return TypedActionResult.pass(player.getStackInHand(hand));
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        super.inventoryTick(stack, world, entity, slot, selected);
+        if (entity instanceof PlayerEntity player) {
+
+        }
     }
 
     @Override

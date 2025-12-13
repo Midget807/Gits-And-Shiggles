@@ -201,9 +201,17 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
         if (this.isOnGround() && this.fallDistance > 0) {
             this.hasRailgunRecoil = false;
         }
-        if (this.hasRailgunRecoil && (this.horizontalCollision || this.verticalCollision)) {
-            this.calculateRecoilDamage();
+        if (this.hasRailgunRecoil && this.getVelocity().length() == 0) {
             this.hasRailgunRecoil = false;
+        }
+        if (this.horizontalCollision || this.verticalCollision) {
+            if (this.verticalCollision && this.isOnGround() && !this.horizontalCollision) {
+                this.hasRailgunRecoil = false;
+            }
+            if (this.hasRailgunRecoil) {
+                this.calculateRecoilDamage();
+                this.hasRailgunRecoil = false;
+            }
         }
         this.getWorld().getProfiler().pop();
     }

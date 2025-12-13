@@ -100,15 +100,18 @@ public class DiceItem extends Item {
     }
 
     private void executeEvent3(World world, PlayerEntity player) {
-
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 8 * 60 * 20, 2, false, false));
     }
 
     private void executeEvent2(World world, PlayerEntity player) {
+        player.addStatusEffect(new StatusEffectInstance(ModEffects.STEPHEN_HAWKING, 30 * 20, 0, false, false));
+        player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 30 * 20, 9, false, false));
 
     }
 
     private void executeEvent1(World world, PlayerEntity player) {
-        //player.addStatusEffect(new StatusEffectInstance(ModEffects.STEPHEN_HAWKING, 30 * 20, 0, false, false));
-        //player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 30 * 20, 9, false, false));
+        player.kill();
+        //unluckyPlayer.addStatusEffect(new StatusEffectInstance(ModEffects.STEPHEN_HAWKING, 30 * 20, 0, false, false));
+        //unluckyPlayer.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 30 * 20, 9, false, false));
     }
 }

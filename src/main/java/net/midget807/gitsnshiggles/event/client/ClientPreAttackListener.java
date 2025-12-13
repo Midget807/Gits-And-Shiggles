@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.client.player.ClientPreAttackCallback;
 import net.midget807.gitsnshiggles.item.RailgunItem;
+import net.midget807.gitsnshiggles.network.C2S.payload.RailgunRecoilSyncPayload;
 import net.midget807.gitsnshiggles.network.C2S.payload.RailgunShootPayload;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.RailgunScalar;
@@ -65,8 +66,9 @@ public class ClientPreAttackListener {
             Vec3d recoilVec = player.getRotationVector().negate().normalize();
             player.setVelocity(recoilVec.multiply(RailgunScalar.getScalar(power) + 2.0f));
             player.move(MovementType.SELF, recoilVec.multiply(RailgunScalar.getScalar(power) + 2.0f));
+            ClientPlayNetworking.send(new RailgunRecoilSyncPayload(player.getVelocity()));
+            player.networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY(), player.getZ(), player.getYaw(), player.getPitch(), player.isOnGround()));
             ((RailgunRecoil)player).setRailgunRecoil(true);
-            //player.networkHandler.sendPacket(new PlayerMoveC2SPacket.Full(player.getX(), player.getY(), player.getZ(), player.getYaw(), player.getPitch(), player.isOnGround()));
             ClientPlayNetworking.send(new RailgunShootPayload(player.getStackInHand(Hand.MAIN_HAND), player.getPitch(), player.getYaw()));
             return true;
         }

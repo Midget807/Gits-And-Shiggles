@@ -9,7 +9,8 @@
     "LockableContainerBlockEntityMixin",
     "MobEntityMixin",
     "PlayerEntityMixin",
-    "ServerPlayerEntityMixin"
+    "ServerPlayerEntityMixin",
+    "ServerPlayNetworkingHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
