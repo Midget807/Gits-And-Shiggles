@@ -27,8 +27,8 @@ public class ClientTickEventsListener {
         double dy = mouse.cursorDeltaY;
         xDeltas.add(dx);
         yDeltas.add(dy);
-        if (xDeltas.size() > 10) xDeltas.removeFirst();
-        if (yDeltas.size() > 10) xDeltas.removeFirst();
+        if (xDeltas.size() > 100) xDeltas.removeFirst();
+        if (yDeltas.size() > 100) xDeltas.removeFirst();
 
         int xChanges = getXShaking(xDeltas);
         int yChanges = getYShaking(yDeltas);
@@ -39,7 +39,7 @@ public class ClientTickEventsListener {
             if (hand != null) {
                 ItemStack stack = client.player.getStackInHand(hand);
                 if (stack.getItem() instanceof DiceItem diceItem && !client.player.getItemCooldownManager().isCoolingDown(diceItem)) {
-                    diceItem.setShaking(isShaking);
+
                 }
             }
         }

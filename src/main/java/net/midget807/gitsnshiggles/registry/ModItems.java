@@ -17,8 +17,9 @@ public class ModItems {
     public static final Item ICON = registerItem("itemgroup_icon", new Item(new Item.Settings()));
     public static final Item DEBUGGER = registerItem("debugger", new DebuggerItem(new Item.Settings().fireproof()));
 
-    public static final Item RAILGUN = registerItem("railgun", new RailgunItem(new Item.Settings().maxCount(1)));
+    public static final Item RAILGUN = registerItem("railgun", new RailgunItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item SANTA_HAT = registerItem("santa_hat", new Item(new Item.Settings().maxCount(1).fireproof()));
+    public static final Item SACK = registerItem("sack", new SackItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item DICE = registerItem("dice", new DiceItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item FLAMETHROWER = registerItem("flamethrower", new FlamethrowerItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item AM_RIFLE = registerItem("am_rifle", new AntiMaterialRifleItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(AntiMaterialRifleItem.createAttributeModifiers())));

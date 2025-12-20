@@ -1,32 +1,29 @@
 package net.midget807.gitsnshiggles.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
+import net.midget807.gitsnshiggles.entity.ElfEntity;
 import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.network.S2C.payload.SoulStonePayload;
+import net.midget807.gitsnshiggles.registry.ModDamages;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
-import net.midget807.gitsnshiggles.util.ModDebugUtil;
 import net.midget807.gitsnshiggles.util.RailgunScalar;
 import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.midget807.gitsnshiggles.util.inject.RailgunRecoil;
 import net.midget807.gitsnshiggles.util.inject.SoulStoneRevive;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -240,7 +237,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
         }
         this.getHandItems().forEach(itemStack -> {
             if (itemStack.getItem() instanceof InfinityGauntletItem gauntletItem) {
-                this.isReviveAvailable = gauntletItem.realityStoneCD == 0;
+                this.isReviveAvailable = gauntletItem.soulStoneCD == 0;
             } else {
                 this.isReviveAvailable = false;
             }
@@ -302,6 +299,28 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
         } else if (bl2) {
             this.playHurtSound(source);
         }
+    }
+
+    @ModifyExpressionValue(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/damage/DamageSource;isIn(Lnet/minecraft/registry/tag/TagKey;)Z", ordinal = 4))
+    private boolean gitsnshiggles$noCooldownForElves(boolean original, @Local(argsOnly = true) DamageSource source) {
+        return original || !source.isOf(ModDamages.ELF);
+    }
+
+    @Unique
+    private DamageSource lastSource;
+    @Inject(method = "damage", at = @At(value = "HEAD"))
+    private void mischief$logSource(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        this.lastSource = source;
+    }
+
+    @WrapOperation(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;takeKnockback(DDD)V"))
+    private void mischief$lessKnockback(LivingEntity entity, double x, double y, double z, Operation<Void> operation) {
+        if (this.lastSource instanceof DamageSource entityDamageSource) {
+            if (entityDamageSource.getAttacker() instanceof ElfEntity) {
+                return;
+            }
+        }
+        operation.call(entity, x, y, z);
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("HEAD"))

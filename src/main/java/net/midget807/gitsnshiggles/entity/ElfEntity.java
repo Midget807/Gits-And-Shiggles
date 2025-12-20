@@ -1,26 +1,32 @@
 package net.midget807.gitsnshiggles.entity;
 
 import net.midget807.gitsnshiggles.entity.goal.ElfMeleeAttackGoal;
+import net.midget807.gitsnshiggles.entity.goal.FollowOwnerElfGoal;
+import net.midget807.gitsnshiggles.entity.goal.PickupItemGoal;
+import net.midget807.gitsnshiggles.registry.ModDamages;
 import net.midget807.gitsnshiggles.registry.ModEntities;
-import net.minecraft.entity.EntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.Tameable;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageSources;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.decoration.ArmorStandEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.GhastEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
+import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -36,14 +42,19 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
+import java.util.function.Predicate;
 
 public class ElfEntity extends TameableEntity implements Angerable, Tameable {
+    public static final Predicate<ItemEntity> PICKABLE_DROP_FILTER = (itemEntity) -> !itemEntity.cannotPickup() && itemEntity.isAlive();
     public static final int MAX_ELF_COUNT = 30;
     private static final TrackedData<Integer> ANGER_TIME = DataTracker.registerData(ElfEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final UniformIntProvider ANGER_TIME_RANGE = TimeHelper.betweenSeconds(20, 39);
+    private static final TrackedData<Integer> SLOT = DataTracker.registerData(ElfEntity.class, TrackedDataHandlerRegistry.INTEGER);
     private static final float MAX_HEALTH = 10.0f;
     @Nullable
     private UUID angryAt;
+    public Goal goal;
+    public int goalTimer = 0;
 
     public ElfEntity(World world) {
         super(ModEntities.ELF, world);
@@ -58,8 +69,8 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new ElfMeleeAttackGoal(this, 1.0d, true));
-        //this.goalSelector.add(2, new PickupItemGoal());
-        //this.goalSelector.add(6, new FollowOwnerRatGoal(this, 1.0D, 20.0F, 2.0F, false));
+        this.goalSelector.add(2, new PickupItemGoal(this));
+        this.goalSelector.add(6, new FollowOwnerElfGoal(this, 1.0D, 20.0F, 2.0F, false));
         this.goalSelector.add(7, new AnimalMateGoal(this, 1.0D));
         this.goalSelector.add(8, new WanderAroundFarGoal(this, 1.0D));
         this.goalSelector.add(10, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
@@ -67,7 +78,7 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
         this.targetSelector.add(1, new TrackOwnerAttackerGoal(this));
         this.targetSelector.add(2, new AttackWithOwnerGoal(this));
         this.targetSelector.add(3, new RevengeGoal(this).setGroupRevenge());
-        //this.targetSelector.add(4, new TargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
+        this.targetSelector.add(4, new ActiveTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAngerAt));
         this.targetSelector.add(8, new UniversalAngerGoal<>(this, true));
     }
 
@@ -75,6 +86,7 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
         builder.add(ANGER_TIME, 0);
+        builder.add(SLOT, 0);
     }
 
     public static DefaultAttributeContainer.Builder createElfAttributes() {
@@ -138,7 +150,40 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
     public void tick() {
         super.tick();
 
+        if (this.hasStatusEffect(StatusEffects.SATURATION)) {
+            StatusEffectInstance saturation = this.getStatusEffect(StatusEffects.SATURATION);
+            if (saturation != null)
+                this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, saturation.getDuration(), saturation.getAmplifier(), saturation.isAmbient(), saturation.shouldShowParticles(), saturation.shouldShowIcon()));
+        }
+
     }
+
+    @Override
+    protected void mobTick() {
+        if (this.isSitting() && !this.getEquippedStack(EquipmentSlot.MAINHAND).isEmpty()) {
+            this.dropStack(this.getEquippedStack(EquipmentSlot.MAINHAND));
+            this.equipStack(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
+        }
+
+        // reset
+        if (this.goalTimer <= 0 && this.goal != null) {
+            this.removeCurrentGoal();
+        }
+
+        if (this.goal != null && this.goalTimer > 0) {
+            this.goalTimer--;
+        }
+    }
+    @Override
+    public boolean canTarget(EntityType<?> type) {
+        return type != EntityType.CREEPER;
+    }
+
+    @Override
+    protected void tickStatusEffects() {
+        super.tickStatusEffects();
+    }
+
 
     @Override
     public void onDeath(DamageSource damageSource) {
@@ -213,8 +258,98 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
         return !this.hasAngerTime();
     }
 
+
     @Override
     protected Vec3d getLeashOffset() {
         return new Vec3d(0.0, 0.6F * this.getStandingEyeHeight(), this.getWidth() * 0.4F);
+    }
+
+    @Override
+    protected int computeFallDamage(float fallDistance, float damageMultiplier) {
+        return 0;
+    }
+
+    @Override
+    public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+        if (fallDistance > 20 && !this.isBaby()) {
+            this.playSound(SoundEvents.ENTITY_GENERIC_SMALL_FALL, 1.0f, (float) (1.0f + this.random.nextGaussian() / 10f));
+        }
+        return false;
+    }
+    public void setGoal(Goal goal) {
+        this.removeCurrentGoal();
+        this.goalTimer = 300;
+        this.goal = goal;
+        this.goalSelector.add(4, goal);
+    }
+
+    public void removeCurrentGoal() {
+        this.goalSelector.remove(this.goal);
+        this.goal = null;
+    }
+
+    @Override
+    public boolean tryAttack(Entity target) {
+        float damage = (float) this.getAttributeValue(EntityAttributes.GENERIC_ATTACK_DAMAGE);
+        target.timeUntilRegen = 0;
+        if (target.damage(ModDamages.create(this.getWorld(), ModDamages.ELF), damage)) {
+            this.onAttacking(target);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean canHaveStatusEffect(StatusEffectInstance effect) {
+        return super.canHaveStatusEffect(effect);
+    }
+
+    @Override
+    public boolean damage(DamageSource source, float amount) {
+        if (this.isInvulnerableTo(source)) {
+            return false;
+        } else {
+            Entity entity = source.getAttacker();
+            this.setSitting(false);
+            if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof PersistentProjectileEntity)) {
+                amount = (amount + 1.0F) / 2.0F;
+            }
+            return super.damage(source, amount);
+        }
+    }
+
+    @Override
+    public boolean isInvulnerableTo(DamageSource damageSource) {
+        if (damageSource instanceof DamageSource entityDamageSource) {
+            if (entityDamageSource.getAttacker() == this.getOwner()) {
+                return true;
+            }
+        }
+        if (damageSource == this.getDamageSources().cactus() || damageSource == this.getDamageSources().sweetBerryBush() || damageSource.getAttacker() instanceof EnderDragonEntity || damageSource == this.getDamageSources().cramming()) {
+            return true;
+        } else {
+            return super.isInvulnerableTo(damageSource);
+        }
+    }
+
+    @Override
+    public void onPlayerCollision(PlayerEntity player) {
+        super.onPlayerCollision(player);
+    }
+
+    @Override
+    protected void pushAway(Entity entity) {
+        this.pushAwayFrom(entity);
+    }
+
+    @Override
+    protected void loot(ItemEntity item) {
+        ItemStack itemStack = item.getStack();
+        if (this.getMainHandStack().isEmpty()) {
+            this.equipStack(EquipmentSlot.MAINHAND, itemStack);
+            this.triggerItemPickedUpByEntityCriteria(item);
+            this.sendPickup(item, itemStack.getCount());
+            item.remove(RemovalReason.DISCARDED);
+        }
     }
 }

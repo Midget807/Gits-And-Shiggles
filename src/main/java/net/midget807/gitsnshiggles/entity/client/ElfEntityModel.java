@@ -14,6 +14,7 @@ import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 public class ElfEntityModel extends EntityModel<ElfEntity> implements ModelWithArms, ModelWithHead {
 	public final ModelPart hat;
@@ -40,16 +41,17 @@ public class ElfEntityModel extends EntityModel<ElfEntity> implements ModelWithA
 	public static TexturedModelData getTexturedModelData() {
 		ModelData modelData = new ModelData();
 		ModelPartData modelPartData = modelData.getRoot();
-		ModelPartData head = modelPartData.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -40.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 28.0F, 0.0F));
+        float offset = 28.0f;
+		ModelPartData head = modelPartData.addChild("head", ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -12.0F, -4.0F, 8.0F, 8.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
 
-		ModelPartData hat = modelPartData.addChild("hat", ModelPartBuilder.create().uv(0, 28).cuboid(-4.0F, -39.5F, -4.0F, 8.0F, 1.0F, 8.0F, new Dilation(0.5F))
-				.uv(0, 16).cuboid(-4.0F, -43.0F, -4.0F, 8.0F, 4.0F, 8.0F, new Dilation(0.0F))
-				.uv(48, 24).cuboid(-3.0F, -45.0F, -3.0F, 6.0F, 2.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 28.0F, 0.0F));
+		ModelPartData hat = modelPartData.addChild("hat", ModelPartBuilder.create().uv(0, 28).cuboid(-4.0F, -11.5F, -4.0F, 8.0F, 1.0F, 8.0F, new Dilation(0.5F))
+				.uv(0, 16).cuboid(-4.0F, -15.0F, -4.0F, 8.0F, 4.0F, 8.0F, new Dilation(0.0F))
+				.uv(48, 24).cuboid(-3.0F, -17.0F, -3.0F, 6.0F, 2.0F, 6.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 28.0F, 0.0F));
 
-		ModelPartData ball_r1 = hat.addChild("ball_r1", ModelPartBuilder.create().uv(56, 8).cuboid(-4.0F, -61.5F, -31.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.0F))
-				.uv(0, 57).cuboid(-3.5F, -57.5F, -30.5F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 15.0F, -2.0F, -0.5236F, 0.0F, 0.0F));
+		ModelPartData ball_r1 = hat.addChild("ball_r1", ModelPartBuilder.create().uv(56, 8).cuboid(-4.0F, -36.5F, -17.0F, 4.0F, 4.0F, 4.0F, new Dilation(0.0F))
+				.uv(0, 57).cuboid(-3.5F, -33F, -16.5F, 3.0F, 3.0F, 3.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 15.0F, -2.0F, -0.5236F, 0.0F, 0.0F));
 
-		ModelPartData middle_top_r1 = hat.addChild("middle_top_r1", ModelPartBuilder.create().uv(32, 56).cuboid(-4.0F, -59.5F, -12.5F, 4.0F, 3.0F, 4.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 13.0F, -2.0F, -0.2182F, 0.0F, 0.0F));
+		ModelPartData middle_top_r1 = hat.addChild("middle_top_r1", ModelPartBuilder.create().uv(32, 56).cuboid(-4.0F, -31.5F, -6.5F, 4.0F, 3.0F, 4.0F, new Dilation(0.0F)), ModelTransform.of(2.0F, 13.0F, -2.0F, -0.2182F, 0.0F, 0.0F));
 
 		ModelPartData body = modelPartData.addChild("body", ModelPartBuilder.create().uv(32, 0).cuboid(-4.0F, -6.0F, -2.0F, 8.0F, 12.0F, 4.0F, new Dilation(0.0F))
 				.uv(48, 32).cuboid(-4.0F, -6.0F, -2.0F, 8.0F, 1.0F, 4.0F, new Dilation(0.1F))
@@ -80,7 +82,11 @@ public class ElfEntityModel extends EntityModel<ElfEntity> implements ModelWithA
 		boolean isElytraFlying = entity.getFallFlyingTicks() > 4;
 		boolean isSwimmingPose = entity.isInSwimmingPose();
 
-		this.head.yaw = netHeadYaw * (float) (Math.PI / 4);
+
+		this.head.yaw = netHeadYaw * (float) (Math.PI / 240);
+
+
+        this.hat.copyTransform(this.head);
 
 		if (isElytraFlying) {
 			this.head.pitch = (float) (-Math.PI / 4);
@@ -115,8 +121,7 @@ public class ElfEntityModel extends EntityModel<ElfEntity> implements ModelWithA
 		this.leftLeg.pitch = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / k;
 
 		this.animateArms(entity, ageInTicks);
-
-		this.hat.copyTransform(this.head);
+        this.hat.copyTransform(this.head);
 	}
 
 	private void positionRightArm(ElfEntity entity) {

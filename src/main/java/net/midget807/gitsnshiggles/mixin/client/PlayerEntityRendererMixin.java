@@ -52,5 +52,6 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
         if (stack.isOf(ModItems.RAILGUN) && !player.handSwinging) {
             cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_HOLD);
         }
+        MinecraftClient client = MinecraftClient.getInstance();
     }
 }
