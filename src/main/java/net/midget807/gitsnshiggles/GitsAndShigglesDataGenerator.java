@@ -2,10 +2,7 @@ package net.midget807.gitsnshiggles;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.midget807.gitsnshiggles.datagen.ModBlockTagProvider;
-import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
-import net.midget807.gitsnshiggles.datagen.ModModelProvider;
-import net.midget807.gitsnshiggles.datagen.ModRecipeProvider;
+import net.midget807.gitsnshiggles.datagen.*;
 import net.midget807.gitsnshiggles.entity.ElfVariant;
 import net.midget807.gitsnshiggles.registry.ModRegistryKeys;
 import net.minecraft.registry.RegistryBuilder;

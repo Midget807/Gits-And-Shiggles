@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, ElfCount, WizardGamba, RealityStoneTransform, MindStoneInvert {
+public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, WizardGamba, RealityStoneTransform, MindStoneInvert {
     @Shadow @Final private PlayerInventory inventory;
     @Shadow @Final private PlayerAbilities abilities;
 
@@ -58,8 +58,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
 
     @Unique
     private float fovScale = RailgunItem.FOV_MULTIPLIER;
-    @Unique
-    private int elfCount = 0;
     @Unique
     private boolean isGambing = false;
     @Unique
@@ -91,15 +89,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     @Override
     public float getFovScale() {
         return this.fovScale;
-    }
-
-    @Override
-    public int getElfCount() {
-        return this.elfCount;
-    }
-    @Override
-    public void setElfCount(int elfCount) {
-        this.elfCount = elfCount;
     }
 
     @Override

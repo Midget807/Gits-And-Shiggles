@@ -8,6 +8,7 @@ import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.network.C2S.payload.*;
 import net.midget807.gitsnshiggles.registry.ModItems;
+import net.midget807.gitsnshiggles.util.inject.ElfCount;
 import net.midget807.gitsnshiggles.util.inject.RealityStoneTransform;
 import net.minecraft.client.network.ClientPlayerEntity;
 
@@ -23,7 +24,8 @@ public class ModKeyHandler {
             /** Checks for Santa Hat on player before handling keys*/
             if (player.getInventory().getArmorStack(3 /*Helmet slot*/).isIn(ModItemTagProvider.SANTA_HATS)) {
                 while (ModKeyBindings.summonElves.wasPressed()) {
-                    ClientPlayNetworking.send(new SummonElvesPayload(player.getBlockPos()));
+                    ((ElfCount)player).setElfCount(((ElfCount) player).getElfCount() + 1);
+                    ClientPlayNetworking.send(new SummonElvesPayload(player.getBlockPos(), ((ElfCount) player).getElfCount()));
                 }
             } else {
                 if (ModKeyBindings.summonElves.wasPressed()) {

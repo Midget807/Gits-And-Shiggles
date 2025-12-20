@@ -5,6 +5,7 @@ import net.midget807.gitsnshiggles.entity.goal.FollowOwnerElfGoal;
 import net.midget807.gitsnshiggles.entity.goal.PickupItemGoal;
 import net.midget807.gitsnshiggles.registry.ModDamages;
 import net.midget807.gitsnshiggles.registry.ModEntities;
+import net.midget807.gitsnshiggles.util.inject.ElfCount;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -91,7 +92,7 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
 
     public static DefaultAttributeContainer.Builder createElfAttributes() {
         return LivingEntity.createLivingAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, MAX_HEALTH)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5F)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.0)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 64.0);
@@ -148,6 +149,9 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
 
     @Override
     public void tick() {
+        if (this.getOwner() == null) {
+            this.discard();
+        }
         super.tick();
 
         if (this.hasStatusEffect(StatusEffects.SATURATION)) {
@@ -187,6 +191,9 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
 
     @Override
     public void onDeath(DamageSource damageSource) {
+        if (this.getOwner() != null && ((ElfCount) this.getOwner()).getElfCount() > 0) {
+            ((ElfCount) this.getOwner()).setElfCount(((ElfCount) this.getOwner()).getElfCount() - 1);
+        }
         super.onDeath(damageSource);
     }
 
@@ -325,6 +332,9 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
                 return true;
             }
         }
+        if (damageSource == this.getDamageSources().genericKill()) {
+            return false;
+        }
         if (damageSource == this.getDamageSources().cactus() || damageSource == this.getDamageSources().sweetBerryBush() || damageSource.getAttacker() instanceof EnderDragonEntity || damageSource == this.getDamageSources().cramming()) {
             return true;
         } else {
@@ -352,4 +362,5 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
             item.remove(RemovalReason.DISCARDED);
         }
     }
+
 }

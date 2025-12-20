@@ -12,6 +12,7 @@ import net.midget807.gitsnshiggles.network.S2C.payload.SoulStonePayload;
 import net.midget807.gitsnshiggles.registry.ModDamages;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.RailgunScalar;
+import net.midget807.gitsnshiggles.util.inject.ElfCount;
 import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.midget807.gitsnshiggles.util.inject.RailgunRecoil;
 import net.midget807.gitsnshiggles.util.inject.SoulStoneRevive;
@@ -36,12 +37,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements Attackable, RailgunRecoil, SoulStoneRevive, InfinityStoneCooldown {
+public abstract class LivingEntityMixin extends Entity implements Attackable, ElfCount, RailgunRecoil, SoulStoneRevive, InfinityStoneCooldown {
     @Unique
     private boolean hasRailgunRecoil = false;
     @Unique
     private int recoilPower = 0;
-
+    private int elfCount = 0;
     @Unique
     private boolean isReviveAvailable;
 
@@ -65,6 +66,16 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
     @Override
     public void setReviveAvailable(boolean reviveAvailable) {
         this.isReviveAvailable = reviveAvailable;
+    }
+
+
+    @Override
+    public int getElfCount() {
+        return this.elfCount;
+    }
+    @Override
+    public void setElfCount(int elfCount) {
+        this.elfCount = elfCount;
     }
 
     @Shadow public abstract void playSound(@Nullable SoundEvent sound);
@@ -301,11 +312,6 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
         }
     }
 
-    @ModifyExpressionValue(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/damage/DamageSource;isIn(Lnet/minecraft/registry/tag/TagKey;)Z", ordinal = 4))
-    private boolean gitsnshiggles$noCooldownForElves(boolean original, @Local(argsOnly = true) DamageSource source) {
-        return original || !source.isOf(ModDamages.ELF);
-    }
-
     @Unique
     private DamageSource lastSource;
     @Inject(method = "damage", at = @At(value = "HEAD"))
@@ -342,4 +348,5 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
         this.timeStoneCD = nbt.getInt(InfinityStoneUtil.TIME_STONE_CD_KEY);
         this.mindStoneCD = nbt.getInt(InfinityStoneUtil.MIND_STONE_CD_KEY);
     }
+
 }

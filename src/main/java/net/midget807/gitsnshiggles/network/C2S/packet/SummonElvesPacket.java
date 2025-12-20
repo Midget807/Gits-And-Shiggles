@@ -20,6 +20,7 @@ public class SummonElvesPacket {
                 elfEntity.setOwner(player);
                 elfEntity.setTamed(true, true);
                 world.spawnEntity(elfEntity);
+                ((ElfCount)player).setElfCount(payload.elfCount());
             } else {
                 player.sendMessage(Text.translatable("key.gitsnshiggles.summonElves.too_many"), true);
             }
