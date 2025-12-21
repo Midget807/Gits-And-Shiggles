@@ -3,4 +3,4 @@
 //todo elf count is stored as static on all SantaHat Items
 //todo implement player item lock 
 //todo unlucky person for dice command
-//todo command to set santa player with diet
+//todo command to set santa player with diet -> peristent state for player uuid -> UseItemCallback checks if item is food -> checks if player uuid matches peristent state ? cancel/return : pass
