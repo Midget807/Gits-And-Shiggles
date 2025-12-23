@@ -3,11 +3,14 @@ package net.midget807.gitsnshiggles.item;
 import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModEffects;
 import net.midget807.gitsnshiggles.registry.ModItems;
+import net.midget807.gitsnshiggles.util.ModEffectUtil;
+import net.midget807.gitsnshiggles.util.ModUtil;
 import net.midget807.gitsnshiggles.util.state.UnluckyPlayerState;
 import net.midget807.gitsnshiggles.util.state.VeryUnluckyPlayerState;
 import net.minecraft.block.NoteBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffectUtil;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -44,7 +47,7 @@ public class DiceItem extends Item {
         if (world.isClient) {
             itemStack.set(ModDataComponentTypes.DICE_ROLL, itemStack.get(ModDataComponentTypes.DICE_ROLL));
         }
-        player.getItemCooldownManager().set(ModItems.DICE, 10 /* todo 10 * 60 * 20*/);
+        player.getItemCooldownManager().set(ModItems.DICE, 12000 /*10 min*/);
         int roll = itemStack.get(ModDataComponentTypes.DICE_ROLL);
 
         switch (roll) {
@@ -219,6 +222,10 @@ public class DiceItem extends Item {
             tooltip.add(Text.literal("Roll: ").formatted(Formatting.GRAY).append(Text.literal("" + roll).formatted(Formatting.RED)));
         } else {
             tooltip.add(Text.literal("Roll: ").formatted(Formatting.GRAY).append(Text.literal("" + roll).formatted(Formatting.GRAY)));
+        }
+        if (stack.getHolder() instanceof PlayerEntity player) {
+            int duration = (int) Math.ceil(player.getItemCooldownManager().getCooldownProgress(ModItems.DICE, 0) * 12000 /*10 min*/);
+            tooltip.add(Text.literal("Cooldown: ").append(ModUtil.getDurationText(duration)));
         }
 
         super.appendTooltip(stack, context, tooltip, type);
