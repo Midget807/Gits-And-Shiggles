@@ -1,24 +1,20 @@
 package net.midget807.gitsnshiggles.item;
 
-import com.mojang.datafixers.kinds.IdF;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModEffects;
 import net.midget807.gitsnshiggles.registry.ModItems;
-import net.midget807.gitsnshiggles.util.DiceUtil;
-import net.midget807.gitsnshiggles.util.ModDebugUtil;
-import net.midget807.gitsnshiggles.util.ModEffectUtil;
+import net.midget807.gitsnshiggles.util.state.UnluckyPlayerState;
+import net.midget807.gitsnshiggles.util.state.VeryUnluckyPlayerState;
 import net.minecraft.block.NoteBlock;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
@@ -26,14 +22,14 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 
 public class DiceItem extends Item {
     private int flyTimer = 0;
-    private int gamba = 0;
-    private int gambaStore = 0;
+    private boolean shouldFly = false;
 
     public DiceItem(Settings settings) {
         super(settings);
@@ -43,43 +39,33 @@ public class DiceItem extends Item {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
         if (!world.isClient) {
-            this.gambaStore = world.random.nextBetween(1, 6);
+            itemStack.set(ModDataComponentTypes.DICE_ROLL, world.random.nextBetween(1, 6));
         }
-        this.gamba = gambaStore;
         if (world.isClient) {
-            if (this.gamba == 6) {
-                player.sendMessage(Text.literal("You rolled a: " + this.gamba).formatted(Formatting.YELLOW), true);
-                world.playSound(player, player.getBlockPos(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 1.0f, 1.0f);
-            } else if (this.gamba == 1 || this.gamba == 2) {
-                player.sendMessage(Text.literal("You rolled a: " + this.gamba).formatted(Formatting.RED), true);
-                this.playBadSound(world, player);
-            } else {
-                player.sendMessage(Text.literal("You rolled a: " + this.gamba), true);
-                world.playSound(player, player.getBlockPos(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 1.0f, 1.0f);
-            }
+            itemStack.set(ModDataComponentTypes.DICE_ROLL, itemStack.get(ModDataComponentTypes.DICE_ROLL));
         }
-        if (!player.getItemCooldownManager().isCoolingDown(ModItems.DICE)) {
-            player.getItemCooldownManager().set(ModItems.DICE, 40/* todo * 60 * 20*/);
-            switch (this.gamba) {
-                case 1:
-                    this.executeEvent1(world, player);
-                    break;
-                case 2:
-                    if (!world.isClient) this.executeEvent2(world, player);
-                    break;
-                case 3:
-                    if (!world.isClient) this.executeEvent3(world, player);
-                    break;
-                case 4:
-                    if (!world.isClient) this.executeEvent4(world, player);
-                    break;
-                case 5:
-                    if (!world.isClient) this.executeEvent5(world, player);
-                    break;
-                case 6:
-                    this.executeEvent6(world, player);
-                    break;
-            }
+        player.getItemCooldownManager().set(ModItems.DICE, 10 /* todo 10 * 60 * 20*/);
+        int roll = itemStack.get(ModDataComponentTypes.DICE_ROLL);
+
+        switch (roll) {
+            case 1:
+                executeEvent1(world, player);
+                break;
+            case 2:
+                executeEvent2(world, player);
+                break;
+            case 3:
+                executeEvent3(world, player);
+                break;
+            case 4:
+                executeEvent4(world, player);
+                break;
+            case 5:
+                executeEvent5(world, player);
+                break;
+            case 6:
+                executeEvent6(world, player);
+                break;
         }
         return TypedActionResult.success(itemStack);
     }
@@ -96,12 +82,12 @@ public class DiceItem extends Item {
         }
         if (entity instanceof PlayerEntity player) {
             if (!player.getAbilities().creativeMode && !player.isSpectator()) {
-                if (gamba == 6) {
+                if (this.shouldFly) {
                     this.flyTimer = 1200;
                     player.getAbilities().allowFlying = true;
                     if (world.isClient) player.getAbilities().allowFlying = true;
                     if (!world.isClient) player.getAbilities().allowFlying = true;
-                    this.gamba = 0;
+                    this.shouldFly = false;
                 }
                 if (this.flyTimer <= 0) {
                     player.getAbilities().allowFlying = false;
@@ -110,12 +96,22 @@ public class DiceItem extends Item {
                     player.getAbilities().flying = false;
                 }
             }
+            int roll = stack.get(ModDataComponentTypes.DICE_ROLL);
+            if (world.isClient) {
+                if (roll == 6) {
+                    player.sendMessage(Text.literal("You rolled a: " + roll).formatted(Formatting.YELLOW), true);
+                } else if (roll <= 2) {
+                    player.sendMessage(Text.literal("You rolled a: " + roll).formatted(Formatting.RED), true);
+                } else {
+                    player.sendMessage(Text.literal("You rolled a: " + roll), true);
+                }
+            }
         }
     }
 
-    private ServerPlayerEntity getRandomPlayer(MinecraftServer server, PlayerEntity player, World world) {
+    private static ServerPlayerEntity getRandomPlayer(MinecraftServer server, PlayerEntity excepts, World world) {
         List<ServerPlayerEntity> playerList = server.getPlayerManager().getPlayerList();
-        ServerPlayerEntity owner = server.getPlayerManager().getPlayer(player.getUuid());
+        ServerPlayerEntity owner = server.getPlayerManager().getPlayer(excepts.getUuid());
         if (owner != null) {
             playerList.remove(owner);
         }
@@ -123,43 +119,108 @@ public class DiceItem extends Item {
         return randomPlayerIndex >= 0 && !playerList.isEmpty() ? playerList.get(randomPlayerIndex) : null;
     }
 
-    private void executeEvent6(World world, PlayerEntity player) {
-        MinecraftServer server = world.getServer();
-        if (server != null) {
-            ServerPlayerEntity target = this.getRandomPlayer(server, player, world);
-            if (target == null) {
-                return;
-            }
-            ServerPlayerEntity unluckyPerson = null;
-            if (DiceUtil.getUnluckyPersonUuid() != null) {
-                unluckyPerson = server.getPlayerManager().getPlayer(DiceUtil.getVeryUnluckyPersonUuid());
-            }
-            int duration = unluckyPerson != null && target == unluckyPerson ? 30 * 20 * 2 : 30 * 20;
-            //target.addStatusEffect(new StatusEffectInstance(ModEffects.STEPHEN_HAWKING, duration, 0, false, false));
-            //target.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, duration, 9, false, false));
+    private ServerPlayerEntity getVeryUnluckyPlayer(@Nullable VeryUnluckyPlayerState veryUnluckyPlayerState, World world) {
+        if (world.getServer() == null || world.getServer().getPlayerManager() == null || veryUnluckyPlayerState == null || veryUnluckyPlayerState.veryUnluckyPlayerUuidString.isEmpty()) {
+            return null;
         }
-        if (!world.isClient) player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 600, 2, false, true));
+        return world.getServer().getPlayerManager().getPlayer(UUID.fromString(veryUnluckyPlayerState.veryUnluckyPlayerUuidString));
+    }
+
+    private ServerPlayerEntity getUnluckyPlayer(@Nullable UnluckyPlayerState unluckyPlayerState, World world) {
+        if (world.getServer() == null || world.getServer().getPlayerManager() == null || unluckyPlayerState == null || unluckyPlayerState.unluckyPlayerUuidString.isEmpty()) {
+            return null;
+        }
+        return world.getServer().getPlayerManager().getPlayer(UUID.fromString(unluckyPlayerState.unluckyPlayerUuidString));
+    }
+
+    private void executeEvent6(World world, PlayerEntity player) {
+        this.shouldFly = true;
+        MinecraftServer server = world.getServer();
+        if (!world.isClient) player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 600, 2, false, false));
+        if (server != null) {
+            VeryUnluckyPlayerState veryUnluckyPlayerState = VeryUnluckyPlayerState.getServerState(server);
+
+            ServerPlayerEntity target;
+            int duration = 600;
+            target = getVeryUnluckyPlayer(veryUnluckyPlayerState, world);
+
+            if (target == null) {
+                target = getRandomPlayer(server, player, world);
+            } else {
+                duration = 1200;
+            }
+
+            if (!world.isClient && target != null) {
+                target.addStatusEffect(new StatusEffectInstance(ModEffects.STEPHEN_HAWKING, duration, 0, false, false));
+                target.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, duration, 9, false, false));
+            }
+        }
     }
 
     private void executeEvent5(World world, PlayerEntity player) {
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 600, 9, false, true));
+        if (!world.isClient) player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 600, 9, false, false));
     }
 
     private void executeEvent4(World world, PlayerEntity player) {
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 8 * 60 * 20, 19, false, true));
+        if (!world.isClient) player.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 8 * 60 * 20, 19, false, false));
     }
 
     private void executeEvent3(World world, PlayerEntity player) {
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 8 * 60 * 20, 2, false, true));
+        if (!world.isClient) player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 8 * 60 * 20, 2, false, false));
+        MinecraftServer server = world.getServer();
+        if (server != null) {
+            UnluckyPlayerState unluckyPlayerState = UnluckyPlayerState.getServerState(server);
 
+            ServerPlayerEntity target;
+            int duration = 600;
+            target = getUnluckyPlayer(unluckyPlayerState, world);
+
+            if (target == null) {
+                target = getRandomPlayer(server, player, world);
+            } else {
+                duration = 1200;
+            }
+
+            if (!world.isClient && target != null) {
+                target.addStatusEffect(new StatusEffectInstance(ModEffects.STEPHEN_HAWKING, duration, 0, false, false));
+            }
+        }
     }
 
     private void executeEvent2(World world, PlayerEntity player) {
-        player.addStatusEffect(new StatusEffectInstance(ModEffects.STEPHEN_HAWKING, 10 * 20, 0, false, true));
-        player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 10 * 20, 9, false, true));
+        if (!world.isClient) {
+            player.addStatusEffect(new StatusEffectInstance(ModEffects.STEPHEN_HAWKING, 10 * 20, 0, false, false));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.DARKNESS, 10 * 20, 9, false, false));
+        }
     }
 
     private void executeEvent1(World world, PlayerEntity player) {
+        MinecraftServer server = world.getServer();
+        if (server != null) {
+            VeryUnluckyPlayerState state = VeryUnluckyPlayerState.getServerState(server);
+            ServerPlayerEntity target = getRandomPlayer(server, player, world);
+            int duration = 600;
+            if (target != null) {
+                if (world.getPlayerByUuid(UUID.fromString(state.veryUnluckyPlayerUuidString)) != null && target.getUuid() == UUID.fromString(state.veryUnluckyPlayerUuidString)) {
+                    duration = 1200;
+                }
+                target.addStatusEffect(new StatusEffectInstance(ModEffects.STEPHEN_HAWKING, duration, 0 , false, false));
+            }
+        }
         player.kill();
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        int roll = stack.getOrDefault(ModDataComponentTypes.DICE_ROLL, 0);
+        if (roll == 6) {
+            tooltip.add(Text.literal("Roll: ").formatted(Formatting.GRAY).append(Text.literal("" + roll).formatted(Formatting.YELLOW)));
+        } else if (roll <= 2) {
+            tooltip.add(Text.literal("Roll: ").formatted(Formatting.GRAY).append(Text.literal("" + roll).formatted(Formatting.RED)));
+        } else {
+            tooltip.add(Text.literal("Roll: ").formatted(Formatting.GRAY).append(Text.literal("" + roll).formatted(Formatting.GRAY)));
+        }
+
+        super.appendTooltip(stack, context, tooltip, type);
     }
 }

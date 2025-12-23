@@ -56,7 +56,7 @@ public class ItemForPlayerState extends PersistentState {
         ServerWorld serverWorld = server.getWorld(ServerWorld.OVERWORLD);
         assert serverWorld != null;
 
-        ItemForPlayerState state = serverWorld.getPersistentStateManager().getOrCreate(type, GitsAndShigglesMain.MOD_ID);
+        ItemForPlayerState state = serverWorld.getPersistentStateManager().getOrCreate(type, "item_for_player");
         state.markDirty();
         return state;
     }
