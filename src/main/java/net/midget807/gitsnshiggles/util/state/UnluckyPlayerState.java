@@ -1,6 +1,5 @@
 package net.midget807.gitsnshiggles.util.state;
 
-import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.MinecraftServer;

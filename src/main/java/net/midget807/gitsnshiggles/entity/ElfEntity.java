@@ -6,6 +6,7 @@ import net.midget807.gitsnshiggles.entity.goal.PickupItemGoal;
 import net.midget807.gitsnshiggles.registry.ModDamages;
 import net.midget807.gitsnshiggles.registry.ModEntities;
 import net.midget807.gitsnshiggles.util.inject.ElfCount;
+import net.midget807.gitsnshiggles.util.state.ElfCountState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -191,8 +192,16 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
 
     @Override
     public void onDeath(DamageSource damageSource) {
-        if (this.getOwner() != null && ((ElfCount) this.getOwner()).getElfCount() > 0) {
-            ((ElfCount) this.getOwner()).setElfCount(((ElfCount) this.getOwner()).getElfCount() - 1);
+        if (this.getServer() != null) {
+            ElfCountState state = ElfCountState.getServerState(this.getServer());
+            if (state.elfCount > 0) {
+                state.elfCount--;
+                state.markDirty();
+            }
+            if (state.elfCount < 0) {
+                state.elfCount = 0;
+                state.markDirty();
+            }
         }
         super.onDeath(damageSource);
     }

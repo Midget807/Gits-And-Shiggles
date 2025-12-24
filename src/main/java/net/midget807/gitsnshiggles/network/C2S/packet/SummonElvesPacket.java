@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.entity.ElfEntity;
 import net.midget807.gitsnshiggles.network.C2S.payload.SummonElvesPayload;
 import net.midget807.gitsnshiggles.util.inject.ElfCount;
+import net.midget807.gitsnshiggles.util.state.ElfCountState;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
@@ -14,13 +15,15 @@ public class SummonElvesPacket {
             ServerPlayerEntity player = context.player();
             World world = context.player().getWorld();
 
-            if (((ElfCount)player).getElfCount() < ElfEntity.MAX_ELF_COUNT) {
+            ElfCountState state = ElfCountState.getServerState(context.server());
+            if (state.elfCount < ElfEntity.MAX_ELF_COUNT) {
                 ElfEntity elfEntity = new ElfEntity(world, player);
                 elfEntity.setPosition(player.getPos());
                 elfEntity.setOwner(player);
                 elfEntity.setTamed(true, true);
                 world.spawnEntity(elfEntity);
-                ((ElfCount)player).setElfCount(payload.elfCount());
+                state.elfCount++;
+                state.markDirty();
             } else {
                 player.sendMessage(Text.translatable("key.gitsnshiggles.summonElves.too_many"), true);
             }
