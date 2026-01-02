@@ -12,9 +12,19 @@ import net.minecraft.world.World;
 public class ModEffectUtil {
     @Environment(EnvType.CLIENT)
     public static boolean shouldLockPlayerMovement(ClientPlayerEntity player) {
-        return player == null  ? false
-                : player.hasStatusEffect(ModEffects.STEPHEN_HAWKING)
-                || ((TimeStoneFreeze)player).getTimeTicksFrozen() > 0;
+        return player != null && (
+                player.hasStatusEffect(ModEffects.STEPHEN_HAWKING)
+                        || player.hasStatusEffect(ModEffects.TIME_STOP)
+                        || ((TimeStoneFreeze) player).getTimeTicksFrozen() > 0
+        );
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static boolean shouldInvertPlayerInputs(ClientPlayerEntity player) {
+        return player != null && (
+                player.hasStatusEffect(ModEffects.RETARDED)
+                        || player.hasStatusEffect(ModEffects.INVERTED)
+        );
     }
 
 

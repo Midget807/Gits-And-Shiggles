@@ -10,6 +10,7 @@ import net.midget807.gitsnshiggles.entity.ElfEntity;
 import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.network.S2C.payload.SoulStonePayload;
 import net.midget807.gitsnshiggles.registry.ModDamages;
+import net.midget807.gitsnshiggles.registry.ModEffects;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.RailgunScalar;
 import net.midget807.gitsnshiggles.util.inject.ElfCount;
@@ -18,13 +19,16 @@ import net.midget807.gitsnshiggles.util.inject.RailgunRecoil;
 import net.midget807.gitsnshiggles.util.inject.SoulStoneRevive;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -102,6 +106,9 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, El
 
     @Shadow
     public abstract Iterable<ItemStack> getHandItems();
+
+    @Shadow
+    public abstract boolean hasStatusEffect(RegistryEntry<StatusEffect> effect);
 
     public LivingEntityMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -202,10 +209,16 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, El
         return this.mindStoneCD;
     }
 
-    @Inject(method = "baseTick", at = @At("HEAD"))
+    @Inject(method = "baseTick", at = @At("HEAD"), cancellable = true)
     private void gitsnshiggles$railgunDamage(CallbackInfo ci) {
+        this.setNoGravity(this.hasStatusEffect(ModEffects.TIME_STOP));
+        if (this.hasStatusEffect(ModEffects.TIME_STOP)) {
+            this.setVelocity(Vec3d.ZERO);
+            this.hasRailgunRecoil = false;
+            ci.cancel();
+            return;
+        }
         this.getWorld().getProfiler().push("recoilDamage");
-
         if (this.isOnGround() && this.fallDistance > 0) {
             this.hasRailgunRecoil = false;
         }
@@ -262,6 +275,20 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, El
             this.mindStoneCD--;
         } else if (mindStoneCD < 0) {
             this.mindStoneCD = 0;
+        }
+    }
+
+    @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
+    private void gitsnshiggles$timeStopCancelsTravel(Vec3d movementInput, CallbackInfo ci) {
+        if (this.hasStatusEffect(ModEffects.TIME_STOP)) {
+            ci.cancel();
+            return;
+        }
+    }
+    @Inject(method = "applyMovementInput", at = @At("HEAD"), cancellable = true)
+    private void gitsnshiggles$timeStopCancelsMovementInput(Vec3d movementInput, float slipperiness, CallbackInfoReturnable<Vec3d> cir) {
+        if (this.hasStatusEffect(ModEffects.TIME_STOP)) {
+            cir.setReturnValue(Vec3d.ZERO);
         }
     }
 
