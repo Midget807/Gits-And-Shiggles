@@ -9,6 +9,7 @@ import net.midget807.gitsnshiggles.entity.client.*;
 import net.midget807.gitsnshiggles.event.client.ClientPreAttackListener;
 import net.midget807.gitsnshiggles.event.client.ClientTickEventsListener;
 import net.midget807.gitsnshiggles.event.client.HudRenderListener;
+import net.midget807.gitsnshiggles.event.client.WorldRendererEventListener;
 import net.midget807.gitsnshiggles.item.client.WizardArmorModel;
 import net.midget807.gitsnshiggles.item.client.WizardArmorRenderer;
 import net.midget807.gitsnshiggles.particle.TimeStoneRingsParticle;
@@ -28,6 +29,7 @@ public class GitsAndShigglesClient implements ClientModInitializer {
         ClientPreAttackListener.execute();
         ClientTickEventsListener.execute();
         HudRenderListener.execute();
+        WorldRendererEventListener.execute();
 
         ModKeyBindings.registerModKeyBindings();
         ModKeyHandler.runKeyBinds();

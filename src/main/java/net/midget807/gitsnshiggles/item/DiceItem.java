@@ -47,7 +47,7 @@ public class DiceItem extends Item {
         if (world.isClient) {
             itemStack.set(ModDataComponentTypes.DICE_ROLL, itemStack.get(ModDataComponentTypes.DICE_ROLL));
         }
-        player.getItemCooldownManager().set(ModItems.DICE, 12000 /*10 min*/);
+        player.getItemCooldownManager().set(ModItems.DICE, player.getAbilities().creativeMode ? 10 : 12000 /*10 min*/);
         int roll = itemStack.get(ModDataComponentTypes.DICE_ROLL);
 
         switch (roll) {

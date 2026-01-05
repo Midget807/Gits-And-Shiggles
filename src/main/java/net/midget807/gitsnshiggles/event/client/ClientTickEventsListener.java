@@ -1,6 +1,7 @@
 package net.midget807.gitsnshiggles.event.client;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.midget807.gitsnshiggles.entity.client.SchizophreniaManager;
 import net.midget807.gitsnshiggles.item.DiceItem;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.minecraft.client.MinecraftClient;
@@ -18,6 +19,9 @@ public class ClientTickEventsListener {
     public static void execute() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             diceSpaz(client);
+        });
+        ClientTickEvents.END_WORLD_TICK.register(client -> {
+            SchizophreniaManager.tick();
         });
     }
 
@@ -65,4 +69,6 @@ public class ClientTickEventsListener {
         }
         return changes;
     }
+
+
 }

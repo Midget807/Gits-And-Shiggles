@@ -7,9 +7,11 @@ import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.midget807.gitsnshiggles.network.C2S.packet.*;
 import net.midget807.gitsnshiggles.network.C2S.payload.*;
 import net.midget807.gitsnshiggles.network.S2C.packet.MindStoneInvertPacket;
+import net.midget807.gitsnshiggles.network.S2C.packet.RenderHorsePacket;
 import net.midget807.gitsnshiggles.network.S2C.packet.SoulStonePacket;
 import net.midget807.gitsnshiggles.network.S2C.packet.TimeStoneSyncPacket;
 import net.midget807.gitsnshiggles.network.S2C.payload.MindStoneInvertPayload;
+import net.midget807.gitsnshiggles.network.S2C.payload.RenderHorsePayload;
 import net.midget807.gitsnshiggles.network.S2C.payload.SoulStonePayload;
 import net.midget807.gitsnshiggles.network.S2C.payload.TimeStoneSyncPayload;
 import net.minecraft.util.Identifier;
@@ -30,6 +32,7 @@ public class ModPackets {
     public static final Identifier SOUL_STONE = registerS2CId("soul_stone");
     public static final Identifier TIME_STONE_SYNC = registerS2CId("time_stone_sync");
     public static final Identifier MIND_STONE_INVERT = registerS2CId("mind_stone_invert");
+    public static final Identifier RENDER_HORSE = registerS2CId("render_horse");
 
     public static void registerGlobalC2S() {
         PayloadTypeRegistry.playC2S().register(RailgunShootPayload.PAYLOAD_ID, RailgunShootPayload.CODEC);
@@ -61,6 +64,8 @@ public class ModPackets {
         ClientPlayNetworking.registerGlobalReceiver(MindStoneInvertPayload.PAYLOAD_ID, MindStoneInvertPacket::receive);
         PayloadTypeRegistry.playS2C().register(TimeStoneSyncPayload.PAYLOAD_ID, TimeStoneSyncPayload.CODEC);
         ClientPlayNetworking.registerGlobalReceiver(TimeStoneSyncPayload.PAYLOAD_ID, TimeStoneSyncPacket::receive);
+        PayloadTypeRegistry.playS2C().register(RenderHorsePayload.PAYLOAD_ID, RenderHorsePayload.CODEC);
+        ClientPlayNetworking.registerGlobalReceiver(RenderHorsePayload.PAYLOAD_ID, RenderHorsePacket::receive);
     }
 
     private static Identifier registerC2SId(String name) {

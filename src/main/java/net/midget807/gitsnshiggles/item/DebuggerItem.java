@@ -1,13 +1,21 @@
 package net.midget807.gitsnshiggles.item;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.midget807.gitsnshiggles.entity.client.SchizophreniaEntity;
+import net.midget807.gitsnshiggles.entity.client.SchizophreniaManager;
+import net.midget807.gitsnshiggles.network.S2C.payload.RenderHorsePayload;
 import net.midget807.gitsnshiggles.util.ModDebugUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.joml.Vector3f;
 
 public class DebuggerItem extends Item {
 
@@ -17,11 +25,18 @@ public class DebuggerItem extends Item {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        player.getAbilities().allowFlying = !player.getAbilities().allowFlying;
-        if (!player.getAbilities().allowFlying) {
-            player.getAbilities().flying = false;
+        if (!world.isClient) {
+
         }
-        return TypedActionResult.pass(player.getStackInHand(hand));
+        if (world.isClient) {
+            SchizophreniaManager.add(new SchizophreniaEntity(
+                    EntityType.HORSE,
+                    player.getPos(),
+                    player.getHeadYaw(),
+                    200
+            ));
+        }
+        return TypedActionResult.success(player.getStackInHand(hand));
     }
 
     @Override

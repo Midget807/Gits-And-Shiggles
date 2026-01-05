@@ -5,12 +5,15 @@
   "mixins": [
     "EntityMixin",
     "ItemEntityMixin",
+    "ItemMixin",
     "LivingEntityMixin",
     "LockableContainerBlockEntityMixin",
+    "MilkBucketItemMixin",
     "MobEntityMixin",
     "PlayerEntityMixin",
     "ServerPlayerEntityMixin",
-    "ServerPlayNetworkingHandlerMixin"
+    "ServerPlayNetworkingHandlerMixin",
+    "accessor.EntityIdAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
