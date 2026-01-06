@@ -32,7 +32,7 @@ public class DebuggerItem extends Item {
             SchizophreniaManager.add(new SchizophreniaEntity(
                     EntityType.HORSE,
                     player.getPos(),
-                    player.getHeadYaw(),
+                    (float) world.random.nextBetween(-180, 180),
                     200
             ));
         }

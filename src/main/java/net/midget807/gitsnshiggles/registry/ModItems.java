@@ -6,6 +6,8 @@ import net.midget807.gitsnshiggles.util.ColoredItemUtil;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.SwordItem;
+import net.minecraft.item.ToolMaterials;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -26,6 +28,7 @@ public class ModItems {
     public static final Item RANDOM_EGG = registerItem("random_egg", new RandomEggItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item INFINITY_GAUNTLET = registerItem("infinity_gauntlet", new InfinityGauntletItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item INVERTED_TRIDENT = registerItem("inverted_trident", new InvertedTridentItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(InvertedTridentItem.createAttributeModifiers()).component(DataComponentTypes.TOOL, InvertedTridentItem.createToolComponent())));
+    public static final Item KATANA = registerItem("katana", new KatanaItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof().attributeModifiers(KatanaItem.createAttributeModifiers(ToolMaterials.NETHERITE, 4, -2.2F, 0.5f, 0.5f))));
 
     public static final Item TRON_DISC_WHITE = registerItem("tron_disc_white", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.WHITE));
     public static final Item TRON_DISC_ORANGE = registerItem("tron_disc_orange", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.ORANGE));

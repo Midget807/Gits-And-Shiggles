@@ -18,6 +18,7 @@ import net.midget807.gitsnshiggles.registry.ModParticles;
 import net.midget807.gitsnshiggles.registry.client.ModEntityModelLayers;
 import net.midget807.gitsnshiggles.registry.ModPackets;
 import net.midget807.gitsnshiggles.registry.ModEntities;
+import net.midget807.gitsnshiggles.registry.client.ModModelPredicateProviderRegistry;
 import net.midget807.gitsnshiggles.util.ModKeyBindings;
 import net.midget807.gitsnshiggles.util.ModKeyHandler;
 import net.minecraft.client.render.entity.EmptyEntityRenderer;
@@ -34,6 +35,8 @@ public class GitsAndShigglesClient implements ClientModInitializer {
         ModKeyBindings.registerModKeyBindings();
         ModKeyHandler.runKeyBinds();
         ModPackets.registerGlobalS2C();
+
+        ModModelPredicateProviderRegistry.registerModelPredicates();
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.TIME_STONE_RINGS, TimeStoneRingsParticle.Factory::new);
 

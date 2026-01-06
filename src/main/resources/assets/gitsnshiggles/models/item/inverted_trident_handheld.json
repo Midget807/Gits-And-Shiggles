@@ -1,52 +1,121 @@
 {
-    "parent": "builtin/entity",
-    "gui_light": "front",
-    "textures": {
-        "particle": "item/trident"
-    },
-    "display": {
-        "thirdperson_righthand": {
-            "rotation": [ 0, 60, 180 ],
-            "translation": [ 11, 17, -2 ],
-            "scale": [ 1, 1, 1 ]
-        },
-        "thirdperson_lefthand": {
-            "rotation": [ 0, 60, 180 ],
-            "translation": [ 3, 17, 12 ],
-            "scale": [ 1, 1, 1 ]
-        },
-        "firstperson_righthand": {
-            "rotation": [ 180, -90, 25 ],
-            "translation": [ -3, 17, 1],
-            "scale": [ 1, 1, 1 ]
-        },
-        "firstperson_lefthand": {
-            "rotation": [ 180, 90, -25 ],
-            "translation": [ 13, 17, 1],
-            "scale": [ 1, 1, 1 ]
-        },
-        "gui": {
-            "rotation": [ 15, -25, -5 ],
-            "translation": [ 2, 3, 0 ],
-            "scale": [ 0.65, 0.65, 0.65 ]
-        },
-        "fixed": {
-            "rotation": [ 180, 180, 0 ],
-            "translation": [ -2, 4, -5],
-            "scale":[ 0.5, 0.5, 0.5]
-        },
-        "ground": {
-            "rotation": [ 180, 0, 0 ],
-            "translation": [ 4, 4, 2],
-            "scale":[ 0.25, 0.25, 0.25]
-        }
-    },
-    "overrides": [
-        {
-            "predicate": {
-                "throwing": 1
-            },
-            "model": "gitsnshiggles:item/inverted_trident_throwing"
-        }
-    ]
+	"format_version": "1.9.0",
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "gitsnshiggles:item/inverted_trident_handheld",
+		"particle": "gitsnshiggles:item/inverted_trident_handheld"
+	},
+	"elements": [
+		{
+			"name": "pole",
+			"from": [7, -6, 7],
+			"to": [8, 19, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 7, 7.5]},
+			"faces": {
+				"north": {"uv": [1.5, 4, 2, 16], "texture": "#0"},
+				"east": {"uv": [1, 4, 1.5, 16], "texture": "#0"},
+				"south": {"uv": [0.5, 4, 1, 16], "texture": "#0"},
+				"west": {"uv": [0, 4, 0.5, 16], "texture": "#0"},
+				"up": {"uv": [1, 0, 1.5, 0.5], "texture": "#0"},
+				"down": {"uv": [1, 0, 1.5, 0.5], "texture": "#0"}
+			}
+		},
+		{
+			"name": "base",
+			"from": [7, 19, 6],
+			"to": [8, 21, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 7, 7.5]},
+			"faces": {
+				"north": {"uv": [2, 0.5, 2.5, 1.5], "texture": "#0"},
+				"east": {"uv": [4.5, 0.5, 6, 1.5], "texture": "#0"},
+				"south": {"uv": [4, 0.5, 4.5, 1.5], "texture": "#0"},
+				"west": {"uv": [2.5, 0.5, 4, 1.5], "texture": "#0"},
+				"up": {"uv": [2.5, 0, 4, 0.5], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [4, 0, 5.5, 0.5], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"name": "right_spike",
+			"from": [7, 20, 9],
+			"to": [8, 24, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 7, 7.5]},
+			"faces": {
+				"north": {"uv": [3, 2, 3.5, 4], "texture": "#0"},
+				"east": {"uv": [2.5, 2, 3, 4], "texture": "#0"},
+				"south": {"uv": [2, 2, 2.5, 4], "texture": "#0"},
+				"west": {"uv": [3.5, 2, 4, 4], "texture": "#0"},
+				"up": {"uv": [2.5, 1.5, 3, 2], "texture": "#0"},
+				"down": {"uv": [3, 1.5, 3.5, 2], "texture": "#0"}
+			}
+		},
+		{
+			"name": "left_spike",
+			"from": [7, 20, 5],
+			"to": [8, 24, 6],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 7, 7.5]},
+			"faces": {
+				"north": {"uv": [2, 2, 2.5, 4], "texture": "#0"},
+				"east": {"uv": [3.5, 2, 4, 4], "texture": "#0"},
+				"south": {"uv": [3, 2, 3.5, 4], "texture": "#0"},
+				"west": {"uv": [2.5, 2, 3, 4], "texture": "#0"},
+				"up": {"uv": [2.5, 1.5, 3, 2], "texture": "#0"},
+				"down": {"uv": [3, 1.5, 3.5, 2], "texture": "#0"}
+			}
+		},
+		{
+			"name": "middle_spike",
+			"from": [7, 21, 7],
+			"to": [8, 25, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7.5, 7, 7.5]},
+			"faces": {
+				"north": {"uv": [0, 0.5, 0.5, 2.5], "texture": "#0"},
+				"east": {"uv": [0.5, 0.5, 1, 2.5], "texture": "#0"},
+				"south": {"uv": [1, 0.5, 1.5, 2.5], "texture": "#0"},
+				"west": {"uv": [1.5, 0.5, 2, 2.5], "texture": "#0"},
+				"up": {"uv": [0.5, 0, 1, 0.5], "texture": "#0"},
+				"down": {"uv": [0.5, 0, 1, 0.5], "texture": "#0"}
+			}
+		}
+	],
+	"gui_light": "front",
+	"overrides": [
+		{"predicate": {"throwing": 1}, "model": "gitsnshiggles:item/inverted_trident_throwing"}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [0, 0, 180],
+			"translation": [-0.5, 0, 2]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [0, 0, -180],
+			"translation": [0.5, 0, 2]
+		},
+		"firstperson_righthand": {
+			"rotation": [172, 0, 0],
+			"translation": [2.5, -5, 0]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-180, 0, 0],
+			"translation": [1.5, -5, 0]
+		},
+		"ground": {
+			"rotation": [-180, 0, 0],
+			"translation": [4, 4, 2],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [15, -25, -5],
+			"translation": [2, 3, 0],
+			"scale": [0.65, 0.65, 0.65]
+		},
+		"head": {
+			"rotation": [135, 0, 0],
+			"translation": [0, 6.75, -7.5]
+		},
+		"fixed": {
+			"rotation": [-180, -180, 0],
+			"translation": [-2, 4, -5],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
 }

@@ -27,10 +27,11 @@ public class WorldRendererEventListener {
             LivingEntity livingEntity = entity.type.create(world);
             if (livingEntity == null) continue;
 
+            float randomYaw = (float) world.random.nextBetween(-180, 180);
             livingEntity.setPos(entity.pos.x, entity.pos.y, entity.pos.z);
-            livingEntity.setYaw((float) world.random.nextBetween(-180, 180));
+            livingEntity.setYaw(randomYaw);
             livingEntity.setPitch(entity.pitch);
-            livingEntity.prevYaw = (float) world.random.nextBetween(-180, 180);
+            livingEntity.prevYaw = randomYaw;
             livingEntity.prevPitch = entity.pitch;
 
 
