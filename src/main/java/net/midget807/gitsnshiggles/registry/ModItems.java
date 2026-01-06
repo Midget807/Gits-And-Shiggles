@@ -4,10 +4,7 @@ import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.midget807.gitsnshiggles.item.*;
 import net.midget807.gitsnshiggles.util.ColoredItemUtil;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolMaterials;
+import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -20,7 +17,7 @@ public class ModItems {
     public static final Item DEBUGGER = registerItem("debugger", new DebuggerItem(new Item.Settings().fireproof()));
 
     public static final Item RAILGUN = registerItem("railgun", new RailgunItem(new Item.Settings().maxCount(1).fireproof()));
-    public static final Item SANTA_HAT = registerItem("santa_hat", new Item(new Item.Settings().maxCount(1).fireproof()));
+    public static final Item SANTA_HAT = registerItem("santa_hat", new ArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
     public static final Item SACK = registerItem("sack", new SackItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item DICE = registerItem("dice", new DiceItem(new Item.Settings().maxCount(1).fireproof().component(ModDataComponentTypes.DICE_ROLL, 0)));
     public static final Item FLAMETHROWER = registerItem("flamethrower", new FlamethrowerItem(new Item.Settings().maxCount(1).fireproof()));
@@ -65,12 +62,12 @@ public class ModItems {
     public static final Item LIGHTSABER_RED = registerItem("lightsaber_red", new LightsaberItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(LightsaberItem.createAttributeModifiers())));
     public static final Item LIGHTSABER_BLACK = registerItem("lightsaber_black", new LightsaberItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(LightsaberItem.createAttributeModifiers())));
 
-    public static final Item LEATHER_SANTA_HAT = registerItem("leather_santa_hat", new Item(new Item.Settings().maxCount(1)));
-    public static final Item CHAINMAIL_SANTA_HAT = registerItem("chainmail_santa_hat", new Item(new Item.Settings().maxCount(1)));
-    public static final Item IRON_SANTA_HAT = registerItem("iron_santa_hat", new Item(new Item.Settings().maxCount(1)));
-    public static final Item GOLD_SANTA_HAT = registerItem("gold_santa_hat", new Item(new Item.Settings().maxCount(1)));
-    public static final Item DIAMOND_SANTA_HAT = registerItem("diamond_santa_hat", new Item(new Item.Settings().maxCount(1)));
-    public static final Item NETHERITE_SANTA_HAT = registerItem("netherite_santa_hat", new Item(new Item.Settings().maxCount(1)));
+    public static final Item LEATHER_SANTA_HAT = registerItem("leather_santa_hat", new ArmorItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
+    public static final Item CHAINMAIL_SANTA_HAT = registerItem("chainmail_santa_hat", new ArmorItem(ArmorMaterials.CHAIN, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
+    public static final Item IRON_SANTA_HAT = registerItem("iron_santa_hat", new ArmorItem(ArmorMaterials.IRON, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
+    public static final Item GOLD_SANTA_HAT = registerItem("gold_santa_hat", new ArmorItem(ArmorMaterials.GOLD, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
+    public static final Item DIAMOND_SANTA_HAT = registerItem("diamond_santa_hat", new ArmorItem(ArmorMaterials.DIAMOND, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
+    public static final Item NETHERITE_SANTA_HAT = registerItem("netherite_santa_hat", new ArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
 
     public static final Item WIZARD_HAT = registerItem("wizard_hat", new WizardRobesItem(ModArmorMaterials.WIZARD_CLOTH, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
     public static final Item WIZARD_ROBE = registerItem("wizard_robes", new WizardRobesItem(ModArmorMaterials.WIZARD_CLOTH, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1).fireproof()));

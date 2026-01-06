@@ -34,6 +34,6 @@ public class ModTextureIds {
 
     public static final Identifier WIZARD_ROBES_TEXTURE = GitsAndShigglesMain.id("textures/entity/armor/wizard_robes.png");
     public static final Identifier WIZARD_ROBES_OVERLAY_TEXTURE = GitsAndShigglesMain.id("textures/entity/armor/wizard_robes_overlay.png");
-
+    public static final Identifier SANTA_HAT_TEXTURE = GitsAndShigglesMain.id("textures/entity/armor/santa_hat.png");
 
 }

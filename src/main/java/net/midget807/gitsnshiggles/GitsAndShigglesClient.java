@@ -10,6 +10,8 @@ import net.midget807.gitsnshiggles.event.client.ClientPreAttackListener;
 import net.midget807.gitsnshiggles.event.client.ClientTickEventsListener;
 import net.midget807.gitsnshiggles.event.client.HudRenderListener;
 import net.midget807.gitsnshiggles.event.client.WorldRendererEventListener;
+import net.midget807.gitsnshiggles.item.client.SantaHatModel;
+import net.midget807.gitsnshiggles.item.client.SantaHatRenderer;
 import net.midget807.gitsnshiggles.item.client.WizardArmorModel;
 import net.midget807.gitsnshiggles.item.client.WizardArmorRenderer;
 import net.midget807.gitsnshiggles.particle.TimeStoneRingsParticle;
@@ -47,10 +49,14 @@ public class GitsAndShigglesClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.RANDOM_EGG, FlyingItemEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.TRON_DISC_MODEL_LAYER, TronDiscEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.TRON_DISC, TronDiscEntityRenderer::new);
-        EntityModelLayerRegistry.registerModelLayer(WizardArmorModel.MODEL_LAYER, WizardArmorModel::getTexturedModelData);
-        ArmorRenderer.register(new WizardArmorRenderer(), ModItems.WIZARD_HAT, ModItems.WIZARD_ROBE, ModItems.WIZARD_PANTS, ModItems.WIZARD_BOOTS);
+
         EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.REALITY_STONE_SHIELD, RealityStoneShieldEntityModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(ModEntityModelLayers.REALITY_STONE_SHIELD_SLIM, RealityStoneShieldEntityModel::getSlimTexturedModelData);
+
+        EntityModelLayerRegistry.registerModelLayer(WizardArmorModel.MODEL_LAYER, WizardArmorModel::getTexturedModelData);
+        ArmorRenderer.register(new WizardArmorRenderer(), ModItems.WIZARD_HAT, ModItems.WIZARD_ROBE, ModItems.WIZARD_PANTS, ModItems.WIZARD_BOOTS);
+        EntityModelLayerRegistry.registerModelLayer(SantaHatModel.MODEL_LAYER, SantaHatModel::getTexturedModelData);
+        ArmorRenderer.register(new SantaHatRenderer(), ModItems.SANTA_HAT, ModItems.LEATHER_SANTA_HAT, ModItems.CHAINMAIL_SANTA_HAT, ModItems.GOLD_SANTA_HAT, ModItems.IRON_SANTA_HAT, ModItems.DIAMOND_SANTA_HAT, ModItems.NETHERITE_SANTA_HAT);
     }
 
 
