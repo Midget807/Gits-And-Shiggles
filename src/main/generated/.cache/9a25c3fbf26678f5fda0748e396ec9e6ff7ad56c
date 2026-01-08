@@ -1,5 +1,10 @@
-// 1.21.1	2026-01-04T18:40:42.3392629	Gits And Shiggles/Model Definitions
+// 1.21.1	2026-01-09T00:06:01.2113179	Gits And Shiggles/Model Definitions
 f910f99abfe6e7f8884da1bc256982ee84f2e43b assets\gitsnshiggles\models\item\itemgroup_icon.json
 92b94090c23c989b6fa4a5b2dcfc2c4526f3f13d assets\gitsnshiggles\models\item\dice.json
+22d437b78227c0d6f3458443acc9614b96807ed4 assets\gitsnshiggles\models\item\sack.json
+cd5c7b2530f9fb97104d33b530e9f4205f7155a2 assets\gitsnshiggles\models\item\kyber_crystal.json
 c4f5adfc54a6cfed8c12df0a50c34da31c499050 assets\gitsnshiggles\models\item\random_egg.json
+271acb77c3d63114d813686ebf9246d9de9703f3 assets\gitsnshiggles\models\item\void_string.json
+01d98e4fb830341a07a00092dca2670bf5f0cfcc assets\gitsnshiggles\models\item\magic_cloth.json
+c4eb5cf1b12687798ad8ccce0b662e8d0f35abb5 assets\gitsnshiggles\models\item\katana.json
 744fcbaebd95fae62e2d4cbe57af5eecf8d92c98 assets\gitsnshiggles\models\item\debugger.json

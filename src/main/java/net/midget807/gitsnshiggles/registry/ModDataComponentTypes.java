@@ -19,6 +19,7 @@ public class ModDataComponentTypes {
     public static final ComponentType<Boolean> BLOCKING = register("blocking", builder -> builder.codec(Codec.BOOL).packetCodec(PacketCodecs.BOOL));
     public static final ComponentType<Integer> PARRY_TIME = register("parry_time", builder -> builder.codec(Codec.INT).packetCodec(PacketCodecs.INTEGER));
     public static final ComponentType<Integer> PARRY_DAMAGE = register("parry_damage", builder -> builder.codec(Codec.INT).packetCodec(PacketCodecs.INTEGER));
+    public static final ComponentType<Integer> ELF_COUNT = register("elf_count", builder -> builder.codec(Codec.INT).packetCodec(PacketCodecs.INTEGER));
 
     public static final FoodComponent MILK_BUCKET = new FoodComponent.Builder().nutrition(6).saturationModifier(0.8f).build();
 

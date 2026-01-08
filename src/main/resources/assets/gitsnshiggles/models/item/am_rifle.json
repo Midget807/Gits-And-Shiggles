@@ -5,6 +5,7 @@
 	"textures": {
 		"1": "gitsnshiggles:item/am_rifle"
 	},
+    "gui_light": "front",
 	"elements": [
 		{
 			"from": [7, 0, -16],

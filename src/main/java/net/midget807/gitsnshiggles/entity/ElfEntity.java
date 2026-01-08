@@ -1,5 +1,6 @@
 package net.midget807.gitsnshiggles.entity;
 
+import net.midget807.gitsnshiggles.entity.goal.BringItemToOwnerGoal;
 import net.midget807.gitsnshiggles.entity.goal.ElfMeleeAttackGoal;
 import net.midget807.gitsnshiggles.entity.goal.FollowOwnerElfGoal;
 import net.midget807.gitsnshiggles.entity.goal.PickupItemGoal;
@@ -70,8 +71,9 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
     @Override
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(2, new ElfMeleeAttackGoal(this, 1.0d, true));
-        this.goalSelector.add(2, new PickupItemGoal(this));
+        this.goalSelector.add(4, new ElfMeleeAttackGoal(this, 1.0d, true));
+        this.goalSelector.add(5, new PickupItemGoal(this));
+        this.goalSelector.add(5, new BringItemToOwnerGoal(this, 1.0f, this));
         this.goalSelector.add(6, new FollowOwnerElfGoal(this, 1.0D, 20.0F, 2.0F, false));
         this.goalSelector.add(7, new AnimalMateGoal(this, 1.0D));
         this.goalSelector.add(8, new WanderAroundFarGoal(this, 1.0D));
@@ -113,6 +115,8 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
 
     @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
+        this.initEquipment(this.random, difficulty);
+
         return super.initialize(world, difficulty, spawnReason, entityData);
     }
 
@@ -143,10 +147,25 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
     @Override
     public void tickMovement() {
         super.tickMovement();
+
+        if (!this.getWorld().isClient && this.canPickUpLoot() && this.isAlive() && !this.isDead()) {
+            for (ItemEntity itemEntity : this.getWorld().getNonSpectatingEntities(ItemEntity.class, this.getBoundingBox().expand(1, 0, 1))) {
+                if (!itemEntity.isRemoved() && !itemEntity.getStack().isEmpty() && !itemEntity.cannotPickup() && this.canGather(itemEntity.getStack())) {
+                    this.loot(itemEntity);
+                }
+            }
+        }
+
         if (!this.getWorld().isClient) {
             this.tickAngerLogic((ServerWorld) this.getWorld(), true);
         }
     }
+
+    @Override
+    public boolean canPickUpLoot() {
+        return true;
+    }
+
 
     @Override
     public void tick() {

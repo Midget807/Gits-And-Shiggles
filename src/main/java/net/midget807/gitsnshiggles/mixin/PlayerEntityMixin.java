@@ -1,12 +1,15 @@
 package net.midget807.gitsnshiggles.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
+import net.midget807.gitsnshiggles.entity.ElfEntity;
 import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.item.RailgunItem;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.ModDebugUtil;
 import net.midget807.gitsnshiggles.util.inject.*;
+import net.midget807.gitsnshiggles.util.state.ElfCountState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.EntityType;
@@ -55,6 +58,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     @Shadow public abstract boolean canBeHitByProjectile();
 
     @Shadow public abstract void onDeath(DamageSource damageSource);
+
+    @Shadow
+    public abstract PlayerInventory getInventory();
 
     @Unique
     private float fovScale = RailgunItem.FOV_MULTIPLIER;
@@ -208,6 +214,22 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
             this.timeTicksInverted--;
         } else if (this.timeTicksInverted < 0) {
             this.timeTicksInverted = 0;
+        }
+        if (this.getInventory().getArmorStack(3).isIn(ModItemTagProvider.SANTA_HATS) || this.getInventory().contains(ModItemTagProvider.SANTA_HATS)) {
+            if (this.getServer() != null && this.getServer().getPlayerManager() != null) this.checkAndDiscardElves(this.getWorld(), ((PlayerEntity)((Object) this)));
+        }
+    }
+
+    @Unique
+    private void checkAndDiscardElves(World world, PlayerEntity player) {
+        List<ElfEntity> elvesOwned = world.getEntitiesByClass(ElfEntity.class, player.getBoundingBox().expand(this.getServer().getPlayerManager().getSimulationDistance() * 16), elf -> elf.isAlive() && !elf.isRemoved() && elf.getOwner() != null && elf.getOwner() == player);
+        List<ElfEntity> elves = world.getEntitiesByClass(ElfEntity.class, player.getBoundingBox().expand(this.getServer().getPlayerManager().getSimulationDistance() * 16), elf -> true);
+        ElfCountState state = ElfCountState.getServerState(this.getServer());
+        state.elfCount = elvesOwned.size();
+        state.markDirty();
+        for (ElfEntity elf : elves) {
+            if (elvesOwned.contains(elf)) continue;
+            elf.discard();
         }
     }
 

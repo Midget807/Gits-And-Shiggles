@@ -24,7 +24,6 @@ public class ModKeyHandler {
             /** Checks for Santa Hat on player before handling keys*/
             if (player.getInventory().getArmorStack(3 /*Helmet slot*/).isIn(ModItemTagProvider.SANTA_HATS)) {
                 while (ModKeyBindings.summonElves.wasPressed()) {
-                    ((ElfCount)player).setElfCount(((ElfCount) player).getElfCount() + 1);
                     ClientPlayNetworking.send(new SummonElvesPayload(player.getBlockPos(), ((ElfCount) player).getElfCount()));
                 }
             } else {

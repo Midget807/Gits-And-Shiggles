@@ -25,5 +25,9 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.DICE, Models.GENERATED);
         itemModelGenerator.register(ModItems.RANDOM_EGG, Models.GENERATED);
         itemModelGenerator.register(ModItems.KATANA, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.SACK, Models.GENERATED);
+        itemModelGenerator.register(ModItems.VOID_STRING, Models.GENERATED);
+        itemModelGenerator.register(ModItems.MAGIC_CLOTH, Models.GENERATED);
+        itemModelGenerator.register(ModItems.KYBER_CRYSTAL, Models.GENERATED);
     }
 }
