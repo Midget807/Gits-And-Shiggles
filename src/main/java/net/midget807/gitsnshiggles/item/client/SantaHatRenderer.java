@@ -30,9 +30,6 @@ public class SantaHatRenderer implements ArmorRenderer {
         model.setVisible(true);
         model.hat.visible = slot == EquipmentSlot.HEAD;
 
-        matrices.push();
-        matrices.translate(0f, -0.4f, 0f);//todo test
         model.render(matrices, ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(mainTexture), true), light, OverlayTexture.DEFAULT_UV);
-        matrices.pop();
     }
 }
