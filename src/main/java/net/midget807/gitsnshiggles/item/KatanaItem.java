@@ -92,7 +92,6 @@ public class KatanaItem extends SwordItem {
                 player.getItemCooldownManager().set(stack.getItem(), 100);
                 stack.set(ModDataComponentTypes.BLOCKING, false);
             }
-            ModDebugUtil.debugMessage(player, "blocking: " + stack.get(ModDataComponentTypes.BLOCKING), true);
         }
     }
 

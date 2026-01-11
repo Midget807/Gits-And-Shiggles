@@ -68,7 +68,7 @@ public class RailgunShootPacket {
                     blockPos.getX(),
                     blockPos.getY(),
                     blockPos.getZ(),
-                    Math.min(2.0f + (float) RailgunScalar.getScalar(power), 10.0f),
+                    Math.max((float) RailgunScalar.getScalar(power) * 0.2f, 5.0f),
                     false,
                     World.ExplosionSourceType.TRIGGER,
                     ParticleTypes.EXPLOSION,
@@ -96,7 +96,7 @@ public class RailgunShootPacket {
         hits.sort(Comparator.comparingDouble(hit -> start.squaredDistanceTo(hit.getPos())));
         for (EntityHitResult hit : hits) {
             Entity target = hit.getEntity();
-            target.damage(ModDamages.create(world, ModDamages.RAILGUN, player), (float) 5.0f + (float) RailgunScalar.getScalar(power));
+            target.damage(ModDamages.create(world, ModDamages.RAILGUN, player), (float) 5.0f + (float) RailgunScalar.getScalar(power) * 10);
         }
 
         projectile.decrement(player.getAbilities().creativeMode ? 0 : 1);

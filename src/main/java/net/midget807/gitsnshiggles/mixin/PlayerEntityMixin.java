@@ -1,36 +1,26 @@
 package net.midget807.gitsnshiggles.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.entity.ElfEntity;
-import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.item.RailgunItem;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.ModDebugUtil;
 import net.midget807.gitsnshiggles.util.inject.*;
 import net.midget807.gitsnshiggles.util.state.ElfCountState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.DustParticleEffect;
-import net.minecraft.particle.ParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.DamageTypeTags;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.joml.Vector3f;
@@ -88,8 +78,17 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     }
 
     @Override
-    public boolean isUsingRailgun() {
+    public boolean gitsAndShiggles$isUsingRailgun() {
         return this.isUsingItem() && this.getActiveItem().isOf(ModItems.RAILGUN);
+    }
+
+    @Override
+    public boolean isNotUsingRailgun() {
+        if (this.isUsingItem()) {
+            return !this.getActiveItem().isOf(ModItems.RAILGUN);
+        } else {
+            return true;
+        }
     }
 
     @Override

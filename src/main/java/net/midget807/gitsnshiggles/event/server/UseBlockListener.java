@@ -17,7 +17,6 @@ public class UseBlockListener {
     public static void execute() {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
             if (player.getInventory().getArmorStack(3).isIn(ModItemTagProvider.SANTA_HATS) && player.isSneaking() && player.getStackInHand(Hand.MAIN_HAND).isEmpty()) {
-                ModDebugUtil.debugMessage(player, "interact", true);
                 return elvesBreakBlock(player, world, hand, hitResult);
             }
             return ActionResult.PASS;
@@ -25,11 +24,8 @@ public class UseBlockListener {
     }
 
     private static ActionResult elvesBreakBlock(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
-        List<ElfEntity> elves = world.getEntitiesByClass(ElfEntity.class, player.getBoundingBox().expand(128), elfEntity -> elfEntity.isTamed() && elfEntity.getOwner() != null && elfEntity.getOwner().equals(player));
-        elves.forEach(elfEntity -> {
-            elfEntity.sendMessage(Text.literal("hi"));
-        });
-        player.sendMessage(Text.literal("No. entities: " + elves.size()));
+        /*List<ElfEntity> elves = world.getEntitiesByClass(ElfEntity.class, player.getBoundingBox().expand(128), elfEntity -> elfEntity.isTamed() && elfEntity.getOwner() != null && elfEntity.getOwner().equals(player));
+        */
         return ActionResult.SUCCESS;
     }
 }

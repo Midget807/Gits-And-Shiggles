@@ -3,15 +3,12 @@ package net.midget807.gitsnshiggles.mixin.client;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.midget807.gitsnshiggles.item.*;
-import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.ModTextureIds;
 import net.midget807.gitsnshiggles.util.ModUtil;
-import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.midget807.gitsnshiggles.util.inject.RailgunAds;
 import net.midget807.gitsnshiggles.util.inject.WizardGamba;
-import net.midget807.gitsnshiggles.util.state.ItemForPlayerState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -19,10 +16,7 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.component.ComponentType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Hand;
@@ -61,7 +55,7 @@ public abstract class InGameHudMixin {
         float f = tickCounter.getLastFrameDuration();
         this.railgunScale = MathHelper.lerp(0.5F * f, this.railgunScale, 1.125F);
         if (this.client.options.getPerspective().isFirstPerson()) {
-            if (((RailgunAds)this.client.player).isUsingRailgun()) {
+            if (((RailgunAds)this.client.player).gitsAndShiggles$isUsingRailgun()) {
                 this.renderRailgunAdsOverlay(context, this.railgunScale);
             } else {
                 this.railgunScale = 0.5F;
@@ -106,7 +100,7 @@ public abstract class InGameHudMixin {
 
     @ModifyExpressionValue(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/Perspective;isFirstPerson()Z"))
     private boolean gitsnshiggles$derenderCrosshairOnAds(boolean original) {
-        return original && !((RailgunAds)this.client.player).isUsingRailgun();
+        return original && !((RailgunAds)this.client.player).gitsAndShiggles$isUsingRailgun();
     }
 
     @Unique
