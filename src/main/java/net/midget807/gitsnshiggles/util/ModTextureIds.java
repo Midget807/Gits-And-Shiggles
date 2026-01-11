@@ -36,4 +36,8 @@ public class ModTextureIds {
     public static final Identifier WIZARD_ROBES_OVERLAY_TEXTURE = GitsAndShigglesMain.id("textures/entity/armor/wizard_robes_overlay.png");
     public static final Identifier SANTA_HAT_TEXTURE = GitsAndShigglesMain.id("textures/entity/armor/santa_hat.png");
 
+
+    public static final Identifier PARRY_BAR_BG = GitsAndShigglesMain.id("hud/parry_bar_background");
+    public static final Identifier PARRY_BAR = GitsAndShigglesMain.id("textures/gui/hud/parry_bar.png");
+
 }

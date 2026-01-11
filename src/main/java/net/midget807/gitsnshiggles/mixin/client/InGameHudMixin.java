@@ -2,10 +2,8 @@ package net.midget807.gitsnshiggles.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.midget807.gitsnshiggles.item.FlamethrowerItem;
-import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
-import net.midget807.gitsnshiggles.item.TronDiscItem;
-import net.midget807.gitsnshiggles.item.WizardRobesItem;
+import net.midget807.gitsnshiggles.item.*;
+import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.ModTextureIds;
@@ -21,9 +19,13 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.component.ComponentType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Colors;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import org.jetbrains.annotations.Nullable;
@@ -80,7 +82,26 @@ public abstract class InGameHudMixin {
                 });
 
             }
+            if (client.player.getStackInHand(Hand.MAIN_HAND).isOf(ModItems.KATANA)) {
+                renderKatanaParryBar(context, this.client.player);
+            }
         }
+    }
+
+    @Unique
+    private void renderKatanaParryBar(DrawContext context, ClientPlayerEntity player) {
+        int width = context.getScaledWindowWidth() / 2;
+        int height = context.getScaledWindowHeight();
+        ItemStack katana = player.getStackInHand(Hand.MAIN_HAND);
+        KatanaItem katanaItem = (KatanaItem) katana.getItem();
+
+        this.client.getProfiler().push("katana_parry");
+        RenderSystem.enableBlend();
+        context.drawGuiTexture(ModTextureIds.PARRY_BAR_BG, width - 50, height - 60, 100, 6);
+        context.drawTexture(ModTextureIds.PARRY_BAR, width - 50, height - 60, 1, 0, 0, katanaItem.getUseTicks(), 6, 100, 6);
+
+        RenderSystem.disableBlend();
+        this.client.getProfiler().pop();
     }
 
     @ModifyExpressionValue(method = "renderCrosshair", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/Perspective;isFirstPerson()Z"))
@@ -137,8 +158,8 @@ public abstract class InGameHudMixin {
         RenderSystem.enableBlend();
         if (useTickProgress != null && useTickProgress > 0) {
             context.drawTexture(ModTextureIds.OVERHEAT_BAR, i - 101 + 1, j - 60 + 1, 1, 0, 0, useTickProgress, 7, 200, 7);
-            context.drawTexture(ModTextureIds.RANGE_BAR, i - 95 - 1, j - 24 - 11, 1, 0, 0, 1, extraRangeProgress, 1, 10);
-            context.drawTexture(ModTextureIds.DAMAGE_BAR, i - 95 - 5, j - 24 - 11, 1, 0, 0, 1, extraDamageProgress, 1, 10);
+            context.drawTexture(ModTextureIds.RANGE_BAR, i - 94, j - 24 - 11, 1, 0, 0, 1, extraRangeProgress, 1, 10);
+            context.drawTexture(ModTextureIds.DAMAGE_BAR, i - 98, j - 24 - 11, 1, 0, 0, 1, extraDamageProgress, 1, 10);
         }
 
         if (cameraPlayer.getStackInHand(cameraPlayer.getActiveHand()).isOf(ModItems.FLAMETHROWER)) {
