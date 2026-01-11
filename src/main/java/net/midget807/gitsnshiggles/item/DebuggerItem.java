@@ -7,6 +7,7 @@ import net.midget807.gitsnshiggles.network.S2C.payload.RenderHorsePayload;
 import net.midget807.gitsnshiggles.util.ModDebugUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

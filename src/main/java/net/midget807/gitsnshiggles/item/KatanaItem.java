@@ -12,15 +12,23 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.StackReference;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.screen.slot.Slot;
+import net.minecraft.text.Text;
+import net.minecraft.util.ClickType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
 import java.util.List;
+
+import static net.midget807.gitsnshiggles.registry.ModItems.BLOCK_INTERACTION_RANGE_MODIFIER_ID;
+import static net.midget807.gitsnshiggles.registry.ModItems.ENTITY_INTERACTION_RANGE_MODIFIER_ID;
 
 public class KatanaItem extends SwordItem {
     public int useTicks = 100;
@@ -30,25 +38,25 @@ public class KatanaItem extends SwordItem {
         super(toolMaterial, settings);
     }
 
-    public static AttributeModifiersComponent createAttributeModifiers(ToolMaterial material, int baseAttackDamage, float attackSpeed, float blockReach, float entityReach) {
+    public static AttributeModifiersComponent createAttributeModifiers() {
         return AttributeModifiersComponent.builder()
                 .add(
                         EntityAttributes.GENERIC_ATTACK_DAMAGE,
-                        new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, baseAttackDamage + material.getAttackDamage(), EntityAttributeModifier.Operation.ADD_VALUE),
+                        new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, 8.0, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 )
                 .add(
                         EntityAttributes.GENERIC_ATTACK_SPEED,
-                        new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, attackSpeed, EntityAttributeModifier.Operation.ADD_VALUE),
+                        new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, -2.2, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 ).add(
                         EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE,
-                        new EntityAttributeModifier(BASE_ATTACK_DAMAGE_MODIFIER_ID, blockReach, EntityAttributeModifier.Operation.ADD_VALUE),
+                        new EntityAttributeModifier(ENTITY_INTERACTION_RANGE_MODIFIER_ID, 0.5, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 )
                 .add(
                         EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE,
-                        new EntityAttributeModifier(BASE_ATTACK_SPEED_MODIFIER_ID, entityReach, EntityAttributeModifier.Operation.ADD_VALUE),
+                        new EntityAttributeModifier(BLOCK_INTERACTION_RANGE_MODIFIER_ID, 0.5, EntityAttributeModifier.Operation.ADD_VALUE),
                         AttributeModifierSlot.MAINHAND
                 )
                 .build();
@@ -92,14 +100,27 @@ public class KatanaItem extends SwordItem {
                 player.getItemCooldownManager().set(stack.getItem(), 100);
                 stack.set(ModDataComponentTypes.BLOCKING, false);
             }
+            if (stack.get(ModDataComponentTypes.PARRY_DAMAGE) != null && stack.get(ModDataComponentTypes.PARRY_DAMAGE) > 25.0f) {
+                stack.set(ModDataComponentTypes.PARRY_DAMAGE, 25.0f);
+            }
         }
     }
+
 
     @Override
     public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
         super.usageTick(world, user, stack, remainingUseTicks);
         if (this.useTicks > 0) {
             this.useTicks -= USE_TICK_DECREMENT;
+        }
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        super.appendTooltip(stack, context, tooltip, type);
+        Float storedDamage = stack.get(ModDataComponentTypes.PARRY_DAMAGE);
+        if (storedDamage != null) {
+            tooltip.add(Text.literal("Stored damage: " + storedDamage));
         }
     }
 }

@@ -1,8 +1,9 @@
-// 1.21.1	2026-01-09T00:06:01.211818	Gits And Shiggles/Tags for minecraft:item
+// 1.21.1	2026-01-11T20:41:54.6915412	Gits And Shiggles/Tags for minecraft:item
 d5aebde1fd1141df86b6ed4ace3f720504b32ab2 data\gitsnshiggles\tags\item\flamethrower_power.json
-ac36df1f87a8f871eacabc3323154c7209f5de7e data\gitsnshiggles\tags\item\custom_disables_shield.json
 ff5e2e3add3c24b630ed38e813df4aea49414768 data\gitsnshiggles\tags\item\lightsabers.json
+ac36df1f87a8f871eacabc3323154c7209f5de7e data\gitsnshiggles\tags\item\custom_disables_shield.json
 f564eaf82dd985f6c2bcea377f1de1730bf7014f data\gitsnshiggles\tags\item\santa_hats.json
 7ab11956af56f5fcb0db0faafc44c3fffd5326a1 data\gitsnshiggles\tags\item\flamethrower_insertable.json
 a62188adba8d65fe5971b95f4c552a1072086c31 data\gitsnshiggles\tags\item\santa_diet.json
+bb98612c0704f8455bb0ef861c677b897af45154 data\gitsnshiggles\tags\item\big_item_rendering.json
 e76fa93b352c1a74a19b4f98f7ccb347a346c46e data\minecraft\tags\item\dyeable.json

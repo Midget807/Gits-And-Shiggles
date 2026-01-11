@@ -2,16 +2,15 @@ package net.midget807.gitsnshiggles.mixin.client;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
+import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.client.render.item.ItemModels;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,6 +33,21 @@ public abstract class ItemRendererMixin {
         if (stack.isOf(ModItems.INVERTED_TRIDENT) && (renderMode == ModelTransformationMode.FIXED || renderMode == ModelTransformationMode.GUI || renderMode == ModelTransformationMode.GROUND)) {
             return getModels().getModelManager().getModel(ModelIdentifier.ofInventoryVariant(GitsAndShigglesMain.id("inverted_trident")));
         }
+        if (stack.isOf(ModItems.KATANA) && (renderMode == ModelTransformationMode.FIXED || renderMode == ModelTransformationMode.GUI || renderMode == ModelTransformationMode.GROUND)) {
+            return getModels().getModelManager().getModel(ModelIdentifier.ofInventoryVariant(GitsAndShigglesMain.id("katana")));
+        }
+        if (stack.isOf(ModItems.KATANA) && renderMode != ModelTransformationMode.FIXED && renderMode != ModelTransformationMode.GROUND && renderMode != ModelTransformationMode.GUI) {
+            Boolean blockingComponent = stack.getOrDefault(ModDataComponentTypes.BLOCKING, false);
+            if (blockingComponent != null) {
+                if (blockingComponent) {
+                    return getModels().getModelManager().getModel(ModelIdentifier.ofInventoryVariant(GitsAndShigglesMain.id("katana_blocking")));
+                } else {
+                    return getModels().getModelManager().getModel(ModelIdentifier.ofInventoryVariant(GitsAndShigglesMain.id("katana_handheld")));
+                }
+            } else {
+                return getModels().getModelManager().getModel(ModelIdentifier.ofInventoryVariant(GitsAndShigglesMain.id("katana_handheld")));
+            }
+        }
         return value;
     }
 
@@ -41,6 +55,9 @@ public abstract class ItemRendererMixin {
     public BakedModel gitsnshiggles$getHeldItemModel(BakedModel value, @Local(argsOnly = true) ItemStack stack) {
         if (stack.isOf(ModItems.INVERTED_TRIDENT)) {
             return this.models.getModelManager().getModel(ModelIdentifier.ofInventoryVariant(GitsAndShigglesMain.id("inverted_trident_handheld")));
+        }
+        if (stack.isOf(ModItems.KATANA)) {
+            return this.models.getModelManager().getModel(ModelIdentifier.ofInventoryVariant(GitsAndShigglesMain.id("katana_handheld")));
         }
         return value;
     }

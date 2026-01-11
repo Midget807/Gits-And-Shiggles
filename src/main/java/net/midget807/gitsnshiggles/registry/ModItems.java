@@ -25,7 +25,7 @@ public class ModItems {
     public static final Item RANDOM_EGG = registerItem("random_egg", new RandomEggItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item INFINITY_GAUNTLET = registerItem("infinity_gauntlet", new InfinityGauntletItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item INVERTED_TRIDENT = registerItem("inverted_trident", new InvertedTridentItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(InvertedTridentItem.createAttributeModifiers()).component(DataComponentTypes.TOOL, InvertedTridentItem.createToolComponent())));
-    public static final Item KATANA = registerItem("katana", new KatanaItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof().attributeModifiers(KatanaItem.createAttributeModifiers(ToolMaterials.NETHERITE, 4, -2.2F, 0.5f, 0.5f))));
+    public static final Item KATANA = registerItem("katana", new KatanaItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof().attributeModifiers(KatanaItem.createAttributeModifiers())));
 
     public static final Item TRON_DISC_WHITE = registerItem("tron_disc_white", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.WHITE));
     public static final Item TRON_DISC_ORANGE = registerItem("tron_disc_orange", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.ORANGE));

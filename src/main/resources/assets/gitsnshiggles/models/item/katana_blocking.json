@@ -1,0 +1,6 @@
+{
+  "parent": "gitsnshiggles:item/32x32generated_longsword_blocking",
+  "textures": {
+    "layer0": "gitsnshiggles:item/katana_handheld"
+  }
+}

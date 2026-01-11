@@ -18,5 +18,7 @@ public abstract class ModelLoaderMixin {
     private void onInit(CallbackInfo ci) {
         this.loadItemModel(ModelIdentifier.ofInventoryVariant(GitsAndShigglesMain.id("inverted_trident_handheld")));
         this.loadItemModel(ModelIdentifier.ofInventoryVariant(GitsAndShigglesMain.id("inverted_trident_throwing")));
+        this.loadItemModel(ModelIdentifier.ofInventoryVariant(GitsAndShigglesMain.id("katana_handheld")));
+        this.loadItemModel(ModelIdentifier.ofInventoryVariant(GitsAndShigglesMain.id("katana_blocking")));
     }
 }

@@ -3,6 +3,7 @@ package net.midget807.gitsnshiggles.mixin.client;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.midget807.gitsnshiggles.item.*;
+import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.ModTextureIds;
@@ -18,6 +19,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Colors;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
@@ -91,8 +93,12 @@ public abstract class InGameHudMixin {
 
         this.client.getProfiler().push("katana_parry");
         RenderSystem.enableBlend();
+
         context.drawGuiTexture(ModTextureIds.PARRY_BAR_BG, width - 50, height - 60, 100, 6);
         context.drawTexture(ModTextureIds.PARRY_BAR, width - 50, height - 60, 1, 0, 0, katanaItem.getUseTicks(), 6, 100, 6);
+
+        float damage = player.getStackInHand(Hand.MAIN_HAND).getOrDefault(ModDataComponentTypes.PARRY_DAMAGE, 0.0f);
+        context.drawText(this.client.textRenderer, Text.literal(String.format("%.1f", damage)), width + 52 , height - 61, damage == 25.0f ? Colors.YELLOW : Colors.WHITE, false);
 
         RenderSystem.disableBlend();
         this.client.getProfiler().pop();

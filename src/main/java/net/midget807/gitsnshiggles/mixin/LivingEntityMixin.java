@@ -8,9 +8,12 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.entity.ElfEntity;
 import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
+import net.midget807.gitsnshiggles.item.KatanaItem;
 import net.midget807.gitsnshiggles.network.S2C.payload.SoulStonePayload;
 import net.midget807.gitsnshiggles.registry.ModDamages;
+import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModEffects;
+import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.RailgunScalar;
 import net.midget807.gitsnshiggles.util.inject.ElfCount;
@@ -22,12 +25,14 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
@@ -354,6 +359,20 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, El
             }
         }
         operation.call(entity, x, y, z);
+    }
+
+    @WrapOperation(method = "applyDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;modifyAppliedDamage(Lnet/minecraft/entity/damage/DamageSource;F)F"))
+    private float gitsnshiggles$katanaExtraDamage(LivingEntity entity, DamageSource source, float amount, Operation<Float> original) {
+        float base = (Float) original.call(entity, source, amount);
+        if (source.getAttacker() instanceof PlayerEntity player && player.getStackInHand(Hand.MAIN_HAND).isOf(ModItems.KATANA)) {
+            ItemStack katana = player.getStackInHand(Hand.MAIN_HAND);
+            if (katana.get(ModDataComponentTypes.PARRY_DAMAGE) != null) {
+                float katanaDamage = katana.get(ModDataComponentTypes.PARRY_DAMAGE);
+                katana.set(ModDataComponentTypes.PARRY_DAMAGE, 0.0f);
+                return base + katanaDamage;
+            }
+        }
+        return base;
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("HEAD"))

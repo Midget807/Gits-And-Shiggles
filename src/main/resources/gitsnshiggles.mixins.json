@@ -23,6 +23,10 @@
   },
   "client": [
     "client.AbstractClientPlayerEntityMixin",
+    "client.BipedEntityModelMixin",
+    "client.ClientPlayerEntityMixin",
+    "client.CrossbowPosingMixin",
+    "client.HeldItemFeatureRendererMixin",
     "client.HeldItemRendererMixin",
     "client.InGameHudMixin",
     "client.ItemColorsMixin",

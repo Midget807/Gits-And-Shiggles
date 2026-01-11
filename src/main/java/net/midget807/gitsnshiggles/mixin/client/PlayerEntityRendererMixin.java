@@ -1,8 +1,10 @@
 package net.midget807.gitsnshiggles.mixin.client;
 
+import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.entity.client.RealityStoneShieldEntityModel;
 import net.midget807.gitsnshiggles.entity.client.RealityStoneShieldFeatureRenderer;
 import net.midget807.gitsnshiggles.item.WizardRobesItem;
+import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.registry.client.ModEntityModelLayers;
 import net.minecraft.client.MinecraftClient;
@@ -14,6 +16,7 @@ import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.component.ComponentType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
@@ -53,5 +56,24 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
             cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_HOLD);
         }
         MinecraftClient client = MinecraftClient.getInstance();
+    }
+    @Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
+    private static void gitsnshiggles$bigItemPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
+        ItemStack main = player.getMainHandStack();
+        Boolean blockingComponent = main.getOrDefault(ModDataComponentTypes.BLOCKING, false);
+        if (main.isIn(ModItemTagProvider.BIG_ITEM_RENDERING)) {
+            boolean blocking = blockingComponent.booleanValue();
+            if (hand == Hand.MAIN_HAND) {
+                if (blocking) {
+                    cir.setReturnValue(BipedEntityModel.ArmPose.BOW_AND_ARROW);
+                } else {
+                    cir.setReturnValue(BipedEntityModel.ArmPose.BLOCK);
+                }
+            } else if (blocking) {
+                cir.setReturnValue(BipedEntityModel.ArmPose.BOW_AND_ARROW);
+            } else {
+                cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_CHARGE);
+            }
+        }
     }
 }

@@ -1,8 +1,12 @@
 package net.midget807.gitsnshiggles.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.entity.ElfEntity;
+import net.midget807.gitsnshiggles.item.KatanaItem;
 import net.midget807.gitsnshiggles.item.RailgunItem;
+import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.ModDebugUtil;
@@ -11,6 +15,8 @@ import net.midget807.gitsnshiggles.util.state.ElfCountState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageType;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -21,6 +27,11 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.DamageTypeTags;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.joml.Vector3f;
@@ -281,5 +292,53 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         }
     }
 
-
+    @WrapOperation(method = "applyDamage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;modifyAppliedDamage(Lnet/minecraft/entity/damage/DamageSource;F)F"))
+    private float gitsnshiggles$katanaBlock(PlayerEntity entity, DamageSource source, float amount, Operation<Float> original) {
+        float base = (Float) original.call(entity, source, amount);
+        if (entity.getStackInHand(Hand.MAIN_HAND).isOf(ModItems.KATANA)) {
+            Boolean blockingComponent = entity.getStackInHand(Hand.MAIN_HAND).getOrDefault(ModDataComponentTypes.BLOCKING, false);
+            if (!source.isIn(DamageTypeTags.BYPASSES_EFFECTS)) {
+                if (blockingComponent) {
+                    Vec3d damagePos = source.getPosition();
+                    Vec3d rotVec;
+                    Vec3d difference;
+                    double angle;
+                    ServerWorld serverWorld;
+                    World var13;
+                    if (damagePos != null) {
+                        rotVec = this.getRotationVector();
+                        difference = damagePos.relativize(this.getEyePos()).normalize();
+                        angle = difference.dotProduct(rotVec);
+                        if (angle < -1.0 || angle > 1.0) {
+                            return base;
+                        }
+                        if (angle < -0.35) {
+                            var13 = this.getEntityWorld();
+                            if (var13 instanceof ServerWorld) {
+                                serverWorld = (ServerWorld) var13;
+                                serverWorld.playSoundFromEntity(null, this, SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.5f, 0.5f + this.getEntityWorld().random.nextFloat() * 0.2f);
+                            }
+                            float storedDamage = entity.getStackInHand(Hand.MAIN_HAND).getOrDefault(ModDataComponentTypes.PARRY_DAMAGE, 0.0f);
+                            float damageToStore = Math.clamp(base, 0.0f, 25.0f);
+                            entity.getStackInHand(Hand.MAIN_HAND).set(ModDataComponentTypes.PARRY_DAMAGE, storedDamage + damageToStore);
+                            return 0.0f;
+                        }
+                    } else if (source.isOf(DamageTypes.FALL)) {
+                        rotVec = this.getRotationVector();
+                        difference = new Vec3d(0.0, 1.0f, 0.0);
+                        angle = difference.dotProduct(rotVec);
+                        if (angle < -0.35) {
+                            var13 = this.getEntityWorld();
+                            if (var13 instanceof ServerWorld) {
+                                serverWorld = (ServerWorld) var13;
+                                serverWorld.playSoundFromEntity(null, this, SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.5f, 0.5f + this.getEntityWorld().random.nextFloat() * 0.2f);
+                            }
+                            return base * 0.75F;
+                        }
+                    }
+                }
+            }
+        }
+        return base;
+    }
 }

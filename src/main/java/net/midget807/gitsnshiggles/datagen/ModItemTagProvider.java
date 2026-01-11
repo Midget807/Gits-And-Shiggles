@@ -23,6 +23,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     public static final TagKey<Item> TRON_DISCS = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("tron_discs"));
     public static final TagKey<Item> DISABLES_SHIELD = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("custom_disables_shield"));
     public static final TagKey<Item> SANTA_DIET = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("santa_diet"));
+    public static final TagKey<Item> BIG_ITEM_RENDERING = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("big_item_rendering"));
 
     public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
         super(output, completableFuture);
@@ -82,5 +83,10 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.AM_RIFLE);
         this.getOrCreateTagBuilder(SANTA_DIET)
                 .add(Items.COOKIE);
+        this.getOrCreateTagBuilder(BIG_ITEM_RENDERING)
+                .add(
+                        ModItems.AM_RIFLE,
+                        ModItems.KATANA
+                );
     }
 }
