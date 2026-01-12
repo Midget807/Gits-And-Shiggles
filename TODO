@@ -1,4 +1,3 @@
-//todo fix time and mind stone -> store booleans in player nbt
-//todo elf count is stored as static on all SantaHat Items
 //todo implement player item lock
-//todo command to set santa player with diet -> peristent state for player uuid -> UseItemCallback checks if item is food -> checks if player uuid matches peristent state ? cancel/return : pass
+//todo fix lightsaber model based on black and re texture with white beam
+//todo recipe for infinity gauntlet
