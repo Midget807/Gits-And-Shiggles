@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "gitsnshiggles:katana_blade"
+    },
+    "H": {
+      "item": "gitsnshiggles:katana_hilt"
+    }
+  },
+  "pattern": [
+    " B",
+    "H "
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:katana"
+  }
+}

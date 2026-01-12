@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "cookingtime": 6000,
+  "experience": 1.0,
+  "ingredient": {
+    "item": "gitsnshiggles:katana_blade"
+  },
+  "result": {
+    "id": "gitsnshiggles:red_hot_katana_blade"
+  }
+}

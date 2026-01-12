@@ -1,6 +1,8 @@
 package net.midget807.gitsnshiggles.util;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.StringHelper;
 import net.minecraft.util.math.MathHelper;
@@ -26,5 +28,24 @@ public class ModUtil {
         } else {
             return Text.empty();
         }
+    }
+    public static ItemStack exchangeWholeStack(ItemStack inputStack, PlayerEntity player, ItemStack outputStack, boolean creativeOverride) {
+        boolean bl = player.isInCreativeMode();
+        int count = inputStack.getCount();
+        outputStack.setCount(count);
+        if (creativeOverride && bl) {
+            player.getInventory().insertStack(outputStack);
+        } else {
+            if (!player.getInventory().insertStack(outputStack)) {
+                player.dropItem(outputStack, false);
+                inputStack.decrementUnlessCreative(count, player);
+                return inputStack;
+            }
+            return outputStack;
+        }
+        return inputStack;
+    }
+    public static ItemStack exchangeWholeStack(ItemStack inputStack, PlayerEntity player, ItemStack outputStack) {
+        return exchangeWholeStack(inputStack, player, outputStack, true);
     }
 }

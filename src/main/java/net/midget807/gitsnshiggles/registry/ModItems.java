@@ -21,11 +21,21 @@ public class ModItems {
     public static final Item SACK = registerItem("sack", new SackItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item DICE = registerItem("dice", new DiceItem(new Item.Settings().maxCount(1).fireproof().component(ModDataComponentTypes.DICE_ROLL, 0)));
     public static final Item FLAMETHROWER = registerItem("flamethrower", new FlamethrowerItem(new Item.Settings().maxCount(1).fireproof()));
-    public static final Item AM_RIFLE = registerItem("am_rifle", new AntiMaterialRifleItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(AntiMaterialRifleItem.createAttributeModifiers())));
     public static final Item RANDOM_EGG = registerItem("random_egg", new RandomEggItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item INFINITY_GAUNTLET = registerItem("infinity_gauntlet", new InfinityGauntletItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item INVERTED_TRIDENT = registerItem("inverted_trident", new InvertedTridentItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(InvertedTridentItem.createAttributeModifiers()).component(DataComponentTypes.TOOL, InvertedTridentItem.createToolComponent())));
-    public static final Item KATANA = registerItem("katana", new KatanaItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof().attributeModifiers(KatanaItem.createAttributeModifiers())));
+
+    public static final Item AM_RIFLE = registerItem("am_rifle", new AntiMaterialRifleItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(AntiMaterialRifleItem.createAttributeModifiers())));
+    public static final Item GUN_NUGGET = registerItem("gun_nugget", new Item(new Item.Settings()));
+    public static final Item GUN_INGOT = registerItem("gun_ingot", new Item(new Item.Settings()));
+    public static final Item GUN_BLOCK = registerItem("gun_block", new Item(new Item.Settings()));
+
+    public static final Item KATANA = registerItem("katana", new KatanaItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof().attributeModifiers(KatanaItem.createAttributeModifiers()).maxCount(1).fireproof()));
+    public static final Item KATANA_HILT = registerItem("katana_hilt", new Item(new Item.Settings().maxCount(1)));
+    public static final Item RED_HOT_IRON_INGOT = registerItem("red_hot_iron_ingot", new HotItem(new Item.Settings(), Items.IRON_INGOT));
+    public static final Item KATANA_BLADE = registerItem("katana_blade", new Item(new Item.Settings().maxCount(1).fireproof()));
+    public static final Item RED_HOT_KATANA_BLADE = registerItem("red_hot_katana_blade", new HotItem(new Item.Settings().maxCount(1).fireproof(), ModItems.KATANA_BLADE));
+    public static final Item RED_HOT_NETHERITE_INGOT = registerItem("red_hot_netherite_ingot", new HotItem(new Item.Settings().fireproof(), Items.NETHERITE_INGOT));
 
     public static final Item TRON_DISC_WHITE = registerItem("tron_disc_white", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.WHITE));
     public static final Item TRON_DISC_ORANGE = registerItem("tron_disc_orange", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.ORANGE));

@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "gitsnshiggles:gun_ingot"
+    },
+    {
+      "item": "gitsnshiggles:gun_ingot"
+    },
+    {
+      "item": "gitsnshiggles:gun_ingot"
+    },
+    {
+      "item": "gitsnshiggles:gun_ingot"
+    },
+    {
+      "item": "gitsnshiggles:gun_ingot"
+    },
+    {
+      "item": "gitsnshiggles:gun_ingot"
+    },
+    {
+      "item": "gitsnshiggles:gun_ingot"
+    },
+    {
+      "item": "gitsnshiggles:gun_ingot"
+    },
+    {
+      "item": "gitsnshiggles:gun_ingot"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:gun_block"
+  }
+}

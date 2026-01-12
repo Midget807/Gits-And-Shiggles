@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    " G ",
+    "LWG",
+    "WL "
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:katana_hilt"
+  }
+}

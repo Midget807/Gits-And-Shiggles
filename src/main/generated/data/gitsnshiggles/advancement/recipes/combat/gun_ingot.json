@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gun_nugget": {
+      "conditions": {
+        "items": [
+          {
+            "items": "gitsnshiggles:gun_nugget"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "gitsnshiggles:gun_ingot"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gun_nugget"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "gitsnshiggles:gun_ingot"
+    ]
+  }
+}

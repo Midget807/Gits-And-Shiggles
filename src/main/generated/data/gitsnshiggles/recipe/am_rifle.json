@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "N": {
+      "item": "gitsnshiggles:red_hot_netherite_ingot"
+    },
+    "X": {
+      "item": "gitsnshiggles:gun_block"
+    }
+  },
+  "pattern": [
+    "XXX",
+    "XN "
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:am_rifle"
+  }
+}

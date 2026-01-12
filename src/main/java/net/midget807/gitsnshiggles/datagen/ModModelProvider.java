@@ -24,10 +24,22 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.ICON, Models.GENERATED);
         itemModelGenerator.register(ModItems.DICE, Models.GENERATED);
         itemModelGenerator.register(ModItems.RANDOM_EGG, Models.GENERATED);
-        itemModelGenerator.register(ModItems.KATANA, Models.HANDHELD);
         itemModelGenerator.register(ModItems.SACK, Models.GENERATED);
+
         itemModelGenerator.register(ModItems.VOID_STRING, Models.GENERATED);
         itemModelGenerator.register(ModItems.MAGIC_CLOTH, Models.GENERATED);
+
         itemModelGenerator.register(ModItems.KYBER_CRYSTAL, Models.GENERATED);
+
+        itemModelGenerator.register(ModItems.KATANA, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.RED_HOT_IRON_INGOT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.RED_HOT_NETHERITE_INGOT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.KATANA_HILT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.KATANA_BLADE, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.RED_HOT_KATANA_BLADE, Models.HANDHELD);
+
+        itemModelGenerator.register(ModItems.GUN_NUGGET, Models.GENERATED);
+        itemModelGenerator.register(ModItems.GUN_INGOT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.GUN_BLOCK, Models.GENERATED);
     }
 }

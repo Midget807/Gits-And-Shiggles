@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "I": {
+      "item": "gitsnshiggles:red_hot_iron_ingot"
+    },
+    "N": {
+      "item": "gitsnshiggles:red_hot_netherite_ingot"
+    }
+  },
+  "pattern": [
+    " IN",
+    "INI",
+    "NI "
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:red_hot_katana_blade"
+  }
+}
