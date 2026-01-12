@@ -1,0 +1,76 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_copper_block": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:copper_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_copper_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:copper_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_dried_kelp": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:dried_kelp"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_flint_and_steel": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:flint_and_steel"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_fuel_tank": {
+      "conditions": {
+        "items": [
+          {
+            "items": "gitsnshiggles:fuel_tank"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "gitsnshiggles:flamethrower"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dried_kelp",
+      "has_flint_and_steel",
+      "has_copper_block",
+      "has_copper_ingot",
+      "has_fuel_tank"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "gitsnshiggles:flamethrower"
+    ]
+  }
+}

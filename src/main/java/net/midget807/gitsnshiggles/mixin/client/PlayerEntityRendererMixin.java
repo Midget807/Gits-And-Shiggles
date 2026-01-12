@@ -76,4 +76,12 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
             }
         }
     }
+    @Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
+    private static void gitsnshiggles$flamethrowerPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
+        ItemStack main = player.getMainHandStack();
+        Boolean blockingComponent = main.getOrDefault(ModDataComponentTypes.BLOCKING, false);
+        if (main.isOf(ModItems.FLAMETHROWER)) {
+            cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_HOLD);
+        }
+    }
 }

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "K": {
+      "item": "gitsnshiggles:kyber_crystal"
+    },
+    "N": {
+      "item": "gitsnshiggles:red_hot_netherite_ingot"
+    }
+  },
+  "pattern": [
+    "IKI",
+    "INI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:lightsaber_black"
+  }
+}

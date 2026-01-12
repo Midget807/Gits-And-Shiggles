@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "H": {
+      "item": "minecraft:heart_of_the_sea"
+    },
+    "S": {
+      "item": "minecraft:prismarine_shard"
+    },
+    "T": {
+      "item": "gitsnshiggles:elder_guardian_thorn"
+    }
+  },
+  "pattern": [
+    "  S",
+    "TH ",
+    "TT "
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:inverted_trident"
+  }
+}

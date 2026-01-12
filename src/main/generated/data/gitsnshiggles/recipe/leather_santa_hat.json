@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "H": {
-      "tag": "gitsnshiggles:santa_hats"
+      "item": "gitsnshiggles:santa_hat"
     },
     "X": {
       "item": "minecraft:leather"

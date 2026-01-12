@@ -1,0 +1,39 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "minecraft:prismarine_crystals"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "F": {
+      "item": "minecraft:rabbit_foot"
+    },
+    "G": {
+      "item": "minecraft:enchanted_golden_apple"
+    },
+    "S": {
+      "item": "minecraft:nether_star"
+    },
+    "T": {
+      "item": "minecraft:turtle_helmet"
+    },
+    "W": {
+      "item": "minecraft:wind_charge"
+    },
+    "X": {
+      "item": "minecraft:egg"
+    }
+  },
+  "pattern": [
+    "WGT",
+    "EXC",
+    "FGS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:random_egg"
+  }
+}

@@ -58,7 +58,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                         ModItems.WIZARD_HAT,
                         ModItems.WIZARD_ROBE,
                         ModItems.WIZARD_PANTS,
-                        ModItems.WIZARD_BOOTS
+                        ModItems.WIZARD_BOOTS,
+                        ModItems.LEATHER_SANTA_HAT
                 );
         this.getOrCreateTagBuilder(LIGHTSABERS)
                 .add(

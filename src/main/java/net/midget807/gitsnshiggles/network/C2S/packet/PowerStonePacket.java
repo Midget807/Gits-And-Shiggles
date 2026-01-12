@@ -32,7 +32,7 @@ public class PowerStonePacket {
             });
             List<Entity> radiusEntities = new java.util.ArrayList<>(List.of());
             squareEntities.forEach(entity -> {
-                if (entity.distanceTo(player) <= MAX_RADIUS) {
+                if (entity.distanceTo(player) <= MAX_RADIUS && !entity.equals(player)) {
                     radiusEntities.add(entity);
                 }
             });

@@ -24,7 +24,14 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.ICON, Models.GENERATED);
         itemModelGenerator.register(ModItems.DICE, Models.GENERATED);
         itemModelGenerator.register(ModItems.RANDOM_EGG, Models.GENERATED);
+
         itemModelGenerator.register(ModItems.SACK, Models.GENERATED);
+        itemModelGenerator.register(ModItems.SANTA_HAT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.CHAINMAIL_SANTA_HAT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.GOLD_SANTA_HAT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.IRON_SANTA_HAT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.DIAMOND_SANTA_HAT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.NETHERITE_SANTA_HAT, Models.GENERATED);
 
         itemModelGenerator.register(ModItems.VOID_STRING, Models.GENERATED);
         itemModelGenerator.register(ModItems.MAGIC_CLOTH, Models.GENERATED);
@@ -41,5 +48,9 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.GUN_NUGGET, Models.GENERATED);
         itemModelGenerator.register(ModItems.GUN_INGOT, Models.GENERATED);
         itemModelGenerator.register(ModItems.GUN_BLOCK, Models.GENERATED);
+
+        itemModelGenerator.register(ModItems.ELDER_GUARDIAN_THORN, Models.GENERATED);
+
+        itemModelGenerator.register(ModItems.FUEL_TANK, Models.GENERATED);
     }
 }

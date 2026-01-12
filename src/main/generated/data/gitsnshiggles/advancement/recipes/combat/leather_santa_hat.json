@@ -11,11 +11,11 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_santa_hats": {
+    "has_santa_hat": {
       "conditions": {
         "items": [
           {
-            "items": "#gitsnshiggles:santa_hats"
+            "items": "gitsnshiggles:santa_hat"
           }
         ]
       },
@@ -32,7 +32,7 @@
     [
       "has_the_recipe",
       "has_leather",
-      "has_santa_hats"
+      "has_santa_hat"
     ]
   ],
   "rewards": {

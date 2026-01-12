@@ -7,3 +7,4 @@ accessible method net/minecraft/entity/LivingEntity updatePotionSwirls ()V
 accessible field net/minecraft/client/Mouse cursorDeltaX D
 accessible field net/minecraft/client/Mouse cursorDeltaY D
 accessible field net/minecraft/command/argument/ItemStackArgumentType reader Lnet/minecraft/command/argument/ItemStringReader;
+accessible field net/minecraft/entity/player/PlayerInventory combinedInventory Ljava/util/List;

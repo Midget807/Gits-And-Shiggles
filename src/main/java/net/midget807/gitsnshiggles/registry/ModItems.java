@@ -20,10 +20,14 @@ public class ModItems {
     public static final Item SANTA_HAT = registerItem("santa_hat", new ArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
     public static final Item SACK = registerItem("sack", new SackItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item DICE = registerItem("dice", new DiceItem(new Item.Settings().maxCount(1).fireproof().component(ModDataComponentTypes.DICE_ROLL, 0)));
-    public static final Item FLAMETHROWER = registerItem("flamethrower", new FlamethrowerItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item RANDOM_EGG = registerItem("random_egg", new RandomEggItem(new Item.Settings().maxCount(1).fireproof()));
     public static final Item INFINITY_GAUNTLET = registerItem("infinity_gauntlet", new InfinityGauntletItem(new Item.Settings().maxCount(1).fireproof()));
+
     public static final Item INVERTED_TRIDENT = registerItem("inverted_trident", new InvertedTridentItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(InvertedTridentItem.createAttributeModifiers()).component(DataComponentTypes.TOOL, InvertedTridentItem.createToolComponent())));
+    public static final Item ELDER_GUARDIAN_THORN = registerItem("elder_guardian_thorn", new Item(new Item.Settings()));
+
+    public static final Item FLAMETHROWER = registerItem("flamethrower", new FlamethrowerItem(new Item.Settings().maxCount(1).fireproof()));
+    public static final Item FUEL_TANK = registerItem("fuel_tank", new Item(new Item.Settings().maxCount(1)));
 
     public static final Item AM_RIFLE = registerItem("am_rifle", new AntiMaterialRifleItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(AntiMaterialRifleItem.createAttributeModifiers())));
     public static final Item GUN_NUGGET = registerItem("gun_nugget", new Item(new Item.Settings()));
@@ -72,11 +76,11 @@ public class ModItems {
     public static final Item LIGHTSABER_RED = registerItem("lightsaber_red", new LightsaberItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(LightsaberItem.createAttributeModifiers())));
     public static final Item LIGHTSABER_BLACK = registerItem("lightsaber_black", new LightsaberItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(LightsaberItem.createAttributeModifiers())));
 
-    public static final Item LEATHER_SANTA_HAT = registerItem("leather_santa_hat", new ArmorItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
-    public static final Item CHAINMAIL_SANTA_HAT = registerItem("chainmail_santa_hat", new ArmorItem(ArmorMaterials.CHAIN, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
-    public static final Item IRON_SANTA_HAT = registerItem("iron_santa_hat", new ArmorItem(ArmorMaterials.IRON, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
-    public static final Item GOLD_SANTA_HAT = registerItem("gold_santa_hat", new ArmorItem(ArmorMaterials.GOLD, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
-    public static final Item DIAMOND_SANTA_HAT = registerItem("diamond_santa_hat", new ArmorItem(ArmorMaterials.DIAMOND, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
+    public static final Item LEATHER_SANTA_HAT = registerItem("leather_santa_hat", new ArmorItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)));
+    public static final Item CHAINMAIL_SANTA_HAT = registerItem("chainmail_santa_hat", new ArmorItem(ArmorMaterials.CHAIN, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)));
+    public static final Item IRON_SANTA_HAT = registerItem("iron_santa_hat", new ArmorItem(ArmorMaterials.IRON, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)));
+    public static final Item GOLD_SANTA_HAT = registerItem("gold_santa_hat", new ArmorItem(ArmorMaterials.GOLD, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)));
+    public static final Item DIAMOND_SANTA_HAT = registerItem("diamond_santa_hat", new ArmorItem(ArmorMaterials.DIAMOND, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1)));
     public static final Item NETHERITE_SANTA_HAT = registerItem("netherite_santa_hat", new ArmorItem(ArmorMaterials.NETHERITE, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));
 
     public static final Item WIZARD_HAT = registerItem("wizard_hat", new WizardRobesItem(ModArmorMaterials.WIZARD_CLOTH, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof()));

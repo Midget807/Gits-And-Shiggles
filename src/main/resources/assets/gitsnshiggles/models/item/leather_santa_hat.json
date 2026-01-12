@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gitsnshiggles:item/leather_santa_hat",
+    "layer1": "gitsnshiggles:item/santa_hat_overlay"
+  }
+}

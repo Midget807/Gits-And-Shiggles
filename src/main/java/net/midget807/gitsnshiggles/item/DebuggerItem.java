@@ -1,8 +1,10 @@
 package net.midget807.gitsnshiggles.item;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.entity.client.SchizophreniaEntity;
 import net.midget807.gitsnshiggles.entity.client.SchizophreniaManager;
+import net.midget807.gitsnshiggles.network.C2S.payload.ShuffleInventoryPayload;
 import net.midget807.gitsnshiggles.network.S2C.payload.RenderHorsePayload;
 import net.midget807.gitsnshiggles.util.ModDebugUtil;
 import net.minecraft.entity.Entity;
@@ -11,6 +13,7 @@ import net.minecraft.entity.mob.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;

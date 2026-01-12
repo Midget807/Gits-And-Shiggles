@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "gitsnshiggles:magic_cloth"
+    }
+  },
+  "pattern": [
+    "C C",
+    "C C"
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:wizard_boots"
+  }
+}

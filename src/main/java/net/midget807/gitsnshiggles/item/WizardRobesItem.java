@@ -34,7 +34,7 @@ public class WizardRobesItem extends ArmorItem {
             if (entity instanceof PlayerEntity player) {
                 if (hasFullSuitOfArmor(player)) {
                     this.vanish(player, world);
-                    this.escape(world, player);
+                    //this.escape(world, player);
                 }
             }
         }

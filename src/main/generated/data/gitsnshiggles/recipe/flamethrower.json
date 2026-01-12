@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "minecraft:copper_block"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "F": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "K": {
+      "item": "minecraft:dried_kelp"
+    },
+    "T": {
+      "item": "gitsnshiggles:fuel_tank"
+    }
+  },
+  "pattern": [
+    "KT ",
+    "BFC",
+    "C  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:flamethrower"
+  }
+}

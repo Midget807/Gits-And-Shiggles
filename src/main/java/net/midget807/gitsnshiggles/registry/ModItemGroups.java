@@ -14,15 +14,39 @@ public class ModItemGroups {
                     .displayName(Text.translatable("itemGroup.gitsnshiggles.main"))
                     .icon(() -> new ItemStack(ModItems.ICON))
                     .entries((displayContext, entries) -> {
-                        entries.add(ModItems.RAILGUN);
-                        entries.add(ModItems.SANTA_HAT);
-                        entries.add(ModItems.DICE);
-                        entries.add(ModItems.FLAMETHROWER);
                         entries.add(ModItems.AM_RIFLE);
+                        entries.add(ModItems.GUN_NUGGET);
+                        entries.add(ModItems.GUN_INGOT);
+                        entries.add(ModItems.GUN_BLOCK);
+
+                        entries.add(ModItems.RAILGUN);
+
+                        entries.add(ModItems.SANTA_HAT);
+                        entries.add(ModItems.LEATHER_SANTA_HAT);
+                        entries.add(ModItems.CHAINMAIL_SANTA_HAT);
+                        entries.add(ModItems.GOLD_SANTA_HAT);
+                        entries.add(ModItems.IRON_SANTA_HAT);
+                        entries.add(ModItems.DIAMOND_SANTA_HAT);
+                        entries.add(ModItems.NETHERITE_SANTA_HAT);
+                        entries.add(ModItems.SACK);
+
+                        entries.add(ModItems.DICE);
+
+                        entries.add(ModItems.FLAMETHROWER);
+                        entries.add(ModItems.FUEL_TANK);
+
                         entries.add(ModItems.RANDOM_EGG);
+
                         entries.add(ModItems.INFINITY_GAUNTLET);
+
                         entries.add(ModItems.INVERTED_TRIDENT);
+                        entries.add(ModItems.ELDER_GUARDIAN_THORN);
+
                         entries.add(ModItems.KATANA);
+                        entries.add(ModItems.KATANA_HILT);
+                        entries.add(ModItems.KATANA_BLADE);
+                        entries.add(ModItems.RED_HOT_KATANA_BLADE);
+
                         entries.add(ModItems.WIZARD_HAT);
                         entries.add(ModItems.WIZARD_ROBE);
                         entries.add(ModItems.WIZARD_PANTS);
@@ -49,6 +73,9 @@ public class ModItemGroups {
                         entries.add(ModItems.LIGHTSABER_BLACK);
 
                         entries.add(ModItems.TRON_DISC_WHITE);
+
+                        entries.add(ModItems.RED_HOT_IRON_INGOT);
+                        entries.add(ModItems.RED_HOT_NETHERITE_INGOT);
 
                     })
                     .build()

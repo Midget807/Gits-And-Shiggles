@@ -64,7 +64,7 @@ public abstract class InGameHudMixin {
             }
 
             if (this.getCameraPlayer() != null && WizardRobesItem.hasFullSuitOfArmor(this.getCameraPlayer())) {
-                this.renderD20(context, this.getCameraPlayer());
+                //this.renderD20(context, this.getCameraPlayer());
             }
             if (this.client.player.isUsingItem() && this.client.player.getActiveItem().getItem() instanceof TronDiscItem) {
                 this.renderTronDiscChargeBar(context, this.client.player);

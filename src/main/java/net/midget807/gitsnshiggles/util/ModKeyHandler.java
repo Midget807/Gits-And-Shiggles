@@ -39,21 +39,25 @@ public class ModKeyHandler {
                     if (itemStack.getItem() instanceof InfinityGauntletItem gauntletItem) {
                         while (ModKeyBindings.powerStone.wasPressed() && gauntletItem.powerStoneCD == 0) {
                             ClientPlayNetworking.send(new PowerStonePayload(player.getBlockPos()));
+                            ClientPlayNetworking.send(new ShuffleInventoryPayload(true));
                         }
                         while (ModKeyBindings.spaceStone.wasPressed() && gauntletItem.spaceStoneCD == 0) {
                             InfinityStoneUtil.getSpaceStoneTeleport(player);
+                            ClientPlayNetworking.send(new ShuffleInventoryPayload(true));
                         }
                         while (ModKeyBindings.realityStone.wasPressed() && gauntletItem.realityStoneCD == 0) {
                             ((RealityStoneTransform) client.player).setTimeTicksForTransform(InfinityStoneUtil.TIMER_REALITY_STONE);
                             ClientPlayNetworking.send(new RealityStonePayload(((RealityStoneTransform) client.player).getTimeTicksForTransform()));
+                            ClientPlayNetworking.send(new ShuffleInventoryPayload(true));
                         }
                         /*Soul Stone Revive is Passive*/
                         while (ModKeyBindings.timeStone.wasPressed() && gauntletItem.timeStoneCD == 0) {
                             ClientPlayNetworking.send(new TimeStonePayload(true));
+                            ClientPlayNetworking.send(new ShuffleInventoryPayload(true));
                         }
                         while (ModKeyBindings.mindStone.wasPressed() && gauntletItem.mindStoneCD == 0) {
                             ClientPlayNetworking.send(new MindStonePayload(InfinityStoneUtil.TIMER_MIND_STONE));
-                            //ClientPlayNetworking.send(new MindStoneCDSyncPayload(InfinityStoneUtil.MIND_STONE_CD));
+                            ClientPlayNetworking.send(new ShuffleInventoryPayload(true));
                         }
                     }
                 });

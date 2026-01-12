@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_elder_guardian_thorn": {
+      "conditions": {
+        "items": [
+          {
+            "items": "gitsnshiggles:elder_guardian_thorn"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_heart_of_the_sea": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:heart_of_the_sea"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_prismarine_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:prismarine_shard"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "gitsnshiggles:inverted_trident"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_prismarine_shard",
+      "has_heart_of_the_sea",
+      "has_elder_guardian_thorn"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "gitsnshiggles:inverted_trident"
+    ]
+  }
+}

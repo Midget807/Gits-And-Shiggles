@@ -14,6 +14,7 @@ import net.midget807.gitsnshiggles.util.inject.*;
 import net.midget807.gitsnshiggles.util.state.ElfCountState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.damage.DamageTypes;
@@ -45,6 +46,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 @Mixin(PlayerEntity.class)
@@ -62,6 +64,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
 
     @Shadow
     public abstract PlayerInventory getInventory();
+
+    @Shadow
+    public abstract Iterable<ItemStack> getHandItems();
 
     @Unique
     private float fovScale = RailgunItem.FOV_MULTIPLIER;
@@ -257,29 +262,31 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         );
         for (ProjectileEntity projectileEntity : projectiles) {
             Vec3d pos = projectileEntity.getPos();
-            World world = this.getWorld();
-            if (!world.isClient) {
-                for (int i = 0; i < 5; i++) {
-                    DustParticleEffect dustParticleEffect = new DustParticleEffect(new Vector3f(0.592f, 0, 0.0667f), 1.0f);
-                    world.addParticle(
-                            dustParticleEffect,
-                            pos.getX() + world.random.nextFloat(),
-                            pos.getY() + world.random.nextFloat(),
-                            pos.getZ() + world.random.nextFloat(),
-                            0,
-                            0,
-                            0
-                    );
-                    world.addParticle(
-                            ParticleTypes.BUBBLE,
-                            pos.getX() + world.random.nextFloat(),
-                            pos.getY() + world.random.nextFloat(),
-                            pos.getZ() + world.random.nextFloat(),
-                            0,
-                            0.7,
-                            0
-                    );
-                }
+            ServerWorld world = (ServerWorld) this.getWorld();
+            if (!this.getWorld().isClient) {
+                DustParticleEffect dustParticleEffect = new DustParticleEffect(new Vector3f(0.592f, 0, 0.0667f), 1.0f);
+                world.spawnParticles(
+                        dustParticleEffect,
+                        pos.getX() + world.random.nextFloat(),
+                        pos.getY() + world.random.nextFloat(),
+                        pos.getZ() + world.random.nextFloat(),
+                        5,
+                        0,
+                        0,
+                        0,
+                        1.0
+                );
+                world.spawnParticles(
+                        ParticleTypes.BUBBLE,
+                        pos.getX() + world.random.nextFloat(),
+                        pos.getY() + world.random.nextFloat(),
+                        pos.getZ() + world.random.nextFloat(),
+                        5,
+                        0,
+                        0,
+                        0,
+                        1.0
+                );
             }
             projectileEntity.discard();
         }
@@ -341,4 +348,5 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         }
         return base;
     }
+
 }

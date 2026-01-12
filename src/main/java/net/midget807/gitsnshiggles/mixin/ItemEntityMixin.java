@@ -2,6 +2,7 @@ package net.midget807.gitsnshiggles.mixin;
 
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.registry.ModItems;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -9,6 +10,7 @@ import net.minecraft.entity.Ownable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -24,6 +26,8 @@ import java.util.List;
 
 @Mixin(ItemEntity.class)
 public abstract class ItemEntityMixin extends Entity implements Ownable {
+    @Unique
+    public int voidStringTransformTicks = 0;
 
     @Shadow public abstract ItemStack getStack();
 
@@ -40,7 +44,7 @@ public abstract class ItemEntityMixin extends Entity implements Ownable {
             this.setStack(new ItemStack(ModItems.KYBER_CRYSTAL, oldStack.getCount()));
             this.setVelocity(Vec3d.ZERO);
             this.setNoGravity(true);
-            this.setVelocity(0.0, 3.0, 0.0);
+            this.setVelocity(0.0, 5.0, 0.0);
             this.velocityDirty = true;
         } else {
             this.discard();
@@ -50,6 +54,16 @@ public abstract class ItemEntityMixin extends Entity implements Ownable {
     private void gitsnshiggles$particles(CallbackInfo ci) {
         if (this.getWorld().isClient && this.getStack().isOf(ModItems.KYBER_CRYSTAL)) {
             this.getWorld().addParticle(ParticleTypes.END_ROD, this.getX() + this.random.nextFloat() * 0.4, this.getY(), this.getZ() + this.random.nextFloat() * 0.4, 0, -0.1, 0);
+        }
+        if (this.getStack().isOf(Items.STRING) && this.getWorld().getBlockState(this.getBlockPos()).isOf(Blocks.END_PORTAL_FRAME)) {
+            this.voidStringTransformTicks++;
+            if (this.voidStringTransformTicks >= 200) {
+                int count = this.getStack().getCount();
+                this.setStack(new ItemStack(ModItems.VOID_STRING).copyWithCount(count));
+            }
+            if (!this.getWorld().isClient) {
+                ((ServerWorld) this.getWorld()).spawnParticles(ParticleTypes.PORTAL, this.getX(), this.getY() + 0.5, this.getZ(), 10, 0.1, 0.1, 0.1, 1.0);
+            }
         }
     }
     @Inject(method = "tick", at = @At("TAIL"))

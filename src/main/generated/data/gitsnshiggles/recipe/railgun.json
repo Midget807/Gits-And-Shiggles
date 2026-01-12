@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "A": {
+      "item": "minecraft:activator_rail"
+    },
+    "D": {
+      "item": "minecraft:detector_rail"
+    },
+    "N": {
+      "item": "minecraft:rail"
+    },
+    "P": {
+      "item": "minecraft:powered_rail"
+    },
+    "R": {
+      "item": "gitsnshiggles:am_rifle"
+    }
+  },
+  "pattern": [
+    "DNP",
+    "ARA",
+    "PND"
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:railgun"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_egg": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:egg"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_enchanted_golden_apple": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:enchanted_golden_apple"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_ender_eye": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:ender_eye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_nether_star": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:nether_star"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_prismarine_crystals": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:prismarine_crystals"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_rabbit_foot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:rabbit_foot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "gitsnshiggles:random_egg"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_turtle_helmet": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:turtle_helmet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_wind_charge": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:wind_charge"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_egg",
+      "has_enchanted_golden_apple",
+      "has_wind_charge",
+      "has_turtle_helmet",
+      "has_ender_eye",
+      "has_prismarine_crystals",
+      "has_rabbit_foot",
+      "has_nether_star"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "gitsnshiggles:random_egg"
+    ]
+  }
+}

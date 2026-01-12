@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_iron_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:iron_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_kyber_crystal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "gitsnshiggles:kyber_crystal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_red_hot_netherite_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "gitsnshiggles:red_hot_netherite_ingot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "gitsnshiggles:lightsaber_black"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_iron_ingot",
+      "has_red_hot_netherite_ingot",
+      "has_kyber_crystal"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "gitsnshiggles:lightsaber_black"
+    ]
+  }
+}
