@@ -38,6 +38,14 @@ public class ModItemGroups {
                         entries.add(ModItems.RANDOM_EGG);
 
                         entries.add(ModItems.INFINITY_GAUNTLET);
+                        entries.add(ModItems.GAUNTLET);
+                        entries.add(ModItems.EMPTY_STONE);
+                        entries.add(ModItems.POWER_STONE);
+                        entries.add(ModItems.SPACE_STONE);
+                        entries.add(ModItems.REALITY_STONE);
+                        entries.add(ModItems.SOUL_STONE);
+                        entries.add(ModItems.TIME_STONE);
+                        entries.add(ModItems.MIND_STONE);
 
                         entries.add(ModItems.INVERTED_TRIDENT);
                         entries.add(ModItems.ELDER_GUARDIAN_THORN);
@@ -72,10 +80,16 @@ public class ModItemGroups {
                         entries.add(ModItems.LIGHTSABER_RED);
                         entries.add(ModItems.LIGHTSABER_BLACK);
 
-                        entries.add(ModItems.TRON_DISC_WHITE);
+                        //entries.add(ModItems.TRON_DISC_WHITE);
 
                         entries.add(ModItems.RED_HOT_IRON_INGOT);
                         entries.add(ModItems.RED_HOT_NETHERITE_INGOT);
+                        entries.add(ModItems.RED_HOT_GOLD_INGOT);
+                        entries.add(ModItems.RED_HOT_GOLD_ALLOY_INGOT);
+                        entries.add(ModItems.RED_HOT_GOLD_ALLOY_PLATE);
+
+                        entries.add(ModItems.GOLD_ALLOY_INGOT);
+                        entries.add(ModItems.GOLD_ALLOY_PLATE);
 
                     })
                     .build()

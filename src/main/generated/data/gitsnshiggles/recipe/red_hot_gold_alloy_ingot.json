@@ -1,0 +1,37 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "gitsnshiggles:red_hot_gold_ingot"
+    },
+    {
+      "item": "gitsnshiggles:red_hot_gold_ingot"
+    },
+    {
+      "item": "gitsnshiggles:red_hot_gold_ingot"
+    },
+    {
+      "item": "gitsnshiggles:red_hot_gold_ingot"
+    },
+    {
+      "item": "gitsnshiggles:red_hot_gold_ingot"
+    },
+    {
+      "item": "gitsnshiggles:red_hot_gold_ingot"
+    },
+    {
+      "item": "gitsnshiggles:red_hot_gold_ingot"
+    },
+    {
+      "item": "gitsnshiggles:red_hot_gold_ingot"
+    },
+    {
+      "item": "gitsnshiggles:red_hot_netherite_ingot"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:red_hot_gold_alloy_ingot"
+  }
+}

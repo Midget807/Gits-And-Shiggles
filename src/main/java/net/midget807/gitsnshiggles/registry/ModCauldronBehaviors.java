@@ -21,7 +21,10 @@ public class ModCauldronBehaviors {
     public static final Map<Item, Item> QUENCHING_RECIPE = Map.of(
             ModItems.RED_HOT_IRON_INGOT, Items.IRON_INGOT,
             ModItems.RED_HOT_KATANA_BLADE, ModItems.KATANA_BLADE,
-            ModItems.RED_HOT_NETHERITE_INGOT, Items.NETHERITE_INGOT
+            ModItems.RED_HOT_NETHERITE_INGOT, Items.NETHERITE_INGOT,
+            ModItems.RED_HOT_GOLD_INGOT, Items.GOLD_INGOT,
+            ModItems.RED_HOT_GOLD_ALLOY_INGOT, ModItems.GOLD_ALLOY_INGOT,
+            ModItems.RED_HOT_GOLD_ALLOY_PLATE, ModItems.GOLD_ALLOY_PLATE
     );
 
     public static void registerModCauldronBehaviors() {

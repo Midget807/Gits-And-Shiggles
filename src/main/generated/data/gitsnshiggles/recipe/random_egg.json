@@ -2,9 +2,6 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "C": {
-      "item": "minecraft:prismarine_crystals"
-    },
     "E": {
       "item": "minecraft:ender_eye"
     },
@@ -13,6 +10,9 @@
     },
     "G": {
       "item": "minecraft:enchanted_golden_apple"
+    },
+    "H": {
+      "item": "minecraft:heart_of_the_sea"
     },
     "S": {
       "item": "minecraft:nether_star"
@@ -29,7 +29,7 @@
   },
   "pattern": [
     "WGT",
-    "EXC",
+    "EXH",
     "FGS"
   ],
   "result": {

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gitsnshiggles:item/red_hot_gold_alloy_ingot"
+  }
+}

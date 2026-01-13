@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "I": {
+      "item": "gitsnshiggles:gold_alloy_ingot"
+    },
+    "P": {
+      "item": "gitsnshiggles:gold_alloy_plate"
+    }
+  },
+  "pattern": [
+    "III",
+    " P ",
+    "P P"
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:gauntlet"
+  }
+}

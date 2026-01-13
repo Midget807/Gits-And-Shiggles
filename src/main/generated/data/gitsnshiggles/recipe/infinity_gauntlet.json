@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "gitsnshiggles:gauntlet"
+    },
+    {
+      "item": "gitsnshiggles:power_stone"
+    },
+    {
+      "item": "gitsnshiggles:space_stone"
+    },
+    {
+      "item": "gitsnshiggles:reality_stone"
+    },
+    {
+      "item": "gitsnshiggles:soul_stone"
+    },
+    {
+      "item": "gitsnshiggles:time_stone"
+    },
+    {
+      "item": "gitsnshiggles:mind_stone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:infinity_gauntlet"
+  }
+}

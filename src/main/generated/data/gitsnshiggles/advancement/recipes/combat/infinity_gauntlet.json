@@ -1,61 +1,61 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_egg": {
+    "has_gauntlet": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:egg"
+            "items": "gitsnshiggles:gauntlet"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_enchanted_golden_apple": {
+    "has_mind_stone": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:enchanted_golden_apple"
+            "items": "gitsnshiggles:mind_stone"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_ender_eye": {
+    "has_power_stone": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:ender_eye"
+            "items": "gitsnshiggles:power_stone"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_heart_of_the_sea": {
+    "has_reality_stone": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:heart_of_the_sea"
+            "items": "gitsnshiggles:reality_stone"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_nether_star": {
+    "has_soul_stone": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:nether_star"
+            "items": "gitsnshiggles:soul_stone"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_rabbit_foot": {
+    "has_space_stone": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:rabbit_foot"
+            "items": "gitsnshiggles:space_stone"
           }
         ]
       },
@@ -63,25 +63,15 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "gitsnshiggles:random_egg"
+        "recipe": "gitsnshiggles:infinity_gauntlet"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_turtle_helmet": {
+    "has_time_stone": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:turtle_helmet"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_wind_charge": {
-      "conditions": {
-        "items": [
-          {
-            "items": "minecraft:wind_charge"
+            "items": "gitsnshiggles:time_stone"
           }
         ]
       },
@@ -91,19 +81,18 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_egg",
-      "has_enchanted_golden_apple",
-      "has_wind_charge",
-      "has_turtle_helmet",
-      "has_ender_eye",
-      "has_heart_of_the_sea",
-      "has_rabbit_foot",
-      "has_nether_star"
+      "has_gauntlet",
+      "has_power_stone",
+      "has_space_stone",
+      "has_reality_stone",
+      "has_soul_stone",
+      "has_time_stone",
+      "has_mind_stone"
     ]
   ],
   "rewards": {
     "recipes": [
-      "gitsnshiggles:random_egg"
+      "gitsnshiggles:infinity_gauntlet"
     ]
   }
 }

@@ -244,14 +244,14 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         /** Random Egg */
         ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.RANDOM_EGG, 1)
                 .pattern("WGT")
-                .pattern("EXC")
+                .pattern("EXH")
                 .pattern("FGS")
                 .input('X', Items.EGG)
                 .input('G', Items.ENCHANTED_GOLDEN_APPLE)
                 .input('W', Items.WIND_CHARGE)
                 .input('T', Items.TURTLE_HELMET)
                 .input('E', Items.ENDER_EYE)
-                .input('C', Items.PRISMARINE_CRYSTALS)
+                .input('H', Items.HEART_OF_THE_SEA)
                 .input('F', Items.RABBIT_FOOT)
                 .input('S', Items.NETHER_STAR)
                 .criterion(hasItem(Items.EGG), conditionsFromItem(Items.EGG))
@@ -259,16 +259,61 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(Items.WIND_CHARGE), conditionsFromItem(Items.WIND_CHARGE))
                 .criterion(hasItem(Items.TURTLE_HELMET), conditionsFromItem(Items.TURTLE_HELMET))
                 .criterion(hasItem(Items.ENDER_EYE), conditionsFromItem(Items.ENDER_EYE))
-                .criterion(hasItem(Items.PRISMARINE_CRYSTALS), conditionsFromItem(Items.PRISMARINE_CRYSTALS))
+                .criterion(hasItem(Items.HEART_OF_THE_SEA), conditionsFromItem(Items.HEART_OF_THE_SEA))
                 .criterion(hasItem(Items.RABBIT_FOOT), conditionsFromItem(Items.RABBIT_FOOT))
                 .criterion(hasItem(Items.NETHER_STAR), conditionsFromItem(Items.NETHER_STAR))
                 .offerTo(recipeExporter, Identifier.of(getRecipeName(ModItems.RANDOM_EGG)));
 
-
+        /** Infinity Gauntlet */
+        ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, ModItems.EMPTY_STONE, 1)
+                .pattern("DCD")
+                .pattern("CXC")
+                .pattern("DCD")
+                .input('X', Items.NETHER_STAR)
+                .input('C', Items.CRYING_OBSIDIAN)
+                .input('D', Items.DIAMOND_BLOCK)
+                .criterion(hasItem(Items.NETHER_STAR), conditionsFromItem(Items.NETHER_STAR))
+                .criterion(hasItem(Items.CRYING_OBSIDIAN), conditionsFromItem(Items.CRYING_OBSIDIAN))
+                .criterion(hasItem(Items.DIAMOND_BLOCK), conditionsFromItem(Items.DIAMOND_BLOCK))
+                .offerTo(recipeExporter, Identifier.of(getRecipeName(ModItems.EMPTY_STONE)));
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.RED_HOT_GOLD_ALLOY_INGOT, 2)
+                .input(ModItems.RED_HOT_GOLD_INGOT, 8)
+                .input(ModItems.RED_HOT_NETHERITE_INGOT)
+                .criterion(hasItem(ModItems.RED_HOT_GOLD_INGOT), conditionsFromItem(ModItems.RED_HOT_GOLD_INGOT))
+                .criterion(hasItem(ModItems.RED_HOT_NETHERITE_INGOT), conditionsFromItem(ModItems.RED_HOT_NETHERITE_INGOT))
+                .offerTo(recipeExporter, Identifier.of(getRecipeName(ModItems.RED_HOT_GOLD_ALLOY_INGOT)));
+        ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, ModItems.GAUNTLET, 1)
+                .pattern("III")
+                .pattern(" P ")
+                .pattern("P P")
+                .input('I', ModItems.GOLD_ALLOY_INGOT)
+                .input('P', ModItems.GOLD_ALLOY_PLATE)
+                .criterion(hasItem(ModItems.GOLD_ALLOY_INGOT), conditionsFromItem(ModItems.GOLD_ALLOY_INGOT))
+                .criterion(hasItem(ModItems.GOLD_ALLOY_PLATE), conditionsFromItem(ModItems.GOLD_ALLOY_PLATE))
+                .offerTo(recipeExporter, Identifier.of(getRecipeName(ModItems.GAUNTLET)));
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.COMBAT, ModItems.INFINITY_GAUNTLET)
+                .input(ModItems.GAUNTLET)
+                .input(ModItems.POWER_STONE)
+                .input(ModItems.SPACE_STONE)
+                .input(ModItems.REALITY_STONE)
+                .input(ModItems.SOUL_STONE)
+                .input(ModItems.TIME_STONE)
+                .input(ModItems.MIND_STONE)
+                .criterion(hasItem(ModItems.GAUNTLET), conditionsFromItem(ModItems.GAUNTLET))
+                .criterion(hasItem(ModItems.POWER_STONE), conditionsFromItem(ModItems.POWER_STONE))
+                .criterion(hasItem(ModItems.SPACE_STONE), conditionsFromItem(ModItems.SPACE_STONE))
+                .criterion(hasItem(ModItems.REALITY_STONE), conditionsFromItem(ModItems.REALITY_STONE))
+                .criterion(hasItem(ModItems.SOUL_STONE), conditionsFromItem(ModItems.SOUL_STONE))
+                .criterion(hasItem(ModItems.TIME_STONE), conditionsFromItem(ModItems.TIME_STONE))
+                .criterion(hasItem(ModItems.MIND_STONE), conditionsFromItem(ModItems.MIND_STONE))
+                .offerTo(recipeExporter, Identifier.of(getRecipeName(ModItems.INFINITY_GAUNTLET)));
 
         offerCampfireHeatingRecipe(recipeExporter, "campfire_heating", RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, 3000, Items.IRON_INGOT, ModItems.RED_HOT_IRON_INGOT, 0.5f);
         offerCampfireHeatingRecipe(recipeExporter, "campfire_heating", RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, 6000, Items.NETHERITE_INGOT, ModItems.RED_HOT_NETHERITE_INGOT, 1.5f);
         offerCampfireHeatingRecipe(recipeExporter, "campfire_heating", RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, 6000, ModItems.KATANA_BLADE, ModItems.RED_HOT_KATANA_BLADE, 1.0f);
+        offerCampfireHeatingRecipe(recipeExporter, "campfire_heating", RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, 3000, Items.GOLD_INGOT, ModItems.RED_HOT_GOLD_INGOT, 0.5f);
+        offerCampfireHeatingRecipe(recipeExporter, "campfire_heating", RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, 6000, ModItems.GOLD_ALLOY_INGOT, ModItems.RED_HOT_GOLD_ALLOY_INGOT, 1.0f);
+        offerCampfireHeatingRecipe(recipeExporter, "campfire_heating", RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, 6000, ModItems.GOLD_ALLOY_PLATE, ModItems.RED_HOT_GOLD_ALLOY_PLATE, 1.0f);
     }
 
     private static <T extends AbstractCookingRecipe> void offerCampfireHeatingRecipe(RecipeExporter recipeExporter, String cooker, RecipeSerializer<T> serializer, AbstractCookingRecipe.RecipeFactory<T> recipeFactory, int cookingTime, ItemConvertible items, ItemConvertible output, float experience) {

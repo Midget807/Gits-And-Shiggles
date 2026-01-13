@@ -52,5 +52,18 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.ELDER_GUARDIAN_THORN, Models.GENERATED);
 
         itemModelGenerator.register(ModItems.FUEL_TANK, Models.GENERATED);
+
+        itemModelGenerator.register(ModItems.EMPTY_STONE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.POWER_STONE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.SPACE_STONE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.REALITY_STONE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.SOUL_STONE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.TIME_STONE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.MIND_STONE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.GOLD_ALLOY_INGOT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.GOLD_ALLOY_PLATE, Models.GENERATED);
+        itemModelGenerator.register(ModItems.RED_HOT_GOLD_INGOT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.RED_HOT_GOLD_ALLOY_INGOT, Models.GENERATED);
+        itemModelGenerator.register(ModItems.RED_HOT_GOLD_ALLOY_PLATE, Models.GENERATED);
     }
 }

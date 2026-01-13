@@ -79,7 +79,12 @@
 	],
 	"gui_light": "front",
 	"overrides": [
-		{"predicate": {"throwing": 1}, "model": "gitsnshiggles:item/inverted_trident_throwing"}
+		{
+          "predicate": {
+            "inverted_throwing": 1
+          },
+          "model": "gitsnshiggles:item/inverted_trident_throwing"
+        }
 	],
 	"display": {
 		"thirdperson_righthand": {

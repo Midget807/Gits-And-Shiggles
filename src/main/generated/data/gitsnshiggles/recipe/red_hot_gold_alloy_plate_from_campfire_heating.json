@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "cookingtime": 6000,
+  "experience": 1.0,
+  "ingredient": {
+    "item": "gitsnshiggles:gold_alloy_plate"
+  },
+  "result": {
+    "id": "gitsnshiggles:red_hot_gold_alloy_plate"
+  }
+}
