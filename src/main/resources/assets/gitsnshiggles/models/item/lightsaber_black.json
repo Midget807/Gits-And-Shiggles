@@ -3,7 +3,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"1": "gitsnshiggles:item/lightsaber/black_beam",
-		"2": "gitsnshiggles:item/lightsaber/black_beam_overlay",
+		"2": "gitsnshiggles:item/lightsaber/white_beam_overlay",
 		"5": "gitsnshiggles:item/lightsaber/handle"
 	},
 	"elements": [
