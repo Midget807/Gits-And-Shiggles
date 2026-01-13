@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.minecraft.data.server.recipe.*;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.AbstractCookingRecipe;
@@ -15,6 +16,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends FabricRecipeProvider {
@@ -221,8 +223,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                 .criterion(hasItem(ModItems.RED_HOT_NETHERITE_INGOT), conditionsFromItem(ModItems.RED_HOT_NETHERITE_INGOT))
                 .criterion(hasItem(ModItems.KYBER_CRYSTAL), conditionsFromItem(ModItems.KYBER_CRYSTAL))
-                .offerTo(recipeExporter, Identifier.of(getRecipeName(ModItems.LIGHTSABER_BLACK)));
-        this.createLightsaberRecipe();
+                .offerTo(recipeExporter, Identifier.of(getRecipeName(ModItems.LIGHTSABER_BLACK) + "_base"));
+        this.createLightsaberRecipe(recipeExporter);
 
         /** Railgun */
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, ModItems.RAILGUN, 1)
@@ -322,7 +324,31 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .offerTo(recipeExporter, Identifier.of(getRecipeName(output) + "_from_" + cooker));
     }
 
-    private void createLightsaberRecipe() {
-
+    private void createLightsaberRecipe(RecipeExporter recipeExporter) {
+        Map<Item, Item> colors = new java.util.HashMap<>(Map.of());
+        colors.put(Items.WHITE_DYE, ModItems.LIGHTSABER_WHITE);
+        colors.put(Items.ORANGE_DYE, ModItems.LIGHTSABER_ORANGE);
+        colors.put(Items.MAGENTA_DYE, ModItems.LIGHTSABER_MAGENTA);
+        colors.put(Items.LIGHT_BLUE_DYE, ModItems.LIGHTSABER_LIGHT_BLUE);
+        colors.put(Items.YELLOW_DYE, ModItems.LIGHTSABER_YELLOW);
+        colors.put(Items.LIME_DYE, ModItems.LIGHTSABER_LIME);
+        colors.put(Items.PINK_DYE, ModItems.LIGHTSABER_PINK);
+        colors.put(Items.GRAY_DYE, ModItems.LIGHTSABER_GRAY);
+        colors.put(Items.LIGHT_GRAY_DYE, ModItems.LIGHTSABER_LIGHT_GRAY);
+        colors.put(Items.CYAN_DYE, ModItems.LIGHTSABER_CYAN);
+        colors.put(Items.PURPLE_DYE, ModItems.LIGHTSABER_PURPLE);
+        colors.put(Items.BLUE_DYE, ModItems.LIGHTSABER_BLUE);
+        colors.put(Items.BROWN_DYE, ModItems.LIGHTSABER_BROWN);
+        colors.put(Items.GREEN_DYE, ModItems.LIGHTSABER_GREEN);
+        colors.put(Items.RED_DYE, ModItems.LIGHTSABER_RED);
+        colors.put(Items.BLACK_DYE, ModItems.LIGHTSABER_BLACK);
+        colors.forEach((dye, lightsaber) -> {
+            ShapelessRecipeJsonBuilder.create(RecipeCategory.COMBAT, lightsaber, 1)
+                    .input(ModItemTagProvider.LIGHTSABERS)
+                    .input(dye)
+                    .criterion("has_lightsabers", conditionsFromTag(ModItemTagProvider.LIGHTSABERS))
+                    .criterion(hasItem(dye), conditionsFromItem(dye))
+                    .offerTo(recipeExporter, Identifier.of(getRecipeName(lightsaber)));
+        });
     }
 }

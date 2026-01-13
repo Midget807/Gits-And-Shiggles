@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_black_dye": {
+    "has_gray_dye": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:black_dye"
+            "items": "minecraft:gray_dye"
           }
         ]
       },
@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "gitsnshiggles:lightsaber_black"
+        "recipe": "gitsnshiggles:lightsaber_gray"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -32,12 +32,12 @@
     [
       "has_the_recipe",
       "has_lightsabers",
-      "has_black_dye"
+      "has_gray_dye"
     ]
   ],
   "rewards": {
     "recipes": [
-      "gitsnshiggles:lightsaber_black"
+      "gitsnshiggles:lightsaber_gray"
     ]
   }
 }

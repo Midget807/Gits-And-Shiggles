@@ -7,9 +7,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.Ownable;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.collection.DefaultedList;
@@ -22,6 +25,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
@@ -166,7 +170,7 @@ public abstract class ItemEntityMixin extends Entity implements Ownable {
             if (this.powerStoneCraftingTicks >= 1200) {
                 powerStoneCraft.getLast().setStack(new ItemStack(ModItems.POWER_STONE));
                 ItemStack ingredientStack = powerStoneCraft.getFirst().getStack();
-                ingredientStack.decrement(16);
+                ingredientStack.decrement(8);
                 powerStoneCraft.getFirst().setStack(ingredientStack);
                 this.powerStoneCraftingTicks = 0;
                 shouldCraft = false;
@@ -211,6 +215,10 @@ public abstract class ItemEntityMixin extends Entity implements Ownable {
                 ((ServerWorld) this.getWorld()).spawnParticles(ParticleTypes.ENCHANT, this.getX(), this.getY() + 0.5, this.getZ(), 4, 0.1, 0.1, 0.1, 1.0);
                 ((ServerWorld) this.getWorld()).spawnParticles(ParticleTypes.PORTAL, this.getX(), this.getY() + 0.5, this.getZ(), 4, 0.1, 0.1, 0.1, 1.0);
             }
+        }
+        if (this.getStack().isOf(ModItems.RED_HOT_GOLD_ALLOY_INGOT) && this.getWorld().getBlockState(this.getBlockPos()).isIn(BlockTags.ANVIL)) {
+            int count = this.getStack().getCount();
+            this.setStack(new ItemStack(ModItems.RED_HOT_GOLD_ALLOY_PLATE, count));
         }
     }
 

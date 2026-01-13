@@ -1,16 +1,6 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_black_dye": {
-      "conditions": {
-        "items": [
-          {
-            "items": "minecraft:black_dye"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_lightsabers": {
       "conditions": {
         "items": [
@@ -21,9 +11,19 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
+    "has_purple_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:purple_dye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "gitsnshiggles:lightsaber_black"
+        "recipe": "gitsnshiggles:lightsaber_purple"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -32,12 +32,12 @@
     [
       "has_the_recipe",
       "has_lightsabers",
-      "has_black_dye"
+      "has_purple_dye"
     ]
   ],
   "rewards": {
     "recipes": [
-      "gitsnshiggles:lightsaber_black"
+      "gitsnshiggles:lightsaber_purple"
     ]
   }
 }

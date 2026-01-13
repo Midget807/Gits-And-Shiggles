@@ -6,11 +6,11 @@
       "tag": "gitsnshiggles:lightsabers"
     },
     {
-      "item": "minecraft:black_dye"
+      "item": "minecraft:yellow_dye"
     }
   ],
   "result": {
     "count": 1,
-    "id": "gitsnshiggles:lightsaber_black"
+    "id": "gitsnshiggles:lightsaber_yellow"
   }
 }
