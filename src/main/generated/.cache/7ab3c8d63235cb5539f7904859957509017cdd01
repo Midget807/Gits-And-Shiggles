@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-26T00:20:05.1114767	Gits And Shiggles/Recipes
+// 1.21.1	2026-01-26T00:29:35.5417012	Gits And Shiggles/Recipes
 229ac1684a2a1a666e4d091b4ce8ff5c3f40f1b3 data\gitsnshiggles\advancement\recipes\combat\gauntlet.json
 7a0d2f691ca017f637944747081ed435faf9047c data\gitsnshiggles\recipe\fuel_tank.json
 38c6a62a7fbc9b5b2b19353ccaa75ada41612f5f data\gitsnshiggles\recipe\lightsaber_orange.json
@@ -48,6 +48,7 @@ afd9ec360d08cae76778d736ca052c16da610c7e data\gitsnshiggles\recipe\red_hot_gold_
 7650f7895f01a11528a0a4548f8e1f76b18de475 data\gitsnshiggles\recipe\lightsaber_light_blue.json
 cd348077a8088ae82cd58c16844d0d0b6c8975c6 data\gitsnshiggles\advancement\recipes\combat\red_hot_katana_blade.json
 6a11bc16fd3a3815288835f7d265f3497f35d0d6 data\gitsnshiggles\recipe\gold_santa_hat.json
+baad9acddc6a3d0ecbb1f194040b246c30bcb03b data\gitsnshiggles\recipe\nether_sponge.json
 8e4818ba5fbc7ddfaff211d2864b3675ea3977b1 data\gitsnshiggles\advancement\recipes\combat\lightsaber_orange.json
 5bf630ec36df0f4d76bd3e019d63583070f99a9a data\gitsnshiggles\advancement\recipes\combat\gold_santa_hat.json
 9a64e564d532c13641ac83b59d7a8976aa21140f data\gitsnshiggles\advancement\recipes\combat\lightsaber_red.json
@@ -67,6 +68,7 @@ b9900d9183c6c557397449cf9e239730bc28570e data\gitsnshiggles\advancement\recipes\
 0c2891c9ee082007d9e7417d46fc13e8cc07106d data\gitsnshiggles\advancement\recipes\combat\infinity_gauntlet.json
 a5417c102dd7b0540f3e2b33cd969f220a01f203 data\gitsnshiggles\advancement\recipes\tools\red_hot_iron_ingot_from_campfire_heating.json
 4cf7297860bbec42f09c75ecd0deb4d51ce8c096 data\gitsnshiggles\advancement\recipes\misc\magic_cloth.json
+ab35dbf271c5e78df0bf8a30af3a06163dd067d1 data\gitsnshiggles\advancement\recipes\building_blocks\nether_sponge.json
 f6f30caee6aa42a4222c523468c6e18340be34b4 data\gitsnshiggles\recipe\lightsaber_white.json
 5cb5ea9573eff5de25b975e28026497c2c68ff77 data\gitsnshiggles\advancement\recipes\combat\lightsaber_yellow.json
 b2e9eae708f60b8cb0bb19b98ace7eec9baa057a data\gitsnshiggles\advancement\recipes\combat\wizard_hat.json

@@ -2,6 +2,7 @@ package net.midget807.gitsnshiggles.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.midget807.gitsnshiggles.registry.ModBlocks;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.minecraft.data.server.recipe.*;
 import net.minecraft.item.Item;
@@ -26,6 +27,16 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void generate(RecipeExporter recipeExporter) {
+        /** Nether Sponge*/
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.NETHER_SPONGE, 8)
+                .pattern("SSS")
+                .pattern("SNS")
+                .pattern("SSS")
+                .input('S', Items.SPONGE)
+                .input('N', Items.NETHERITE_SCRAP)
+                .criterion(hasItem(Items.SPONGE), conditionsFromItem(Items.SPONGE))
+                .criterion(hasItem(Items.NETHERITE_SCRAP), conditionsFromItem(Items.NETHERITE_SCRAP))
+                .offerTo(recipeExporter, Identifier.of(getRecipeName(ModBlocks.NETHER_SPONGE)));
         /** Santa */
         ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, ModItems.SANTA_HAT, 1)
                 .pattern("W")

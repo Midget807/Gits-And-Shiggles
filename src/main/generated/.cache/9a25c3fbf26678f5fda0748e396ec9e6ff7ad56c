@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-26T00:20:05.114487	Gits And Shiggles/Model Definitions
+// 1.21.1	2026-01-26T00:29:35.5442028	Gits And Shiggles/Model Definitions
 1e473c529c9097dba0b677d4440c3a19435f42b1 assets\gitsnshiggles\models\item\red_hot_gold_alloy_ingot.json
 4a6e413c7bc4b2ba15addbb36865f940d38d3cb1 assets\gitsnshiggles\models\item\gold_santa_hat.json
 67d1828f11e8fc3ee000cd68e85e668bb10af6e6 assets\gitsnshiggles\models\item\gun_ingot.json
@@ -27,12 +27,12 @@ cf606a8ce6dff86dfbc2c0153356e14d44d58c76 assets\gitsnshiggles\models\item\santa_
 c2c5e78331284946ddc9c6a07bfd0c0b345b56ea assets\gitsnshiggles\models\item\empty_stone.json
 dc2894b2ec855c0585b42fc8c5d2c1f229c46cdd assets\gitsnshiggles\models\item\gun_block.json
 8c787965d95718755a32b330082bcf1265cf15b6 assets\gitsnshiggles\blockstates\wet_nether_sponge.json
+d6a009dbdab1d25241cb36d336ae90fede1d3712 assets\gitsnshiggles\models\item\gun_nugget.json
 43e0723231280a836d02dcf8170b2801014e65bd assets\gitsnshiggles\models\item\red_hot_gold_ingot.json
 ac9fbe222c4427dbd78543b42e2a0a954b284230 assets\gitsnshiggles\models\item\soul_stone.json
-d6a009dbdab1d25241cb36d336ae90fede1d3712 assets\gitsnshiggles\models\item\gun_nugget.json
 c4eb5cf1b12687798ad8ccce0b662e8d0f35abb5 assets\gitsnshiggles\models\item\katana.json
-6988529610181fb643c1290c399824b45def6c0a assets\gitsnshiggles\models\item\entity_remover.json
 bb39870572ef29beed24de35162a8a0f7500c8b5 assets\gitsnshiggles\models\item\elder_guardian_thorn.json
+6988529610181fb643c1290c399824b45def6c0a assets\gitsnshiggles\models\item\entity_remover.json
 22d437b78227c0d6f3458443acc9614b96807ed4 assets\gitsnshiggles\models\item\sack.json
 cc83d2fc31eee88d2129354eaee958edd03355c2 assets\gitsnshiggles\models\item\time_stone.json
 ef81a7a479f8afdb912c1da06f693f787ddafbd1 assets\gitsnshiggles\models\item\netherite_santa_hat.json
