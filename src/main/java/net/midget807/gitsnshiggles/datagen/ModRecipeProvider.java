@@ -310,6 +310,19 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(ModItems.MIND_STONE), conditionsFromItem(ModItems.MIND_STONE))
                 .offerTo(recipeExporter, Identifier.of(getRecipeName(ModItems.INFINITY_GAUNTLET)));
 
+        /** Tron Disc */
+        ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, ModItems.TRON_DISC, 1)
+                .pattern("GDG")
+                .pattern("DXD")
+                .pattern("GDG")
+                .input('G', Items.GLOWSTONE_DUST)
+                .input('D', Items.DIAMOND)
+                .input('X', ModItemTagProvider.DISCS)
+                .criterion(hasItem(Items.GLOWSTONE_DUST), conditionsFromItem(Items.GLOWSTONE_DUST))
+                .criterion(hasItem(Items.DIAMOND), conditionsFromItem(Items.DIAMOND))
+                .criterion("has_music_discs", conditionsFromTag(ModItemTagProvider.DISCS))
+                .offerTo(recipeExporter, Identifier.of(getRecipeName(ModItems.TRON_DISC)));
+
         offerCampfireHeatingRecipe(recipeExporter, "campfire_heating", RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, 3000, Items.IRON_INGOT, ModItems.RED_HOT_IRON_INGOT, 0.5f);
         offerCampfireHeatingRecipe(recipeExporter, "campfire_heating", RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, 6000, Items.NETHERITE_INGOT, ModItems.RED_HOT_NETHERITE_INGOT, 1.5f);
         offerCampfireHeatingRecipe(recipeExporter, "campfire_heating", RecipeSerializer.CAMPFIRE_COOKING, CampfireCookingRecipe::new, 6000, ModItems.KATANA_BLADE, ModItems.RED_HOT_KATANA_BLADE, 1.0f);

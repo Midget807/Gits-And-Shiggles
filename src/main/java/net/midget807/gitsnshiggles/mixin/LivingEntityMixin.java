@@ -1,7 +1,5 @@
 package net.midget807.gitsnshiggles.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -10,15 +8,12 @@ import net.midget807.gitsnshiggles.cca.WizardVanishComponent;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.entity.ElfEntity;
 import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
-import net.midget807.gitsnshiggles.item.KatanaItem;
 import net.midget807.gitsnshiggles.network.S2C.payload.SoulStonePayload;
-import net.midget807.gitsnshiggles.registry.ModDamages;
 import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModEffects;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.RailgunScalar;
-import net.midget807.gitsnshiggles.util.inject.ElfCount;
 import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.midget807.gitsnshiggles.util.inject.RailgunRecoil;
 import net.midget807.gitsnshiggles.util.inject.SoulStoneRevive;
@@ -370,7 +365,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
     private void gitsnshiggles$untargetVanishedPlayers(LivingEntity target, CallbackInfoReturnable<Boolean> cir) {
         if (target instanceof PlayerEntity player) {
             WizardVanishComponent wizardVanishComponent = WizardVanishComponent.get(player);
-            if (wizardVanishComponent.getValue()) {
+            if (wizardVanishComponent.getBool()) {
                 cir.setReturnValue(false);
             }
         }

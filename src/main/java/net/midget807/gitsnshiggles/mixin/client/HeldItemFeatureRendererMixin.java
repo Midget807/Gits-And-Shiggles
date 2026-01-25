@@ -1,6 +1,9 @@
 package net.midget807.gitsnshiggles.mixin.client;
 
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
+import net.midget807.gitsnshiggles.registry.ModItems;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
@@ -10,8 +13,11 @@ import net.minecraft.client.render.entity.model.ModelWithArms;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -34,6 +40,18 @@ public abstract class HeldItemFeatureRendererMixin<T extends LivingEntity, M ext
             ci.cancel();
         } else {
             boolean leftArm = arm == Arm.LEFT;
+            /*if (stack.isOf(ModItems.TRON_DISC) && entity instanceof PlayerEntity player) {
+                matrices.push();
+                ((ModelWithArms)this.getContextModel()).setArmAngle(arm, matrices);
+                matrices.multiply(new Quaternionf().rotationX((float) (-Math.PI / 2)));
+                matrices.multiply(new Quaternionf().rotationY((float) (Math.PI / 2)));
+                matrices.translate((leftArm ? -1.0f : 1.0f) / 12.0f, 0.135f, -0.625f);
+                MinecraftClient.getInstance().getItemRenderer().renderItem(entity, stack, transformationMode, leftArm, matrices, vertexConsumers, entity.getWorld(), light, OverlayTexture.DEFAULT_UV, entity.getId() + transformationMode.ordinal());
+                matrices.pop();
+                ci.cancel();
+            }*/
         }
     }
+
+
 }

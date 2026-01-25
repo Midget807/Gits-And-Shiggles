@@ -24,5 +24,9 @@ public abstract class ItemColorsMixin {
                 ModItems.WIZARD_BOOTS,
                 ModItems.LEATHER_SANTA_HAT
         );
+        itemColors.register(
+                (stack, tintIndex) -> tintIndex > 0 ? -1 : DyedColorComponent.getColor(stack, 0x00FFFF - ModColorUtil.FUCKASS_COLOR_CONSTANT),
+                ModItems.TRON_DISC
+        );
     }
 }

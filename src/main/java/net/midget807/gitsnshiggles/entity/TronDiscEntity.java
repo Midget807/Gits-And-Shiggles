@@ -2,11 +2,15 @@ package net.midget807.gitsnshiggles.entity;
 
 import net.midget807.gitsnshiggles.registry.ModEntities;
 import net.midget807.gitsnshiggles.registry.ModItems;
-import net.midget807.gitsnshiggles.util.ColoredItemUtil;
+import net.midget807.gitsnshiggles.util.ModColorUtil;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.command.argument.EntityAnchorArgumentType;
+import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
@@ -22,36 +26,39 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class TronDiscEntity extends PersistentProjectileEntity {
-    private int rebounds = 5;
+    private static final TrackedData<Integer> COLOR = DataTracker.registerData(TronDiscEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private int targetNumber = 5;
     private LivingEntity target;
     private LivingEntity exceptionTarget;
-    private ColoredItemUtil.Colors color;
 
     public TronDiscEntity(World world) {
         super(ModEntities.TRON_DISC, world);
     }
 
-    public TronDiscEntity(double x, double y, double z, World world, ItemStack stack, ColoredItemUtil.Colors color) {
+    public TronDiscEntity(double x, double y, double z, World world, ItemStack stack) {
         super(ModEntities.TRON_DISC, x, y, z, world, stack, stack);
-        this.color = color;
+        this.initColor();
     }
 
-    public TronDiscEntity(LivingEntity owner, World world, ItemStack stack, ColoredItemUtil.Colors color) {
+
+    public TronDiscEntity(LivingEntity owner, World world, ItemStack stack) {
         super(ModEntities.TRON_DISC, owner, world, stack, null);
-        this.color = color;
-    }
-
-
-    public ColoredItemUtil.Colors getEnumColor() {
-        return this.color;
-    }
-    public void setEnumColor(ColoredItemUtil.Colors color) {
-        this.color = color;
+        this.initColor();
     }
 
     @Override
+    protected void setStack(ItemStack stack) {
+        super.setStack(stack);
+        this.initColor();
+    }
+
+    private void initColor() {
+        this.dataTracker.set(COLOR, DyedColorComponent.getColor(this.getItemStack(), 0x00FFFF - ModColorUtil.FUCKASS_COLOR_CONSTANT));
+    }
+    @Override
     protected void initDataTracker(DataTracker.Builder builder) {
         super.initDataTracker(builder);
+        builder.add(COLOR, -1);
     }
 
     @Override
@@ -60,21 +67,24 @@ public class TronDiscEntity extends PersistentProjectileEntity {
     }
 
     public void setRebounds(int rebounds) {
-        this.rebounds = rebounds;
+        this.targetNumber = rebounds;
     }
     public int getRebounds() {
-        return rebounds;
+        return targetNumber;
     }
 
     @Override
     protected ItemStack getDefaultItemStack() {
-        return new ItemStack(this.color != null ? ColoredItemUtil.getTronDiscByColor(this.color) : ModItems.TRON_DISC_WHITE);
+        return new ItemStack(ModItems.TRON_DISC);
+    }
+    public int getColor() {
+        return this.dataTracker.get(COLOR);
     }
 
     @Override
     public void tick() {
         if (this.age > 80) {
-            this.dropItem(this.color != null ? ColoredItemUtil.getTronDiscByColor(this.color) : ModItems.TRON_DISC_WHITE);
+            this.dropItem(this.getItemStack().getItem());
             this.discard();
             return;
         }
@@ -85,7 +95,7 @@ public class TronDiscEntity extends PersistentProjectileEntity {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
         if (this.getOwner() != null && entity == this.getOwner()) {
-            this.dropItem(this.color != null ? ColoredItemUtil.getTronDiscByColor(this.color) : ModItems.TRON_DISC_WHITE);
+            this.dropItem(this.getItemStack().getItem());
             this.getOwner().kill();
             return;
         }
@@ -95,13 +105,16 @@ public class TronDiscEntity extends PersistentProjectileEntity {
             this.target = null;
         }
 
-        entity.damage(this.getDamageSources().mobProjectile(this, (LivingEntity) this.getOwner()), 5.0f);
-        Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() /*&& entity2 != this.getOwner()*/;
-        this.getNearestEntityInViewPreferPlayer(this, this.getX(), this.getY(), this.getZ(), 20, entityPredicate);
-        if (target != null && this.rebounds > 0) {
-            this.setVelocity(target.getPos().subtract(this.getPos()).normalize().multiply(2));
+        if (entity.damage(this.getDamageSources().mobProjectile(this, (LivingEntity) this.getOwner()), 7.0f)) {
+            this.setVelocity(Vec3d.ZERO);
+        }
+        Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && !entity2.equals(entity) && entity2 != this.getOwner();
+        this.getNearestEntityInViewPreferPlayer(this, this.getX(), this.getY(), this.getZ(), 32, entityPredicate);
+        if (target != null && this.targetNumber > 0) {
+            this.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, target.getPos());
+            this.setVelocity(target.getEyePos().subtract(this.getPos()).normalize().multiply(2));
             this.updateRotation();
-            this.rebounds--;
+            this.targetNumber--;
             this.age = 0;
         }
     }
@@ -110,31 +123,23 @@ public class TronDiscEntity extends PersistentProjectileEntity {
     protected void onBlockHit(BlockHitResult blockHitResult) {
         Vec3d rotVec = this.getVelocity();
         Direction direction = blockHitResult.getSide();
-        if (this.rebounds > 0) {
-            if (direction == Direction.UP || direction == Direction.DOWN) {
-                this.setVelocity(rotVec.x, -rotVec.y, rotVec.z);
-                this.rebounds--;
-                this.age = 0;
-            } else if (direction == Direction.EAST || direction == Direction.WEST) {
-                this.setVelocity(-rotVec.x, rotVec.y, rotVec.z);
-                this.rebounds--;
-                this.age = 0;
-            } else if (direction == Direction.NORTH || direction == Direction.SOUTH) {
-                this.setVelocity(rotVec.x, rotVec.y, -rotVec.z);
-                this.rebounds--;
-                this.age = 0;
-            }
-        } else {
-            this.dropItem(this.color != null ? ColoredItemUtil.getTronDiscByColor(this.color) : ModItems.TRON_DISC_WHITE);
-            this.discard();
-            return;
+        if (direction == Direction.UP || direction == Direction.DOWN) {
+            this.setVelocity(rotVec.x, -rotVec.y, rotVec.z);
+            this.age = 0;
+        } else if (direction == Direction.EAST || direction == Direction.WEST) {
+            this.setVelocity(-rotVec.x, rotVec.y, rotVec.z);
+            this.age = 0;
+        } else if (direction == Direction.NORTH || direction == Direction.SOUTH) {
+            this.setVelocity(rotVec.x, rotVec.y, -rotVec.z);
+            this.age = 0;
         }
         Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && entity2 != this.getOwner();
-        this.getNearestEntityInViewPreferPlayer(this, this.getX(), this.getY(), this.getZ(), 20, entityPredicate);
-        if (target != null && this.rebounds > 0) {
-            this.setVelocity(target.getPos().subtract(this.getPos()).normalize().multiply(2));
+        this.getNearestEntityInViewPreferPlayer(this, this.getX(), this.getY(), this.getZ(), 32, entityPredicate);
+        if (target != null && this.targetNumber > 0) {
+            this.lookAt(EntityAnchorArgumentType.EntityAnchor.EYES, target.getPos());
+            this.setVelocity(target.getEyePos().subtract(this.getPos()).normalize().multiply(2));
             this.updateRotation();
-            this.rebounds--;
+            this.targetNumber--;
             this.age = 0;
         }
     }

@@ -38,17 +38,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                         Blocks.WALL_TORCH,
                         Blocks.WEEPING_VINES,
                         Blocks.TWISTING_VINES
-                );/*.addTag(
-                        BlockTags.AIR
-                ).addTag(
-                        BlockTags.FLOWERS
-                ).addTag(
-                        BlockTags.CROPS
-                ).addTag(
-                        BlockTags.CAVE_VINES
-                ).addTag(
-                        BlockTags.UNDERWATER_BONEMEALS
-                )*/
+                );
 
     }
 }

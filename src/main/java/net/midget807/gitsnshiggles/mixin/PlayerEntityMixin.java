@@ -3,6 +3,7 @@ package net.midget807.gitsnshiggles.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.midget807.gitsnshiggles.cca.ElfCountComponent;
+import net.midget807.gitsnshiggles.cca.KatanaBlockingComponent;
 import net.midget807.gitsnshiggles.entity.ElfEntity;
 import net.midget807.gitsnshiggles.item.RailgunItem;
 import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
@@ -234,7 +235,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         List<ElfEntity> fuckedUpElves = world.getEntitiesByClass(ElfEntity.class, player.getBoundingBox().expand(this.getServer().getPlayerManager().getSimulationDistance() * 16), elf -> elf.getOwner() == null);
         List<ElfEntity> elvesOwned = world.getEntitiesByClass(ElfEntity.class, player.getBoundingBox().expand(this.getServer().getPlayerManager().getSimulationDistance() * 16), elf -> elf.getOwner() != null && elf.getOwner().equals(player) && elf.isAlive());
         ElfCountComponent elfCountComponent = ElfCountComponent.get(player);
-        elfCountComponent.setValue(elvesOwned.size());
+        elfCountComponent.setInt(elvesOwned.size());
         for (ElfEntity elf : fuckedUpElves) {
             elf.discard();
         }
@@ -295,9 +296,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     private float gitsnshiggles$katanaBlock(PlayerEntity entity, DamageSource source, float amount, Operation<Float> original) {
         float base = (Float) original.call(entity, source, amount);
         if (entity.getStackInHand(Hand.MAIN_HAND).isOf(ModItems.KATANA)) {
-            Boolean blockingComponent = entity.getStackInHand(Hand.MAIN_HAND).getOrDefault(ModDataComponentTypes.BLOCKING, false);
+            KatanaBlockingComponent katanaBlockingComponent = KatanaBlockingComponent.get(entity);
             if (!source.isIn(DamageTypeTags.BYPASSES_EFFECTS)) {
-                if (blockingComponent) {
+                if (katanaBlockingComponent.getBool()) {
                     Vec3d damagePos = source.getPosition();
                     Vec3d rotVec;
                     Vec3d difference;
@@ -318,9 +319,10 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
                                 serverWorld.playSoundFromEntity(null, this, SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.5f, 0.5f + this.getEntityWorld().random.nextFloat() * 0.2f);
                             }
                             float storedDamage = entity.getStackInHand(Hand.MAIN_HAND).getOrDefault(ModDataComponentTypes.PARRY_DAMAGE, 0.0f);
-                            float damageToStore = Math.clamp(base, 0.0f, 25.0f);
-                            entity.getStackInHand(Hand.MAIN_HAND).set(ModDataComponentTypes.PARRY_DAMAGE, storedDamage + damageToStore);
-                            return 0.0f;
+                            float damageToStore = base * 0.25f;
+                            float clampedDamage = Math.clamp(storedDamage + damageToStore, 0, KatanaBlockingComponent.MAX_PARRY_DMG);
+                            entity.getStackInHand(Hand.MAIN_HAND).set(ModDataComponentTypes.PARRY_DAMAGE, clampedDamage);
+                            return base * 0.25f;
                         }
                     } else if (source.isOf(DamageTypes.FALL)) {
                         rotVec = this.getRotationVector();

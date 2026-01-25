@@ -26,12 +26,12 @@ public class WizardVanishComponent implements BoolComponent, AutoSyncedComponent
     }
 
     @Override
-    public boolean getValue() {
+    public boolean getBool() {
         return this.vanish;
     }
 
     @Override
-    public void setValue(boolean value) {
+    public void setBool(boolean value) {
         this.vanish = value;
         this.sync();
     }

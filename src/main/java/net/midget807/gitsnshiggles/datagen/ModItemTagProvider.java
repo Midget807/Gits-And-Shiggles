@@ -20,7 +20,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     public static final TagKey<Item> FLAMETHROWER_INSERTABLE = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("flamethrower_insertable"));
     public static final TagKey<Item> FLAMETHROWER_POWER = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("flamethrower_power"));
     public static final TagKey<Item> LIGHTSABERS = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("lightsabers"));
-    public static final TagKey<Item> TRON_DISCS = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("tron_discs"));
+    public static final TagKey<Item> DISCS = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("discs"));
     public static final TagKey<Item> DISABLES_SHIELD = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("custom_disables_shield"));
     public static final TagKey<Item> SANTA_DIET = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("santa_diet"));
     public static final TagKey<Item> BIG_ITEM_RENDERING = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("big_item_rendering"));
@@ -76,7 +76,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                         ModItems.WIZARD_ROBE,
                         ModItems.WIZARD_PANTS,
                         ModItems.WIZARD_BOOTS,
-                        ModItems.LEATHER_SANTA_HAT
+                        ModItems.LEATHER_SANTA_HAT,
+                        ModItems.TRON_DISC
                 );
         this.getOrCreateTagBuilder(LIGHTSABERS)
                 .add(
@@ -106,5 +107,15 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                         ModItems.AM_RIFLE,
                         ModItems.KATANA
                 );
+        this.getOrCreateTagBuilder(DISCS)
+                .add(
+                        Items.MUSIC_DISC_5,
+                        Items.MUSIC_DISC_CREATOR,
+                        Items.MUSIC_DISC_CREATOR_MUSIC_BOX,
+                        Items.MUSIC_DISC_OTHERSIDE,
+                        Items.MUSIC_DISC_RELIC,
+                        Items.MUSIC_DISC_PRECIPICE
+                )
+                .forceAddTag(ItemTags.CREEPER_DROP_MUSIC_DISCS);
     }
 }

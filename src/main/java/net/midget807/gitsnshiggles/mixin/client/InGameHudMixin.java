@@ -3,6 +3,7 @@ package net.midget807.gitsnshiggles.mixin.client;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.midget807.gitsnshiggles.cca.FlamethrowerComponent;
+import net.midget807.gitsnshiggles.cca.KatanaBlockingComponent;
 import net.midget807.gitsnshiggles.item.*;
 import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModItems;
@@ -89,17 +90,17 @@ public abstract class InGameHudMixin {
     private void renderKatanaParryBar(DrawContext context, ClientPlayerEntity player) {
         int width = context.getScaledWindowWidth() / 2;
         int height = context.getScaledWindowHeight();
-        ItemStack katana = player.getStackInHand(Hand.MAIN_HAND);
-        KatanaItem katanaItem = (KatanaItem) katana.getItem();
+        PlayerEntity playerEntity = player;
+        KatanaBlockingComponent katanaBlockingComponent = KatanaBlockingComponent.get(playerEntity);
 
         this.client.getProfiler().push("katana_parry");
         RenderSystem.enableBlend();
 
         context.drawGuiTexture(ModTextureIds.PARRY_BAR_BG, width - 50, height - 60, 100, 6);
-        context.drawTexture(ModTextureIds.PARRY_BAR, width - 50, height - 60, 1, 0, 0, katanaItem.getUseTicks(), 6, 100, 6);
+        context.drawTexture(ModTextureIds.PARRY_BAR, width - 50, height - 60, 1, 0, 0, katanaBlockingComponent.getInt() * 100 / KatanaBlockingComponent.MAX_BLOCKING_TIME, 6, 100, 6);
 
         float damage = player.getStackInHand(Hand.MAIN_HAND).getOrDefault(ModDataComponentTypes.PARRY_DAMAGE, 0.0f);
-        context.drawText(this.client.textRenderer, Text.literal(String.format("%.1f", damage)), width + 52 , height - 61, damage == 25.0f ? Colors.YELLOW : Colors.WHITE, false);
+        context.drawText(this.client.textRenderer, Text.literal(String.format("%.1f", damage)), width + 52 , height - 61, damage == KatanaBlockingComponent.MAX_PARRY_DMG ? Colors.YELLOW : Colors.WHITE, false);
 
         RenderSystem.disableBlend();
         this.client.getProfiler().pop();

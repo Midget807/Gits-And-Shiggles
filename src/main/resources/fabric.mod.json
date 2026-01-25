@@ -38,7 +38,8 @@
         "gitsnshiggles:elf_count",
         "gitsnshiggles:wizard_vanish",
         "gitsnshiggles:flamethrower",
-        "gitsnshiggles:dice_roll"
+        "gitsnshiggles:dice_roll",
+        "gitsnshiggles:blocking"
       ]
     },
 	"depends": {

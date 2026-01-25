@@ -1,7 +1,8 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "minecraft:item/handheld",
   "textures": {
     "layer0": "gitsnshiggles:item/tron_disc",
     "layer1": "gitsnshiggles:item/tron_disc_overlay"
-  }
+  },
+  "gui_light": "front"
 }

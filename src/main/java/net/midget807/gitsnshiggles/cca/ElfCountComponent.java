@@ -35,30 +35,30 @@ public class ElfCountComponent implements IntComponent, AutoSyncedComponent {
     }
 
     @Override
-    public int getValue() {
+    public int getInt() {
         return this.elfCount;
     }
 
     @Override
-    public void setValue(int value) {
+    public void setInt(int value) {
         this.elfCount = value;
         this.sync();
     }
 
     @Override
-    public void addToValue(int count) {
+    public void addToInt(int count) {
         this.elfCount += count;
         this.sync();
     }
 
     @Override
-    public void incrementValue() {
+    public void incrementInt() {
         this.elfCount++;
         this.sync();
     }
 
     @Override
-    public void decrementValue() {
+    public void decrementInt() {
         this.elfCount--;
         this.sync();
     }

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "X": {
+      "tag": "gitsnshiggles:discs"
+    }
+  },
+  "pattern": [
+    "GDG",
+    "DXD",
+    "GDG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "gitsnshiggles:tron_disc"
+  }
+}

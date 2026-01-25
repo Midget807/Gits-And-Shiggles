@@ -58,22 +58,7 @@ public class ModItems {
     public static final Item RED_HOT_KATANA_BLADE = registerItem("red_hot_katana_blade", new HotItem(new Item.Settings().maxCount(1).fireproof(), ModItems.KATANA_BLADE));
     public static final Item RED_HOT_NETHERITE_INGOT = registerItem("red_hot_netherite_ingot", new HotItem(new Item.Settings().fireproof(), Items.NETHERITE_INGOT));
 
-    public static final Item TRON_DISC_WHITE = registerItem("tron_disc_white", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.WHITE));
-    public static final Item TRON_DISC_ORANGE = registerItem("tron_disc_orange", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.ORANGE));
-    public static final Item TRON_DISC_MAGENTA = registerItem("tron_disc_magenta", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.MAGENTA));
-    public static final Item TRON_DISC_LIGHT_BLUE = registerItem("tron_disc_light_blue", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.LIGHT_BLUE));
-    public static final Item TRON_DISC_YELLOW = registerItem("tron_disc_yellow", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.YELLOW));
-    public static final Item TRON_DISC_LIME = registerItem("tron_disc_lime", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.LIME));
-    public static final Item TRON_DISC_PINK = registerItem("tron_disc_pink", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.PINK));
-    public static final Item TRON_DISC_GRAY = registerItem("tron_disc_gray", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.GRAY));
-    public static final Item TRON_DISC_LIGHT_GRAY = registerItem("tron_disc_light_gray", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.LIGHT_GRAY));
-    public static final Item TRON_DISC_CYAN = registerItem("tron_disc_cyan", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.CYAN));
-    public static final Item TRON_DISC_PURPLE = registerItem("tron_disc_purple", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.PURPLE));
-    public static final Item TRON_DISC_BLUE = registerItem("tron_disc_blue", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.BLUE));
-    public static final Item TRON_DISC_BROWN = registerItem("tron_disc_brown", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.BROWN));
-    public static final Item TRON_DISC_GREEN = registerItem("tron_disc_green", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.GREEN));
-    public static final Item TRON_DISC_RED = registerItem("tron_disc_red", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.RED));
-    public static final Item TRON_DISC_BLACK = registerItem("tron_disc_black", new TronDiscItem(new Item.Settings().maxCount(1).fireproof(), ColoredItemUtil.Colors.BLACK));
+    public static final Item TRON_DISC = registerItem("tron_disc", new TronDiscItem(new Item.Settings().maxCount(1).fireproof()));
 
     public static final Item KYBER_CRYSTAL = registerItem("kyber_crystal", new Item(new Item.Settings()));
     public static final Item LIGHTSABER_WHITE = registerItem("lightsaber_white", new LightsaberItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(LightsaberItem.createAttributeModifiers()).rarity(Rarity.EPIC)));

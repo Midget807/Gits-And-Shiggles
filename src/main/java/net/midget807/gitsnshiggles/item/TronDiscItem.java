@@ -17,10 +17,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Predicate;
 
 public class TronDiscItem extends Item {
-    private final ColoredItemUtil.Colors color;
-    public TronDiscItem(Settings settings, ColoredItemUtil.Colors colors) {
+    public TronDiscItem(Settings settings) {
         super(settings);
-        this.color = colors;
     }
 
     @Override
@@ -43,12 +41,15 @@ public class TronDiscItem extends Item {
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && entity2 != user;
-        TronDiscEntity tronDiscEntity = new TronDiscEntity(user, world, stack, this.color);
+        TronDiscEntity tronDiscEntity = new TronDiscEntity(user, world, stack);
         tronDiscEntity.getNearestEntityInViewPreferPlayer(user, user.getX(), user.getY(), user.getZ(), 20.0, entityPredicate);
         tronDiscEntity.setRebounds(reboundsForPullProgress(user));
+        tronDiscEntity.setPitch(user.getPitch());
+        tronDiscEntity.prevPitch = user.prevPitch;
+        tronDiscEntity.prevYaw = user.prevYaw;
+        tronDiscEntity.setYaw(user.getYaw());
         tronDiscEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 2.0f, 0);
-        //tronDiscEntity.setEnumColor(this.color);
-        if (!world.isClient && this.color != null) {
+        if (!world.isClient) {
             world.spawnEntity(tronDiscEntity);
         }
     }

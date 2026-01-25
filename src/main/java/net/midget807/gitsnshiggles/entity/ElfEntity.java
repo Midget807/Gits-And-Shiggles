@@ -210,7 +210,7 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
     public void onDeath(DamageSource damageSource) {
         if (this.getOwner() != null && this.getOwner() instanceof PlayerEntity player) {
             ElfCountComponent elfCountComponent = ElfCountComponent.get(player);
-            elfCountComponent.decrementValue();
+            elfCountComponent.decrementInt();
         }
         super.onDeath(damageSource);
     }

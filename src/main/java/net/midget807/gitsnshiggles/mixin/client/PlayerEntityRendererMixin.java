@@ -1,5 +1,6 @@
 package net.midget807.gitsnshiggles.mixin.client;
 
+import net.midget807.gitsnshiggles.cca.KatanaBlockingComponent;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.entity.client.RealityStoneShieldEntityModel;
 import net.midget807.gitsnshiggles.entity.client.RealityStoneShieldFeatureRenderer;
@@ -60,9 +61,9 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
     @Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
     private static void gitsnshiggles$bigItemPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
         ItemStack main = player.getMainHandStack();
-        Boolean blockingComponent = main.getOrDefault(ModDataComponentTypes.BLOCKING, false);
+        KatanaBlockingComponent katanaBlockingComponent = KatanaBlockingComponent.get(player);
         if (main.isIn(ModItemTagProvider.BIG_ITEM_RENDERING)) {
-            boolean blocking = blockingComponent.booleanValue();
+            boolean blocking = katanaBlockingComponent.getBool();
             if (hand == Hand.MAIN_HAND) {
                 if (blocking) {
                     cir.setReturnValue(BipedEntityModel.ArmPose.BOW_AND_ARROW);
@@ -79,7 +80,6 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
     @Inject(method = "getArmPose", at = @At("HEAD"), cancellable = true)
     private static void gitsnshiggles$flamethrowerPose(AbstractClientPlayerEntity player, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> cir) {
         ItemStack main = player.getMainHandStack();
-        Boolean blockingComponent = main.getOrDefault(ModDataComponentTypes.BLOCKING, false);
         if (main.isOf(ModItems.FLAMETHROWER)) {
             cir.setReturnValue(BipedEntityModel.ArmPose.CROSSBOW_HOLD);
         }

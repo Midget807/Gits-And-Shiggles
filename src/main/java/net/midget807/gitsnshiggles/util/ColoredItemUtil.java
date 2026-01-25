@@ -37,12 +37,6 @@ public class ColoredItemUtil {
         }
     }
 
-
-    public static Item getTronDiscByColor(Colors color) {
-        Optional<Item> item = Registries.ITEM.getOrEmpty(GitsAndShigglesMain.id("tron_disc_" + color.getColor() == null ? Colors.WHITE.getColor() : color.getColor()));
-        return item.orElse(ModItems.TRON_DISC_WHITE);
-    }
-
     public static Item getLightsaberByColor(Colors color) {
         Optional<Item> item = Registries.ITEM.getOrEmpty(GitsAndShigglesMain.id("lightsaber_" + color.getColor()));
         return item.orElse(null);

@@ -16,7 +16,6 @@ public class ModDataComponentTypes {
     public static final ComponentType<OverheatComponent> OVERHEAT = register("overheat", builder -> builder.codec(OverheatComponent.CODEC).packetCodec(OverheatComponent.PACKET_CODEC));
     public static final ComponentType<FlamethrowerContentsComponent> FLAMETHROWER_CONTENTS = register("overheat", builder -> builder.codec(FlamethrowerContentsComponent.CODEC).packetCodec(FlamethrowerContentsComponent.PACKET_CODEC));
     public static final ComponentType<Integer> DICE_ROLL = register("dice_roll", builder -> builder.codec(Codec.INT).packetCodec(PacketCodecs.INTEGER));
-    public static final ComponentType<Boolean> BLOCKING = register("blocking", builder -> builder.codec(Codec.BOOL).packetCodec(PacketCodecs.BOOL));
     public static final ComponentType<Float> PARRY_DAMAGE = register("parry_damage", builder -> builder.codec(Codec.FLOAT).packetCodec(PacketCodecs.FLOAT));
 
     public static final FoodComponent MILK_BUCKET = new FoodComponent.Builder().nutrition(6).saturationModifier(0.8f).build();

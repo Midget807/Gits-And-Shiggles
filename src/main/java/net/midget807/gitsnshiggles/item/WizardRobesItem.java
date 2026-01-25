@@ -48,9 +48,9 @@ public class WizardRobesItem extends ArmorItem {
             if (player.hasStatusEffect(StatusEffects.INVISIBILITY)) {
                 player.clearPotionSwirls();
             }
-            if (!wizardVanishComponent.getValue()) {
+            if (!wizardVanishComponent.getBool()) {
                 ((ServerWorld) world).spawnParticles(ParticleTypes.REVERSE_PORTAL, player.getX(), player.getY() + 0.5, player.getZ(), 10, 0.1, 0.1, 0.1, 1.0);
-                wizardVanishComponent.setValue(true);
+                wizardVanishComponent.setBool(true);
             }
             player.setInvisible(true);
             world.getEntitiesByClass(MobEntity.class, player.getBoundingBox().expand(32), mobEntity -> mobEntity.getTarget() != null && mobEntity.getTarget().equals(player)).forEach(mobEntity -> mobEntity.setTarget(null));
@@ -59,9 +59,9 @@ public class WizardRobesItem extends ArmorItem {
                 player.updatePotionSwirls();
                 player.setInvisible(true);
             } else {
-                if (wizardVanishComponent.getValue()) {
+                if (wizardVanishComponent.getBool()) {
                     player.setInvisible(false);
-                    wizardVanishComponent.setValue(false);
+                    wizardVanishComponent.setBool(false);
                     ((ServerWorld) world).spawnParticles(ParticleTypes.PORTAL, player.getX(), player.getY() + 0.5, player.getZ(), 10, 0.1, 0.1, 0.1, 1.0);
                 }
             }

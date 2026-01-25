@@ -1,5 +1,6 @@
 package net.midget807.gitsnshiggles.item;
 
+import net.midget807.gitsnshiggles.cca.KatanaBlockingComponent;
 import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.ModDebugUtil;
@@ -20,9 +21,7 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
-import net.minecraft.util.ClickType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -31,7 +30,6 @@ import static net.midget807.gitsnshiggles.registry.ModItems.BLOCK_INTERACTION_RA
 import static net.midget807.gitsnshiggles.registry.ModItems.ENTITY_INTERACTION_RANGE_MODIFIER_ID;
 
 public class KatanaItem extends SwordItem {
-    public int useTicks = 100;
     public static final int USE_TICK_DECREMENT = 2;
 
     public KatanaItem(ToolMaterial toolMaterial, Settings settings) {
@@ -62,10 +60,6 @@ public class KatanaItem extends SwordItem {
                 .build();
     }
 
-    public int getUseTicks() {
-        return this.useTicks;
-    }
-
     @Override
     public int getMaxUseTime(ItemStack stack, LivingEntity user) {
         return Integer.MAX_VALUE;
@@ -78,14 +72,16 @@ public class KatanaItem extends SwordItem {
             return TypedActionResult.fail(itemStack);
         } else {
             user.setCurrentHand(hand);
-            itemStack.set(ModDataComponentTypes.BLOCKING, true);
+            KatanaBlockingComponent.get(user).setBool(true);
             return TypedActionResult.consume(itemStack);
         }
     }
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        stack.set(ModDataComponentTypes.BLOCKING, false);
+        if (user instanceof PlayerEntity player) {
+            KatanaBlockingComponent.get(player).setBool(false);
+        }
         super.onStoppedUsing(stack, world, user, remainingUseTicks);
     }
 
@@ -93,15 +89,8 @@ public class KatanaItem extends SwordItem {
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
         if (entity instanceof PlayerEntity player && !world.isClient) {
-            if (!(player.isUsingItem() && player.getActiveItem().isOf(ModItems.KATANA)) && this.useTicks < 100) {
-                this.useTicks++;
-            }
-            if (this.useTicks <= 0) {
-                player.getItemCooldownManager().set(stack.getItem(), 100);
-                stack.set(ModDataComponentTypes.BLOCKING, false);
-            }
-            if (stack.get(ModDataComponentTypes.PARRY_DAMAGE) != null && stack.get(ModDataComponentTypes.PARRY_DAMAGE) > 25.0f) {
-                stack.set(ModDataComponentTypes.PARRY_DAMAGE, 25.0f);
+            if (stack.get(ModDataComponentTypes.PARRY_DAMAGE) != null && stack.get(ModDataComponentTypes.PARRY_DAMAGE) > KatanaBlockingComponent.MAX_PARRY_DMG) {
+                stack.set(ModDataComponentTypes.PARRY_DAMAGE, KatanaBlockingComponent.MAX_PARRY_DMG);
             }
         }
     }
@@ -110,8 +99,12 @@ public class KatanaItem extends SwordItem {
     @Override
     public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
         super.usageTick(world, user, stack, remainingUseTicks);
-        if (this.useTicks > 0) {
-            this.useTicks -= USE_TICK_DECREMENT;
+        if (user instanceof PlayerEntity player) {
+            KatanaBlockingComponent katanaBlockingComponent = KatanaBlockingComponent.get(player);
+            katanaBlockingComponent.addToInt(-USE_TICK_DECREMENT);
+            if (katanaBlockingComponent.getInt() <= 0) {
+                player.getItemCooldownManager().set(ModItems.KATANA, 200);
+            }
         }
     }
 
@@ -120,7 +113,11 @@ public class KatanaItem extends SwordItem {
         super.appendTooltip(stack, context, tooltip, type);
         Float storedDamage = stack.get(ModDataComponentTypes.PARRY_DAMAGE);
         if (storedDamage != null) {
-            tooltip.add(Text.literal("Stored damage: " + storedDamage));
+            if (storedDamage == KatanaBlockingComponent.MAX_PARRY_DMG) {
+                tooltip.add(Text.literal("Stored Damage: " + String.format("%.1f", storedDamage)).formatted(Formatting.YELLOW));
+            } else {
+                tooltip.add(Text.literal("Stored Damage: " + String.format("%.1f", storedDamage)));
+            }
         }
     }
 }
