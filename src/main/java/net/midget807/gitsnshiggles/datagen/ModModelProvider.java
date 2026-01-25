@@ -8,6 +8,7 @@ import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
 import net.minecraft.item.Items;
+import net.minecraft.state.property.Properties;
 
 public class ModModelProvider extends FabricModelProvider {
     public ModModelProvider(FabricDataOutput output) {
@@ -18,6 +19,7 @@ public class ModModelProvider extends FabricModelProvider {
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.NETHER_SPONGE);
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.WET_NETHER_SPONGE);
+        blockStateModelGenerator.registerCrop(ModBlocks.EPHEDRA_CROP, Properties.AGE_7, 0, 1, 2, 3, 4, 5, 6, 7);
     }
 
     @Override
@@ -69,5 +71,12 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.RED_HOT_GOLD_INGOT, Models.GENERATED);
         itemModelGenerator.register(ModItems.RED_HOT_GOLD_ALLOY_INGOT, Models.GENERATED);
         itemModelGenerator.register(ModItems.RED_HOT_GOLD_ALLOY_PLATE, Models.GENERATED);
+
+        itemModelGenerator.register(ModItems.EPHEDRA_SEEDS, Models.GENERATED);
+        itemModelGenerator.register(ModItems.EPHEDRA, Models.GENERATED);
+        itemModelGenerator.register(ModItems.DRIED_EPHEDRA, Models.GENERATED);
+        itemModelGenerator.register(ModItems.EPHEDRA_DUST, Models.GENERATED);
+
+        itemModelGenerator.register(ModItems.METHAMPHETAMINE, Models.GENERATED);
     }
 }

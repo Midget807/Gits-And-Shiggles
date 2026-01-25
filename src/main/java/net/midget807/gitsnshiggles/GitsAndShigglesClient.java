@@ -1,6 +1,7 @@
 package net.midget807.gitsnshiggles;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -15,14 +16,12 @@ import net.midget807.gitsnshiggles.item.client.SantaHatRenderer;
 import net.midget807.gitsnshiggles.item.client.WizardArmorModel;
 import net.midget807.gitsnshiggles.item.client.WizardArmorRenderer;
 import net.midget807.gitsnshiggles.particle.TimeStoneRingsParticle;
-import net.midget807.gitsnshiggles.registry.ModItems;
-import net.midget807.gitsnshiggles.registry.ModParticles;
+import net.midget807.gitsnshiggles.registry.*;
 import net.midget807.gitsnshiggles.registry.client.ModEntityModelLayers;
-import net.midget807.gitsnshiggles.registry.ModPackets;
-import net.midget807.gitsnshiggles.registry.ModEntities;
 import net.midget807.gitsnshiggles.registry.client.ModModelPredicateProviderRegistry;
 import net.midget807.gitsnshiggles.util.ModKeyBindings;
 import net.midget807.gitsnshiggles.util.ModKeyHandler;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.EmptyEntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 
@@ -39,6 +38,8 @@ public class GitsAndShigglesClient implements ClientModInitializer {
         ModPackets.registerGlobalS2C();
 
         ModModelPredicateProviderRegistry.registerModelPredicates();
+
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), ModBlocks.EPHEDRA_CROP);
 
         ParticleFactoryRegistry.getInstance().register(ModParticles.TIME_STONE_RINGS, TimeStoneRingsParticle.Factory::new);
 

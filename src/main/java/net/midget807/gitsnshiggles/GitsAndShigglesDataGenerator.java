@@ -14,8 +14,10 @@ public class GitsAndShigglesDataGenerator implements DataGeneratorEntrypoint {
 
 		pack.addProvider(ModBlockTagProvider::new);
 		pack.addProvider(ModItemTagProvider::new);
+        pack.addProvider(ModFluidTags::new);
 		pack.addProvider(ModModelProvider::new);
 		pack.addProvider(ModRecipeProvider::new);
+        pack.addProvider(ModBlockLootTableProvider::new);
 	}
 
 	@Override

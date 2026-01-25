@@ -27,9 +27,10 @@ public class GitsAndShigglesMain implements ModInitializer {
 		LOGGER.info("Ah bing bing bing");
 
 		ModDataComponentTypes.registerModDataComponents();
+        ModBlocks.registerModBlocks();
 		ModItems.registerModItems();
 		ModItemGroups.registerModItemGroups();
-        ModBlocks.registerModBlocks();
+        ModBlockEntities.registerModBlockEntities();
 		ModEntities.registerModEntities();
 		ModParticles.registerModParticles();
 		ModEffects.registerModEffects();

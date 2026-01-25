@@ -92,6 +92,13 @@ public class ModItems {
     public static final Item VOID_STRING = registerItem("void_string", new Item(new Item.Settings()));
     public static final Item MAGIC_CLOTH = registerItem("magic_cloth", new Item(new Item.Settings()));
 
+    public static final Item EPHEDRA_SEEDS = registerItem("ephedra_seeds", new AliasedBlockItem(ModBlocks.EPHEDRA_CROP, new Item.Settings()));
+    public static final Item EPHEDRA = registerItem("ephedra", new Item(new Item.Settings()));
+    public static final Item DRIED_EPHEDRA = registerItem("dried_ephedra", new Item(new Item.Settings()));
+    public static final Item EPHEDRA_DUST = registerItem("ephedra_dust", new Item(new Item.Settings()));
+
+    public static final Item METHAMPHETAMINE = registerItem("bad_broken", new Item(new Item.Settings()));
+
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, GitsAndShigglesMain.id(name), item);
     }

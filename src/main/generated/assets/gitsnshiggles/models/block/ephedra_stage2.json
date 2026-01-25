@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "gitsnshiggles:block/ephedra_stage2"
+  }
+}
