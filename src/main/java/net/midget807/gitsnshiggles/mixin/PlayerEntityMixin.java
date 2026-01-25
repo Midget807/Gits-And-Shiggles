@@ -2,21 +2,16 @@ package net.midget807.gitsnshiggles.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
+import net.midget807.gitsnshiggles.cca.ElfCountComponent;
 import net.midget807.gitsnshiggles.entity.ElfEntity;
-import net.midget807.gitsnshiggles.item.KatanaItem;
 import net.midget807.gitsnshiggles.item.RailgunItem;
 import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
-import net.midget807.gitsnshiggles.util.ModDebugUtil;
 import net.midget807.gitsnshiggles.util.inject.*;
-import net.midget807.gitsnshiggles.util.state.ElfCountState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,7 +25,6 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
@@ -46,7 +40,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 @Mixin(PlayerEntity.class)
@@ -230,20 +223,19 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         } else if (this.timeTicksInverted < 0) {
             this.timeTicksInverted = 0;
         }
-        if (this.getInventory().getArmorStack(3).isIn(ModItemTagProvider.SANTA_HATS) || this.getInventory().contains(ModItemTagProvider.SANTA_HATS)) {
-            if (this.getServer() != null && this.getServer().getPlayerManager() != null) this.checkAndDiscardElves(this.getWorld(), ((PlayerEntity)((Object) this)));
+        if (this.getServer() != null && this.getServer().getPlayerManager() != null) this.checkAndDiscardElves(this.getWorld(), ((PlayerEntity)((Object) this)));
+        if (this.getMainHandStack().isOf(ModItems.MODDING_BOOK) && !this.getWorld().isClient) {
+            ((ServerWorld) this.getWorld()).spawnParticles(ParticleTypes.ENCHANT, this.getX(), this.getY() + 1.0, this.getZ(), 4, 0.1, 0.1, 0.1, 1.0);
         }
     }
 
     @Unique
     private void checkAndDiscardElves(World world, PlayerEntity player) {
-        List<ElfEntity> elvesOwned = world.getEntitiesByClass(ElfEntity.class, player.getBoundingBox().expand(this.getServer().getPlayerManager().getSimulationDistance() * 16), elf -> elf.isAlive() && !elf.isRemoved() && elf.getOwner() != null && elf.getOwner() == player);
-        List<ElfEntity> elves = world.getEntitiesByClass(ElfEntity.class, player.getBoundingBox().expand(this.getServer().getPlayerManager().getSimulationDistance() * 16), elf -> true);
-        ElfCountState state = ElfCountState.getServerState(this.getServer());
-        state.elfCount = elvesOwned.size();
-        state.markDirty();
-        for (ElfEntity elf : elves) {
-            if (elvesOwned.contains(elf)) continue;
+        List<ElfEntity> fuckedUpElves = world.getEntitiesByClass(ElfEntity.class, player.getBoundingBox().expand(this.getServer().getPlayerManager().getSimulationDistance() * 16), elf -> elf.getOwner() == null);
+        List<ElfEntity> elvesOwned = world.getEntitiesByClass(ElfEntity.class, player.getBoundingBox().expand(this.getServer().getPlayerManager().getSimulationDistance() * 16), elf -> elf.getOwner() != null && elf.getOwner().equals(player) && elf.isAlive());
+        ElfCountComponent elfCountComponent = ElfCountComponent.get(player);
+        elfCountComponent.setValue(elvesOwned.size());
+        for (ElfEntity elf : fuckedUpElves) {
             elf.discard();
         }
     }

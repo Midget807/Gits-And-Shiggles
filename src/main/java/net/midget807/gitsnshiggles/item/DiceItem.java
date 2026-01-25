@@ -1,5 +1,6 @@
 package net.midget807.gitsnshiggles.item;
 
+import net.midget807.gitsnshiggles.cca.DiceRollComponent;
 import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModEffects;
 import net.midget807.gitsnshiggles.registry.ModItems;
@@ -41,14 +42,13 @@ public class DiceItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
+        DiceRollComponent diceRollComponent = DiceRollComponent.get(player);
         if (!world.isClient) {
-            itemStack.set(ModDataComponentTypes.DICE_ROLL, world.random.nextBetween(1, 6));
-        }
-        if (world.isClient) {
-            itemStack.set(ModDataComponentTypes.DICE_ROLL, itemStack.get(ModDataComponentTypes.DICE_ROLL));
+            diceRollComponent.setValue1(world.random.nextBetween(1, 6));
         }
         player.getItemCooldownManager().set(ModItems.DICE, player.getAbilities().creativeMode ? 10 : 12000 /*10 min*/);
-        int roll = itemStack.get(ModDataComponentTypes.DICE_ROLL);
+        int roll = diceRollComponent.getValue1();
+        itemStack.set(ModDataComponentTypes.DICE_ROLL, roll);
 
         switch (roll) {
             case 1:
@@ -84,22 +84,8 @@ public class DiceItem extends Item {
             this.flyTimer--;
         }
         if (entity instanceof PlayerEntity player) {
-            if (!player.getAbilities().creativeMode && !player.isSpectator()) {
-                if (this.shouldFly) {
-                    this.flyTimer = 1200;
-                    player.getAbilities().allowFlying = true;
-                    if (world.isClient) player.getAbilities().allowFlying = true;
-                    if (!world.isClient) player.getAbilities().allowFlying = true;
-                    this.shouldFly = false;
-                }
-                if (this.flyTimer <= 0) {
-                    player.getAbilities().allowFlying = false;
-                    if (world.isClient) player.getAbilities().allowFlying = false;
-                    if (!world.isClient) player.getAbilities().allowFlying = false;
-                    player.getAbilities().flying = false;
-                }
-            }
-            int roll = stack.get(ModDataComponentTypes.DICE_ROLL);
+            DiceRollComponent diceRollComponent = DiceRollComponent.get(player);
+            int roll = diceRollComponent.getValue1();
             if (world.isClient) {
                 if (roll == 6) {
                     player.sendMessage(Text.literal("You rolled a: " + roll).formatted(Formatting.YELLOW), true);
@@ -137,7 +123,8 @@ public class DiceItem extends Item {
     }
 
     private void executeEvent6(World world, PlayerEntity player) {
-        this.shouldFly = true;
+        DiceRollComponent diceRollComponent = DiceRollComponent.get(player);
+        diceRollComponent.setValue2(DiceRollComponent.FLY_DURATION);
         MinecraftServer server = world.getServer();
         if (!world.isClient) player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 600, 2, false, false));
         if (server != null) {

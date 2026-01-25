@@ -1,6 +1,7 @@
 package net.midget807.gitsnshiggles.item;
 
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
+import net.midget807.gitsnshiggles.registry.ModItems;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Items;
@@ -23,7 +24,7 @@ public class ModArmorMaterials {
                 map.put(ArmorItem.Type.LEGGINGS, 2);
                 map.put(ArmorItem.Type.BOOTS, 1);
                 map.put(ArmorItem.Type.BODY, 3);
-            }), 20, SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA, () -> Ingredient.ofItems(Items.LEATHER),
+            }), 20, SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA, () -> Ingredient.ofItems(ModItems.VOID_STRING),
                     List.of(new ArmorMaterial.Layer(GitsAndShigglesMain.id("wizard_cloth"), "", true)), 0.0f, 0.00f)
     );
 

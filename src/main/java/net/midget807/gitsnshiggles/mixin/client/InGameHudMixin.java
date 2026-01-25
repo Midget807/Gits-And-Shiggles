@@ -2,6 +2,7 @@ package net.midget807.gitsnshiggles.mixin.client;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.midget807.gitsnshiggles.cca.FlamethrowerComponent;
 import net.midget807.gitsnshiggles.item.*;
 import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModItems;
@@ -140,16 +141,17 @@ public abstract class InGameHudMixin {
         Integer extraRangeProgress = null;
         Integer extraDamageTicks = null;
         Integer extraDamageProgress = null;
-        if (cameraPlayer.getStackInHand(cameraPlayer.getActiveHand()).isOf(ModItems.FLAMETHROWER) && cameraPlayer.getStackInHand(cameraPlayer.getActiveHand()).getItem() instanceof FlamethrowerItem flamethrowerItem) {
-            useTicks = flamethrowerItem.getUseTicks();
-            extraDamageTicks = flamethrowerItem.getExtraDamageTicks();
-            extraRangeTicks = flamethrowerItem.getExtraRangeTicks();
+        if (cameraPlayer.getStackInHand(cameraPlayer.getActiveHand()).isOf(ModItems.FLAMETHROWER) && cameraPlayer.getStackInHand(cameraPlayer.getActiveHand()).isOf(ModItems.FLAMETHROWER)) {
+            FlamethrowerComponent flamethrowerComponent = FlamethrowerComponent.get(cameraPlayer);
+            useTicks = flamethrowerComponent.getValue1();
+            extraRangeTicks = flamethrowerComponent.getValue2();
+            extraDamageTicks = flamethrowerComponent.getValue3();
         }
         if (useTicks != null) {
-            useTickProgress = MathHelper.clamp(Math.round((float) (useTicks * 200) / 600), 0, 200);
+            useTickProgress = MathHelper.clamp(Math.round((float) (useTicks * 200) / 120), 0, 200);
         }
         if (extraRangeTicks != null) {
-            extraRangeProgress = MathHelper.clamp(Math.round((float) (extraRangeTicks * 10) /200), 0, 10);
+            extraRangeProgress = MathHelper.clamp(Math.round((float) (extraRangeTicks * 10) / 200), 0, 10);
         }
         if (extraDamageTicks != null) {
             extraDamageProgress = MathHelper.clamp(Math.round((float) (extraDamageTicks * 10) / 200), 0, 10);
@@ -158,7 +160,11 @@ public abstract class InGameHudMixin {
         RenderSystem.enableBlend();
         if (useTickProgress != null && useTickProgress > 0) {
             context.drawTexture(ModTextureIds.OVERHEAT_BAR, i - 101 + 1, j - 60 + 1, 1, 0, 0, useTickProgress, 7, 200, 7);
+        }
+        if (extraRangeTicks != null) {
             context.drawTexture(ModTextureIds.RANGE_BAR, i - 94, j - 24 - 11, 1, 0, 0, 1, extraRangeProgress, 1, 10);
+        }
+        if (extraDamageTicks != null) {
             context.drawTexture(ModTextureIds.DAMAGE_BAR, i - 98, j - 24 - 11, 1, 0, 0, 1, extraDamageProgress, 1, 10);
         }
 

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gitsnshiggles:block/wet_nether_sponge"
+  }
+}

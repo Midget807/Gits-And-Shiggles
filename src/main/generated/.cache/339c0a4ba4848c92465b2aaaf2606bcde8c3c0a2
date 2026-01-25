@@ -1,9 +1,14 @@
-// 1.21.1	2026-01-13T23:37:57.7377998	Gits And Shiggles/Tags for minecraft:item
+// 1.21.1	2026-01-25T18:04:57.9054521	Gits And Shiggles/Tags for minecraft:item
 d5aebde1fd1141df86b6ed4ace3f720504b32ab2 data\gitsnshiggles\tags\item\flamethrower_power.json
+30008d417e686e9480c08fb1a09be7b997ef3f12 data\minecraft\tags\item\enchantable\head_armor.json
+67c38d90a639e321de7d36e8fd4b38e4c6b5312b data\minecraft\tags\item\enchantable\chest_armor.json
+40bec5ac22e100c50f0bf97f7a159df0da3e0a4b data\minecraft\tags\item\enchantable\foot_armor.json
+7ab11956af56f5fcb0db0faafc44c3fffd5326a1 data\gitsnshiggles\tags\item\flamethrower_insertable.json
+5c797ca05a1d37c7d372f01ca9e1d0d4619776b5 data\minecraft\tags\item\enchantable\equippable.json
 ac36df1f87a8f871eacabc3323154c7209f5de7e data\gitsnshiggles\tags\item\custom_disables_shield.json
 ff5e2e3add3c24b630ed38e813df4aea49414768 data\gitsnshiggles\tags\item\lightsabers.json
 f564eaf82dd985f6c2bcea377f1de1730bf7014f data\gitsnshiggles\tags\item\santa_hats.json
-7ab11956af56f5fcb0db0faafc44c3fffd5326a1 data\gitsnshiggles\tags\item\flamethrower_insertable.json
+a5a4bbb6b3592d72459b0a2cddc622c14a11ce4e data\minecraft\tags\item\enchantable\leg_armor.json
 a62188adba8d65fe5971b95f4c552a1072086c31 data\gitsnshiggles\tags\item\santa_diet.json
 bb98612c0704f8455bb0ef861c677b897af45154 data\gitsnshiggles\tags\item\big_item_rendering.json
 b87dad80eef8fee06a99d3c3171c3565c189bc0b data\minecraft\tags\item\dyeable.json

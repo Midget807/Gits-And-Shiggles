@@ -1,4 +1,7 @@
 {
+  "item.gitsnshiggles.debugger": "Debugger",
+  "item.gitsnshiggles.entity_remover": "Entity Remover",
+  "item.gitsnshiggles.modding_book": "FUCK OFF IM WRITING CODE",
   "itemGroup.gitsnshiggles.main": "Gits And Shiggles",
   "tag.item.gitsnshiggles.santa_hats": "Santa Hats",
   "tag.item.gitsnshiggles.santa_diet": "Santa Diet",
@@ -27,6 +30,9 @@
   "commands.gitsnshiggles.player_lock.clear.item.fail": "Item was already unlocked",
   "commands.gitsnshiggles.player_lock.clear.player.success": "%s has been unlocked from %s",
   "commands.gitsnshiggles.player_lock.clear.player.fail": "%s did not have a locked item",
+  "death.attack.gitsnshiggles.flamethrower": "%s was incinerated by %s",
+  "block.gitsnshiggles.nether_sponge": "Nether Sponge",
+  "block.gitsnshiggles.wet_nether_sponge": "Wet Nether Sponge",
   "item.gitsnshiggles.am_rifle": "Anti-Material Rifle",
   "item.gitsnshiggles.gun_nugget": "Gun Nugget",
   "item.gitsnshiggles.gun_ingot": "Gun Ingot",

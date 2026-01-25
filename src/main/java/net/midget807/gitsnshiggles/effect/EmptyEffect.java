@@ -15,5 +15,4 @@ public class EmptyEffect extends StatusEffect {
         super(category, color, particleEffect);
     }
 
-
 }

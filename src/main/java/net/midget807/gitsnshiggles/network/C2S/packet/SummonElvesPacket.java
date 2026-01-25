@@ -1,10 +1,10 @@
 package net.midget807.gitsnshiggles.network.C2S.packet;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.midget807.gitsnshiggles.cca.ElfCountComponent;
 import net.midget807.gitsnshiggles.entity.ElfEntity;
 import net.midget807.gitsnshiggles.network.C2S.payload.SummonElvesPayload;
-import net.midget807.gitsnshiggles.util.inject.ElfCount;
-import net.midget807.gitsnshiggles.util.state.ElfCountState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
@@ -14,19 +14,19 @@ public class SummonElvesPacket {
         context.server().execute(() -> {
             ServerPlayerEntity player = context.player();
             World world = context.player().getWorld();
+            ElfCountComponent elfCountComponent = ElfCountComponent.get(player);
 
-            ElfCountState state = ElfCountState.getServerState(context.server());
-            if (state.elfCount < ElfEntity.MAX_ELF_COUNT) {
+            if (elfCountComponent.getValue() < ElfEntity.MAX_ELF_COUNT) {
                 ElfEntity elfEntity = new ElfEntity(world, player);
                 elfEntity.setPosition(player.getPos());
                 elfEntity.setOwner(player);
                 elfEntity.setTamed(true, true);
                 world.spawnEntity(elfEntity);
-                state.elfCount++;
-                state.markDirty();
+                elfCountComponent.incrementValue();
             } else {
                 player.sendMessage(Text.translatable("key.gitsnshiggles.summonElves.too_many"), true);
             }
+
         });
     }
 }

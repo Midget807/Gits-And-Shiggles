@@ -2,6 +2,7 @@ package net.midget807.gitsnshiggles.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.midget807.gitsnshiggles.registry.ModBlocks;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
@@ -15,12 +16,15 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-
+        blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.NETHER_SPONGE);
+        blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.WET_NETHER_SPONGE);
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        itemModelGenerator.register(ModItems.DEBUGGER, Items.STICK, Models.GENERATED);
+        itemModelGenerator.register(ModItems.DEBUGGER, Items.STICK, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.ENTITY_REMOVER, Items.BARRIER, Models.HANDHELD);
+        itemModelGenerator.register(ModItems.MODDING_BOOK, Items.WRITABLE_BOOK, Models.GENERATED);
         itemModelGenerator.register(ModItems.ICON, Models.GENERATED);
         itemModelGenerator.register(ModItems.DICE, Models.GENERATED);
         itemModelGenerator.register(ModItems.RANDOM_EGG, Models.GENERATED);

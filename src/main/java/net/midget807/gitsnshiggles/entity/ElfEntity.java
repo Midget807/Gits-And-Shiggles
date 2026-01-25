@@ -1,20 +1,18 @@
 package net.midget807.gitsnshiggles.entity;
 
+import net.midget807.gitsnshiggles.cca.ElfCountComponent;
 import net.midget807.gitsnshiggles.entity.goal.BringItemToOwnerGoal;
 import net.midget807.gitsnshiggles.entity.goal.ElfMeleeAttackGoal;
 import net.midget807.gitsnshiggles.entity.goal.FollowOwnerElfGoal;
 import net.midget807.gitsnshiggles.entity.goal.PickupItemGoal;
 import net.midget807.gitsnshiggles.registry.ModDamages;
 import net.midget807.gitsnshiggles.registry.ModEntities;
-import net.midget807.gitsnshiggles.util.inject.ElfCount;
-import net.midget807.gitsnshiggles.util.state.ElfCountState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageSources;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -25,7 +23,6 @@ import net.minecraft.entity.mob.Angerable;
 import net.minecraft.entity.mob.CreeperEntity;
 import net.minecraft.entity.mob.GhastEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
-import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -211,16 +208,9 @@ public class ElfEntity extends TameableEntity implements Angerable, Tameable {
 
     @Override
     public void onDeath(DamageSource damageSource) {
-        if (this.getServer() != null) {
-            ElfCountState state = ElfCountState.getServerState(this.getServer());
-            if (state.elfCount > 0) {
-                state.elfCount--;
-                state.markDirty();
-            }
-            if (state.elfCount < 0) {
-                state.elfCount = 0;
-                state.markDirty();
-            }
+        if (this.getOwner() != null && this.getOwner() instanceof PlayerEntity player) {
+            ElfCountComponent elfCountComponent = ElfCountComponent.get(player);
+            elfCountComponent.decrementValue();
         }
         super.onDeath(damageSource);
     }

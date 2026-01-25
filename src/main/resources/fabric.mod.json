@@ -24,12 +24,23 @@
 		],
 		"fabric-datagen": [
 			"net.midget807.gitsnshiggles.GitsAndShigglesDataGenerator"
-		]
+		],
+        "cardinal-components": [
+            "net.midget807.gitsnshiggles.registry.ModCCAComponents"
+        ]
 	},
 	"mixins": [
 		"gitsnshiggles.mixins.json"
 	],
 	"accessWidener": "gitsnshiggles.accesswidener",
+    "custom": {
+      "cardinal-components": [
+        "gitsnshiggles:elf_count",
+        "gitsnshiggles:wizard_vanish",
+        "gitsnshiggles:flamethrower",
+        "gitsnshiggles:dice_roll"
+      ]
+    },
 	"depends": {
 		"fabricloader": ">=0.16.14",
 		"minecraft": "~1.21.1",

@@ -1,5 +1,6 @@
 package net.midget807.gitsnshiggles.item;
 
+import net.midget807.gitsnshiggles.cca.FlamethrowerComponent;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.entity.FlamethrowerFireEntity;
 import net.midget807.gitsnshiggles.registry.ModItems;
@@ -33,13 +34,14 @@ public class FlamethrowerItem extends Item {
         Hand otherHand = hand == Hand.MAIN_HAND ? Hand.OFF_HAND : Hand.MAIN_HAND;
         ItemStack otherHandStack = user.getStackInHand(otherHand);
         user.setCurrentHand(hand);
+        FlamethrowerComponent flamethrowerComponent = FlamethrowerComponent.get(user);
         if (otherHandStack.isIn(ModItemTagProvider.FLAMETHROWER_INSERTABLE)) {
-            if (otherHandStack.isIn(ModItemTagProvider.FLAMETHROWER_POWER) && this.extraDamageTicks == 0) {
-                this.extraDamageTicks = 200;
+            if (otherHandStack.isIn(ModItemTagProvider.FLAMETHROWER_POWER) && flamethrowerComponent.getValue3() == 0) {
+                flamethrowerComponent.setValue3(FlamethrowerComponent.MAX_MODIFIER);
                 user.getItemCooldownManager().set(ModItems.FLAMETHROWER, 10);
                 return TypedActionResult.success(handStack);
-            } else if (otherHandStack.isOf(Items.MAGMA_BLOCK) && this.extraRangeTicks == 0) {
-                this.extraRangeTicks = 200;
+            } else if (otherHandStack.isOf(Items.MAGMA_BLOCK) && flamethrowerComponent.getValue2() == 0) {
+                flamethrowerComponent.setValue2(FlamethrowerComponent.MAX_MODIFIER);
                 user.getItemCooldownManager().set(ModItems.FLAMETHROWER, 10);
                 return TypedActionResult.success(handStack);
             }
@@ -54,103 +56,37 @@ public class FlamethrowerItem extends Item {
 
     @Override
     public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-        if (this.extraDamageTicks > 0 && this.extraRangeTicks > 0) {
-            this.useTickIncrement = 4;
-        } else if (this.extraRangeTicks > 0) {
-            this.useTickIncrement = 3;
-        } else if (this.extraDamageTicks > 0) {
-            this.useTickIncrement = 3;
-        } else {
-            this.useTickIncrement = 2;
-        }
-        if (this.useTicks < 600) {
-            this.useTicks += useTickIncrement;
-        } else {
-            this.useTicks = 600;
-        }
-        if (!this.isUsing) {
-            this.isUsing = true;
-        }
-        if (!world.isClient()) {
-            FlamethrowerFireEntity flamethrowerFire = new FlamethrowerFireEntity(user, world);
-            flamethrowerFire.setVelocity(user, 30.0f, 1.0f);
-            if (getExtraRangeTicks() > 0) {
-                flamethrowerFire.setExtraRange(true);
-            } else if (getExtraRangeTicks() <= 0) {
-                flamethrowerFire.setExtraRange(false);
+        if (user instanceof PlayerEntity player) {
+            FlamethrowerComponent flamethrowerComponent = FlamethrowerComponent.get(player);
+
+            if (!world.isClient()) {
+                FlamethrowerFireEntity flamethrowerFire = new FlamethrowerFireEntity(user, world);
+                flamethrowerFire.setVelocity(user, 30.0f, 1.0f);
+                if (flamethrowerComponent.getValue2() > 0) {
+                    flamethrowerFire.setExtraRange(true);
+                } else if (flamethrowerComponent.getValue2() <= 0) {
+                    flamethrowerFire.setExtraRange(false);
+                }
+
+                if (flamethrowerComponent.getValue3() > 0) {
+                    flamethrowerFire.setExtraDamage(true);
+                } else if (flamethrowerComponent.getValue3() <= 0) {
+                    flamethrowerFire.setExtraDamage(false);
+                }
+                world.spawnEntity(flamethrowerFire);
+            } //Spawns flame entities
+            if (flamethrowerComponent.getValue1() < (FlamethrowerComponent.MAX_OVERHEAT) && !world.isClient) {
+                if (flamethrowerComponent.getValue2() > 0) {
+                    flamethrowerComponent.addToValue1(3);
+                }
+                if (flamethrowerComponent.getValue3() > 0) {
+                    flamethrowerComponent.addToValue1(4);
+                }
+                if (flamethrowerComponent.getValue2() <= 0 && flamethrowerComponent.getValue3() <= 0){
+                    flamethrowerComponent.addToValue1(2);
+                }
             }
-
-            if (getExtraDamageTicks() > 0) {
-                flamethrowerFire.setExtraDamage(true);
-            } else if (getExtraDamageTicks() <= 0) {
-                flamethrowerFire.setExtraDamage(false);
-            }
-            world.spawnEntity(flamethrowerFire);
         }
-        if (this.useTicks >= 600) {
-            this.isOverheating = true;
-            if (user instanceof PlayerEntity player) {
-                player.getItemCooldownManager().set(ModItems.FLAMETHROWER, 100);
-            }
-        } else {
-            this.isOverheating = false;
-        }
-    }
-
-    @Override
-    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        this.isUsing = false;
-    }
-
-
-    @Override
-    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        /*if (entity instanceof PlayerEntity player) {
-            player.sendMessage(Text.literal("use increment: " + this.useTickIncrement));
-        }*/
-        if (this.isOverheating) {
-            entity.setOnFireFor(5);
-        }
-        if (this.useTicks < 600) {
-            this.isOverheating = false;
-        }
-        if (!this.isUsing) {
-            this.useTicks--;
-        }
-        if (this.extraRangeTicks > 0) {
-            this.extraRangeTicks--;
-        }
-        if (this.extraDamageTicks > 0) {
-            this.extraDamageTicks--;
-        }
-    }
-
-    public int getExtraDamageTicks() {
-        return this.extraDamageTicks;
-    }
-    public void setExtraDamageTicks(int extraDamageTicks) {
-        this.extraDamageTicks = extraDamageTicks;
-    }
-
-    public int getExtraRangeTicks() {
-        return this.extraRangeTicks;
-    }
-    public void setExtraRangeTicks(int extraRangeTicks) {
-        this.extraRangeTicks = extraRangeTicks;
-    }
-
-    public int getUseTicks() {
-        return this.useTicks;
-    }
-    public void setUseTicks(int useTicks) {
-        this.useTicks = useTicks;
-    }
-
-    public boolean isOverheating() {
-        return this.isOverheating;
-    }
-    public void setOverheating(boolean overheating) {
-        isOverheating = overheating;
     }
 
 }

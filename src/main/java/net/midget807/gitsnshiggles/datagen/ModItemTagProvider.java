@@ -31,6 +31,23 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+        this.getOrCreateTagBuilder(ItemTags.EQUIPPABLE_ENCHANTABLE)
+                .add(
+                        ModItems.WIZARD_HAT,
+                        ModItems.WIZARD_ROBE,
+                        ModItems.WIZARD_PANTS,
+                        ModItems.WIZARD_BOOTS
+                )
+                .addTag(SANTA_HATS);
+        this.getOrCreateTagBuilder(ItemTags.HEAD_ARMOR_ENCHANTABLE)
+                .add(ModItems.WIZARD_HAT)
+                .addTag(SANTA_HATS);
+        this.getOrCreateTagBuilder(ItemTags.CHEST_ARMOR_ENCHANTABLE)
+                .add(ModItems.WIZARD_ROBE);
+        this.getOrCreateTagBuilder(ItemTags.LEG_ARMOR_ENCHANTABLE)
+                .add(ModItems.WIZARD_PANTS);
+        this.getOrCreateTagBuilder(ItemTags.FOOT_ARMOR_ENCHANTABLE)
+                .add(ModItems.WIZARD_BOOTS);
         this.getOrCreateTagBuilder(SANTA_HATS)
                 .add(
                         ModItems.SANTA_HAT,

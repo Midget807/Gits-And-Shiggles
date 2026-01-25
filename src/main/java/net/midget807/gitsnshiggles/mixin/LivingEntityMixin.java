@@ -1,10 +1,12 @@
 package net.midget807.gitsnshiggles.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.midget807.gitsnshiggles.cca.WizardVanishComponent;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.entity.ElfEntity;
 import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
@@ -46,12 +48,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements Attackable, ElfCount, RailgunRecoil, SoulStoneRevive, InfinityStoneCooldown {
+public abstract class LivingEntityMixin extends Entity implements Attackable, RailgunRecoil, SoulStoneRevive, InfinityStoneCooldown {
     @Unique
     private boolean hasRailgunRecoil = false;
     @Unique
     private int recoilPower = 0;
-    private int elfCount = 0;
     @Unique
     private boolean isReviveAvailable;
 
@@ -75,16 +76,6 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, El
     @Override
     public void setReviveAvailable(boolean reviveAvailable) {
         this.isReviveAvailable = reviveAvailable;
-    }
-
-
-    @Override
-    public int getElfCount() {
-        return this.elfCount;
-    }
-    @Override
-    public void setElfCount(int elfCount) {
-        this.elfCount = elfCount;
     }
 
     @Shadow public abstract void playSound(@Nullable SoundEvent sound);
@@ -373,6 +364,16 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, El
             }
         }
         return base;
+    }
+
+    @Inject(method = "canTarget(Lnet/minecraft/entity/LivingEntity;)Z", at = @At("HEAD"), cancellable = true)
+    private void gitsnshiggles$untargetVanishedPlayers(LivingEntity target, CallbackInfoReturnable<Boolean> cir) {
+        if (target instanceof PlayerEntity player) {
+            WizardVanishComponent wizardVanishComponent = WizardVanishComponent.get(player);
+            if (wizardVanishComponent.getValue()) {
+                cir.setReturnValue(false);
+            }
+        }
     }
 
     @Inject(method = "writeCustomDataToNbt", at = @At("HEAD"))

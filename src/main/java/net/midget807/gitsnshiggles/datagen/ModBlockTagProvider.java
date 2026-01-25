@@ -3,6 +3,7 @@ package net.midget807.gitsnshiggles.datagen;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
+import net.midget807.gitsnshiggles.registry.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registries;
@@ -22,6 +23,11 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+        this.getOrCreateTagBuilder(BlockTags.HOE_MINEABLE)
+                .add(
+                        ModBlocks.NETHER_SPONGE,
+                        ModBlocks.WET_NETHER_SPONGE
+                );
         this.getOrCreateTagBuilder(SPACE_STONE_SAFE)
                 .add(
                         Blocks.WATER,
@@ -32,7 +38,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                         Blocks.WALL_TORCH,
                         Blocks.WEEPING_VINES,
                         Blocks.TWISTING_VINES
-                )/*.addTag(
+                );/*.addTag(
                         BlockTags.AIR
                 ).addTag(
                         BlockTags.FLOWERS
@@ -42,6 +48,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                         BlockTags.CAVE_VINES
                 ).addTag(
                         BlockTags.UNDERWATER_BONEMEALS
-                )*/;
+                )*/
+
     }
 }

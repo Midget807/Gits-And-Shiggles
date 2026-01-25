@@ -80,6 +80,7 @@ public class InfinityStoneUtil {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Environment(EnvType.CLIENT)
     public static boolean stateIsSafe(ClientPlayerEntity player, BlockPos blockPos) {
         BlockState state = player.getWorld().getBlockState(blockPos);

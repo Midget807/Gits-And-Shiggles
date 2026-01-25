@@ -1,10 +1,12 @@
 package net.midget807.gitsnshiggles.item;
 
+import net.midget807.gitsnshiggles.cca.WizardVanishComponent;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
@@ -22,7 +24,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
 public class WizardRobesItem extends ArmorItem {
-    private boolean isVanished = false;
     public WizardRobesItem(RegistryEntry<ArmorMaterial> material, Type type, Settings settings) {
         super(material, type, settings);
         CauldronBehavior.WATER_CAULDRON_BEHAVIOR.map().put(this, CauldronBehavior.CLEAN_DYEABLE_ITEM);
@@ -32,8 +33,9 @@ public class WizardRobesItem extends ArmorItem {
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if (!world.isClient) {
             if (entity instanceof PlayerEntity player) {
+                WizardVanishComponent wizardVanishComponent = WizardVanishComponent.get(player);
                 if (hasFullSuitOfArmor(player)) {
-                    this.vanish(player, world);
+                    vanish(player, world, wizardVanishComponent);
                     //this.escape(world, player);
                 }
             }
@@ -41,24 +43,25 @@ public class WizardRobesItem extends ArmorItem {
         super.inventoryTick(stack, world, entity, slot, selected);
     }
 
-    private void vanish(PlayerEntity player, World world) {
+    private void vanish(PlayerEntity player, World world, WizardVanishComponent wizardVanishComponent) {
         if (player.getStackInHand(Hand.MAIN_HAND).isEmpty() && player.getStackInHand(Hand.OFF_HAND).isEmpty() && player.isSneaking()) {
             if (player.hasStatusEffect(StatusEffects.INVISIBILITY)) {
                 player.clearPotionSwirls();
             }
-            if (!isVanished) {
+            if (!wizardVanishComponent.getValue()) {
                 ((ServerWorld) world).spawnParticles(ParticleTypes.REVERSE_PORTAL, player.getX(), player.getY() + 0.5, player.getZ(), 10, 0.1, 0.1, 0.1, 1.0);
-                this.isVanished = true;
+                wizardVanishComponent.setValue(true);
             }
             player.setInvisible(true);
+            world.getEntitiesByClass(MobEntity.class, player.getBoundingBox().expand(32), mobEntity -> mobEntity.getTarget() != null && mobEntity.getTarget().equals(player)).forEach(mobEntity -> mobEntity.setTarget(null));
         } else {
             if (player.hasStatusEffect(StatusEffects.INVISIBILITY)) {
                 player.updatePotionSwirls();
                 player.setInvisible(true);
             } else {
-                if (isVanished) {
+                if (wizardVanishComponent.getValue()) {
                     player.setInvisible(false);
-                    this.isVanished = false;
+                    wizardVanishComponent.setValue(false);
                     ((ServerWorld) world).spawnParticles(ParticleTypes.PORTAL, player.getX(), player.getY() + 0.5, player.getZ(), 10, 0.1, 0.1, 0.1, 1.0);
                 }
             }
@@ -114,4 +117,10 @@ public class WizardRobesItem extends ArmorItem {
                 && player.getInventory().getArmorStack(2).isOf(ModItems.WIZARD_ROBE)
                 && player.getInventory().getArmorStack(3).isOf(ModItems.WIZARD_HAT);
     }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return true;
+    }
+
 }
