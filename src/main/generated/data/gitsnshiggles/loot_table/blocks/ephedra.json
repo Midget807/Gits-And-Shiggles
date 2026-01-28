@@ -24,7 +24,7 @@
             },
             {
               "type": "minecraft:item",
-              "name": "gitsnshiggles:ephedra_seed"
+              "name": "gitsnshiggles:ephedra_seeds"
             }
           ]
         }
@@ -53,7 +53,7 @@
               }
             }
           ],
-          "name": "gitsnshiggles:ephedra_seed"
+          "name": "gitsnshiggles:ephedra_seeds"
         }
       ],
       "rolls": 1.0

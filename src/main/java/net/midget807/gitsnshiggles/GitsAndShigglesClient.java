@@ -19,8 +19,10 @@ import net.midget807.gitsnshiggles.particle.TimeStoneRingsParticle;
 import net.midget807.gitsnshiggles.registry.*;
 import net.midget807.gitsnshiggles.registry.client.ModEntityModelLayers;
 import net.midget807.gitsnshiggles.registry.client.ModModelPredicateProviderRegistry;
+import net.midget807.gitsnshiggles.screen.ChemistryWorkbenchScreen;
 import net.midget807.gitsnshiggles.util.ModKeyBindings;
 import net.midget807.gitsnshiggles.util.ModKeyHandler;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.EmptyEntityRenderer;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
@@ -58,6 +60,8 @@ public class GitsAndShigglesClient implements ClientModInitializer {
         ArmorRenderer.register(new WizardArmorRenderer(), ModItems.WIZARD_HAT, ModItems.WIZARD_ROBE, ModItems.WIZARD_PANTS, ModItems.WIZARD_BOOTS);
         EntityModelLayerRegistry.registerModelLayer(SantaHatModel.MODEL_LAYER, SantaHatModel::getTexturedModelData);
         ArmorRenderer.register(new SantaHatRenderer(), ModItems.SANTA_HAT, ModItems.LEATHER_SANTA_HAT, ModItems.CHAINMAIL_SANTA_HAT, ModItems.GOLD_SANTA_HAT, ModItems.IRON_SANTA_HAT, ModItems.DIAMOND_SANTA_HAT, ModItems.NETHERITE_SANTA_HAT);
+
+        HandledScreens.register(ModScreenHandlers.CHEMISTRY_WORKBENCH_SCREEN_HANDLER, ChemistryWorkbenchScreen::new);
     }
 
 

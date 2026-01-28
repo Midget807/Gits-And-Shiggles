@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gitsnshiggles:item/stand_and_clamp"
+  }
+}

@@ -17,12 +17,6 @@ import net.minecraft.util.UseAction;
 import net.minecraft.world.World;
 
 public class FlamethrowerItem extends Item {
-    public int extraRangeTicks = 0;
-    public int extraDamageTicks = 0;
-    public int useTicks = 0;
-    public boolean isOverheating = false;
-    public boolean isUsing = true;
-    private int useTickIncrement = 2;
 
     public FlamethrowerItem(Settings settings) {
         super(settings);
@@ -58,8 +52,10 @@ public class FlamethrowerItem extends Item {
     public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
         if (user instanceof PlayerEntity player) {
             FlamethrowerComponent flamethrowerComponent = FlamethrowerComponent.get(player);
-
-            if (!world.isClient()) {
+            if (player.getItemCooldownManager().isCoolingDown(ModItems.FLAMETHROWER)) {
+                player.stopUsingItem();
+            }
+            if (!world.isClient() && !player.getItemCooldownManager().isCoolingDown(ModItems.FLAMETHROWER)) {
                 FlamethrowerFireEntity flamethrowerFire = new FlamethrowerFireEntity(user, world);
                 flamethrowerFire.setVelocity(user, 30.0f, 1.0f);
                 if (flamethrowerComponent.getValue2() > 0) {

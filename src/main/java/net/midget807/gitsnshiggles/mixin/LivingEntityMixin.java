@@ -353,7 +353,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
         if (source.getAttacker() instanceof PlayerEntity player && player.getStackInHand(Hand.MAIN_HAND).isOf(ModItems.KATANA)) {
             ItemStack katana = player.getStackInHand(Hand.MAIN_HAND);
             if (katana.get(ModDataComponentTypes.PARRY_DAMAGE) != null) {
-                float katanaDamage = katana.get(ModDataComponentTypes.PARRY_DAMAGE);
+                float katanaDamage = katana.getOrDefault(ModDataComponentTypes.PARRY_DAMAGE, 0.0f);
                 katana.set(ModDataComponentTypes.PARRY_DAMAGE, 0.0f);
                 return base + katanaDamage;
             }

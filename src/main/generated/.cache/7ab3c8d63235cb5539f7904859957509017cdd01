@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-26T01:56:36.0945694	Gits And Shiggles/Recipes
+// 1.21.1	2026-01-28T13:37:18.2377567	Gits And Shiggles/Recipes
 229ac1684a2a1a666e4d091b4ce8ff5c3f40f1b3 data\gitsnshiggles\advancement\recipes\combat\gauntlet.json
 7a0d2f691ca017f637944747081ed435faf9047c data\gitsnshiggles\recipe\fuel_tank.json
 38c6a62a7fbc9b5b2b19353ccaa75ada41612f5f data\gitsnshiggles\recipe\lightsaber_orange.json
@@ -96,8 +96,8 @@ cce4fdc2d738dbe3aa6797b4682db28d852fc2d2 data\gitsnshiggles\advancement\recipes\
 e775385e2a507e123c9cb18cb248c16d0113a537 data\gitsnshiggles\recipe\railgun.json
 17871dcc764dd5addcde22bf347b86cf6a971639 data\gitsnshiggles\advancement\recipes\misc\gun_block.json
 c96c10fe117d0e1873063c1e3177ddbf4fe53ba5 data\gitsnshiggles\advancement\recipes\combat\katana_hilt.json
-c90e8274e9daf6870643554379e62dda6c578587 data\gitsnshiggles\recipe\lightsaber_cyan.json
 c63c12ddde12d881a986466f89f573887a71c0ae data\gitsnshiggles\recipe\lightsaber_purple.json
+c90e8274e9daf6870643554379e62dda6c578587 data\gitsnshiggles\recipe\lightsaber_cyan.json
 620233e761e5049d3a9778ded4e5abe6cb0df45d data\gitsnshiggles\recipe\tron_disc.json
 0f504fbf90228f53ed847beddb8b72698ee169f9 data\gitsnshiggles\advancement\recipes\combat\am_rifle.json
 eeafb24a81f50d8d4ddbb241ff692c59ac689bcc data\gitsnshiggles\advancement\recipes\combat\santa_hat.json

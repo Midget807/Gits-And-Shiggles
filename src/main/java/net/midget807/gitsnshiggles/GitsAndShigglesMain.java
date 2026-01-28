@@ -31,6 +31,7 @@ public class GitsAndShigglesMain implements ModInitializer {
 		ModItems.registerModItems();
 		ModItemGroups.registerModItemGroups();
         ModBlockEntities.registerModBlockEntities();
+        ModFluids.registerModFluids();
 		ModEntities.registerModEntities();
 		ModParticles.registerModParticles();
 		ModEffects.registerModEffects();
@@ -40,6 +41,7 @@ public class GitsAndShigglesMain implements ModInitializer {
 		ModDataHandlers.registerModDataHandlers();
 		ModRegistryKeys.registerModRegistryKeys();
         ModCauldronBehaviors.registerModCauldronBehaviors();
+        ModScreenHandlers.registerModScreenHandlers();
 
 		UseBlockListener.execute();
         ModLootTableModifiers.modifyLootTables();

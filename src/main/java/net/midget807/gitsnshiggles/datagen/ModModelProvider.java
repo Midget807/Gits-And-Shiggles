@@ -72,7 +72,21 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.RED_HOT_GOLD_ALLOY_INGOT, Models.GENERATED);
         itemModelGenerator.register(ModItems.RED_HOT_GOLD_ALLOY_PLATE, Models.GENERATED);
 
-        itemModelGenerator.register(ModItems.EPHEDRA_SEEDS, Models.GENERATED);
+        itemModelGenerator.register(ModItems.ETHANOL_BUCKET, Models.GENERATED);
+
+        itemModelGenerator.register(ModItems.BURNER, Models.GENERATED);
+        itemModelGenerator.register(ModItems.CONICAL_FLASK, Models.GENERATED);
+        itemModelGenerator.register(ModItems.BEAKER, Models.GENERATED);
+        itemModelGenerator.register(ModItems.FILTER_PAPER, Models.GENERATED);
+        itemModelGenerator.register(ModItems.FUNNEL, Models.GENERATED);
+        itemModelGenerator.register(ModItems.FILTER_FUNNEL, Models.GENERATED);
+        itemModelGenerator.register(ModItems.STAND, Models.GENERATED);
+        itemModelGenerator.register(ModItems.CLAMP, Models.GENERATED);
+        itemModelGenerator.register(ModItems.STAND_AND_CLAMP, Models.GENERATED);
+        itemModelGenerator.register(ModItems.CONDENSER, Models.GENERATED);
+        itemModelGenerator.register(ModItems.ROUND_FLASK, Models.GENERATED);
+        itemModelGenerator.register(ModItems.TEST_TUBE, Models.GENERATED);
+
         itemModelGenerator.register(ModItems.EPHEDRA, Models.GENERATED);
         itemModelGenerator.register(ModItems.DRIED_EPHEDRA, Models.GENERATED);
         itemModelGenerator.register(ModItems.EPHEDRA_DUST, Models.GENERATED);

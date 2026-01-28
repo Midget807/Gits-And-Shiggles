@@ -1,13 +1,11 @@
 package net.midget807.gitsnshiggles.registry;
 
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
+import net.midget807.gitsnshiggles.block.ChemistryWorkbenchBlock;
 import net.midget807.gitsnshiggles.block.EphedraCropBlock;
 import net.midget807.gitsnshiggles.block.NetherSpongeBlock;
 import net.midget807.gitsnshiggles.block.WetNetherSpongeBlock;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.MapColor;
-import net.minecraft.item.AliasedBlockItem;
+import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -17,8 +15,10 @@ import net.minecraft.sound.BlockSoundGroup;
 public class ModBlocks {
     public static final Block NETHER_SPONGE = registerBlock("nether_sponge", new NetherSpongeBlock(AbstractBlock.Settings.create().mapColor(MapColor.BLACK).strength(0.6f).sounds(BlockSoundGroup.SPONGE)), new Item.Settings().fireproof());
     public static final Block WET_NETHER_SPONGE = registerBlock("wet_nether_sponge", new WetNetherSpongeBlock(AbstractBlock.Settings.create().mapColor(MapColor.BLACK).strength(0.6f).sounds(BlockSoundGroup.WET_SPONGE)), new Item.Settings().fireproof());
-    public static final Block EPHEDRA_CROP = registerBlockWithoutItem("ephedra", new EphedraCropBlock(AbstractBlock.Settings.create().nonOpaque().noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)));
 
+    public static final Block ETHANOL = registerBlockWithoutItem("ethanol", new FluidBlock(ModFluids.ETHANOL_STILL, AbstractBlock.Settings.copy(Blocks.WATER)));
+    public static final Block EPHEDRA_CROP = registerBlockWithoutItem("ephedra", new EphedraCropBlock(AbstractBlock.Settings.create().nonOpaque().noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP)));
+    public static final Block CHEMISTRY_WORKBENCH = registerBlock("chemistry_workbench", new ChemistryWorkbenchBlock(AbstractBlock.Settings.create().mapColor(MapColor.DARK_AQUA).strength(0.6f).sounds(BlockSoundGroup.WOOD)));
 
     private static Block registerBlockWithoutItem(String blockName, Block block) {
         return Registry.register(Registries.BLOCK, GitsAndShigglesMain.id(blockName), block);

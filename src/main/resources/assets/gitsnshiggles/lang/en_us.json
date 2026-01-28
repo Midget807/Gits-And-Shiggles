@@ -98,5 +98,6 @@
   "item.gitsnshiggles.gold_alloy_ingot": "Gold Alloy Ingot",
   "item.gitsnshiggles.gold_alloy_plate": "Gold Alloy Plate",
 
-  "item.gitsnshiggles.bad_broken": "Methamphetamine"
+  "item.gitsnshiggles.bad_broken": "Methamphetamine",
+  "container.gitsnshiggles.chemistry_workbench": "Chemistry Workbench"
 }
