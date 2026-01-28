@@ -80,7 +80,7 @@ public class ModItemGroups {
                         entries.add(ModItems.LIGHTSABER_RED);
                         entries.add(ModItems.LIGHTSABER_BLACK);
 
-                        //entries.add(ModItems.TRON_DISC_WHITE);
+                        entries.add(ModItems.TRON_DISC);
 
                         entries.add(ModItems.RED_HOT_IRON_INGOT);
                         entries.add(ModItems.RED_HOT_NETHERITE_INGOT);

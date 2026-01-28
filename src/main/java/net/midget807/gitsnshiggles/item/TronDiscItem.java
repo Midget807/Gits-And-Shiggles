@@ -51,6 +51,9 @@ public class TronDiscItem extends Item {
         tronDiscEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 2.0f, 0);
         if (!world.isClient) {
             world.spawnEntity(tronDiscEntity);
+            if (user instanceof PlayerEntity player) {
+                player.getInventory().removeOne(stack);
+            }
         }
     }
 

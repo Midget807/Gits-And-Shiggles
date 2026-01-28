@@ -14,6 +14,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -30,6 +31,7 @@ public class TronDiscEntity extends PersistentProjectileEntity {
     private int targetNumber = 5;
     private LivingEntity target;
     private LivingEntity exceptionTarget;
+    private boolean isReturning = false;
 
     public TronDiscEntity(World world) {
         super(ModEntities.TRON_DISC, world);
@@ -83,8 +85,24 @@ public class TronDiscEntity extends PersistentProjectileEntity {
 
     @Override
     public void tick() {
-        if (this.age > 80) {
+        if (this.isNoClip() && !this.isReturning) {
+            this.setNoClip(false);
+        }
+        if (this.age > 80 && !this.isReturning) {
             this.dropItem(this.getItemStack().getItem());
+            this.isReturning = false;
+            this.discard();
+            return;
+        }
+        if (target == null && this.targetNumber > 0 && this.getOwner() != null) {
+            this.returnToOwner(this.getOwner());
+            if (!this.isReturning) {
+                this.isReturning = true;
+            }
+        }
+        if (this.getOwner() != null && this.isReturning && this.squaredDistanceTo(this.getOwner()) <= 4 && this.getOwner() instanceof PlayerEntity player) {
+            player.getInventory().insertStack(this.getDefaultItemStack());
+            this.isReturning = false;
             this.discard();
             return;
         }
@@ -94,7 +112,7 @@ public class TronDiscEntity extends PersistentProjectileEntity {
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
-        if (this.getOwner() != null && entity == this.getOwner()) {
+        if (this.getOwner() != null && entity == this.getOwner() && !this.isReturning) {
             this.dropItem(this.getItemStack().getItem());
             this.getOwner().kill();
             return;
@@ -105,7 +123,7 @@ public class TronDiscEntity extends PersistentProjectileEntity {
             this.target = null;
         }
 
-        if (entity.damage(this.getDamageSources().mobProjectile(this, (LivingEntity) this.getOwner()), 7.0f)) {
+        if (entity.damage(this.getDamageSources().mobProjectile(this, (LivingEntity) this.getOwner()), 24.0f)) {
             this.setVelocity(Vec3d.ZERO);
         }
         Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && !entity2.equals(entity) && entity2 != this.getOwner();
@@ -116,7 +134,19 @@ public class TronDiscEntity extends PersistentProjectileEntity {
             this.updateRotation();
             this.targetNumber--;
             this.age = 0;
+        } else if (target == null && this.targetNumber > 0 && this.getOwner() != null) {
+            this.returnToOwner(this.getOwner());
+            if (!this.isReturning) {
+                this.isReturning = true;
+            }
         }
+    }
+
+    private void returnToOwner(Entity owner) {
+        this.setNoClip(true);
+        this.setVelocity(this.getOwner().getEyePos().subtract(this.getPos()).normalize().multiply(5));
+        this.updateRotation();
+        this.age = 0;
     }
 
     @Override
@@ -141,6 +171,11 @@ public class TronDiscEntity extends PersistentProjectileEntity {
             this.updateRotation();
             this.targetNumber--;
             this.age = 0;
+        } else if (target == null && this.targetNumber > 0 && this.getOwner() != null) {
+            this.returnToOwner(this.getOwner());
+            if (!this.isReturning) {
+                this.isReturning = true;
+            }
         }
     }
 
@@ -177,4 +212,21 @@ public class TronDiscEntity extends PersistentProjectileEntity {
         return true;
     }
 
+    @Override
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        if (this.target != null) nbt.putInt("Target", this.target.getId());
+        if (this.exceptionTarget != null) nbt.putInt("TargetException", this.exceptionTarget.getId());
+        nbt.putInt("TargetNumber", this.targetNumber);
+        nbt.putBoolean("Returning", this.isReturning);
+    }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        if (nbt.contains("Target")) this.target = (LivingEntity) this.getWorld().getEntityById(nbt.getInt("Target"));
+        if (nbt.contains("TargetException")) this.exceptionTarget = (LivingEntity) this.getWorld().getEntityById(nbt.getInt("TargetException"));
+        this.targetNumber = nbt.getInt("TargetNumber");
+        this.isReturning = nbt.getBoolean("Returning");
+    }
 }
