@@ -1,13 +1,10 @@
 package net.midget807.gitsnshiggles.item;
 
 import net.midget807.gitsnshiggles.entity.TronDiscEntity;
-import net.midget807.gitsnshiggles.util.ColoredItemUtil;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -41,13 +38,15 @@ public class TronDiscItem extends Item {
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         Predicate<LivingEntity> entityPredicate = entity2 -> !entity2.isSpectator() && entity2 != user;
-        TronDiscEntity tronDiscEntity = new TronDiscEntity(user, world, stack);
-        tronDiscEntity.getNearestEntityInViewPreferPlayer(user, user.getX(), user.getY(), user.getZ(), 20.0, entityPredicate);
+        TronDiscEntity tronDiscEntity = new TronDiscEntity(user, world, stack, user instanceof PlayerEntity player ? player.getInventory().getSlotWithStack(stack) : -1);
+        tronDiscEntity.getNearestEntityInViewPreferPlayer(user, user.getX(), user.getY(), user.getZ(), 32.0d, entityPredicate);
         tronDiscEntity.setRebounds(reboundsForPullProgress(user));
         tronDiscEntity.setPitch(user.getPitch());
         tronDiscEntity.prevPitch = user.prevPitch;
         tronDiscEntity.prevYaw = user.prevYaw;
         tronDiscEntity.setYaw(user.getYaw());
+        tronDiscEntity.canReturn = false;
+        tronDiscEntity.isReturning = false;
         tronDiscEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 2.0f, 0);
         if (!world.isClient) {
             world.spawnEntity(tronDiscEntity);

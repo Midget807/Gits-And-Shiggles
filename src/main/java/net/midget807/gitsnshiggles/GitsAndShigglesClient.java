@@ -61,7 +61,7 @@ public class GitsAndShigglesClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(SantaHatModel.MODEL_LAYER, SantaHatModel::getTexturedModelData);
         ArmorRenderer.register(new SantaHatRenderer(), ModItems.SANTA_HAT, ModItems.LEATHER_SANTA_HAT, ModItems.CHAINMAIL_SANTA_HAT, ModItems.GOLD_SANTA_HAT, ModItems.IRON_SANTA_HAT, ModItems.DIAMOND_SANTA_HAT, ModItems.NETHERITE_SANTA_HAT);
 
-        HandledScreens.register(ModScreenHandlers.CHEMISTRY_WORKBENCH_SCREEN_HANDLER, ChemistryWorkbenchScreen::new);
+        HandledScreens.register(ModScreenHandlers.CHEMISTRY_WORKBENCH, ChemistryWorkbenchScreen::new);
     }
 
 

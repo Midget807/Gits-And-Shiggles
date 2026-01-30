@@ -1,7 +1,8 @@
 package net.midget807.gitsnshiggles.screen;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
-import net.midget807.gitsnshiggles.block.entity.ChemistryWorkbenchBlockEntity;
+import net.midget807.gitsnshiggles.network.C2S.payload.OpenEvaporateScreenPayload;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -11,19 +12,25 @@ import net.minecraft.util.Identifier;
 import static net.midget807.gitsnshiggles.block.ChemistryWorkbenchBlock.Modes;
 
 public class ChemistryWorkbenchScreen extends HandledScreen<ChemistryWorkbenchScreenHandler> {
-    private static final Identifier MENU_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/chemistry_workbench_menu.png");
-    private static final Identifier DISTILLATION_TAB_UNAVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/distillation_tab_unavailable.png");
-    private static final Identifier DISTILLATION_TAB_AVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/distillation_tab_available.png");
-    private static final Identifier DISTILLATION_TAB_SELECTED_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/distillation_tab_selected.png");
-    private static final Identifier FILTER_TAB_UNAVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/filter_tab_unavailable.png");
-    private static final Identifier FILTER_TAB_AVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/filter_tab_available.png");
-    private static final Identifier FILTER_TAB_SELECTED_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/filter_tab_selected.png");
-    private static final Identifier EVAPORATE_TAB_UNAVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/evaporate_tab_unavailable.png");
-    private static final Identifier EVAPORATE_TAB_AVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/evaporate_tab_available.png");
-    private static final Identifier EVAPORATE_TAB_SELECTED_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/evaporate_tab_selected.png");
-    private static final Identifier DISSOLVE_TAB_UNAVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/dissolve_tab_unavailable.png");
-    private static final Identifier DISSOLVE_TAB_AVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/dissolve_tab_available.png");
-    private static final Identifier DISSOLVE_TAB_SELECTED_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/dissolve_tab_selected.png");
+    public static final Identifier MENU_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/chemistry_workbench_menu.png");
+    public static final Identifier DISTILLATION_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/distillation_menu.png");
+    public static final Identifier FILTER_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/filter_menu.png");
+    public static final Identifier EVAPORATE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/evaporate_menu.png");
+    public static final Identifier DISSOLVE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/dissolve_menu.png");
+    public static final Identifier MENU_TAB_AVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/menu_tab_available.png");
+    public static final Identifier MENU_TAB_SELECTED_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/menu_tab_selected.png");
+    public static final Identifier DISTILLATION_TAB_UNAVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/distillation_tab_unavailable.png");
+    public static final Identifier DISTILLATION_TAB_AVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/distillation_tab_available.png");
+    public static final Identifier DISTILLATION_TAB_SELECTED_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/distillation_tab_selected.png");
+    public static final Identifier FILTER_TAB_UNAVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/filter_tab_unavailable.png");
+    public static final Identifier FILTER_TAB_AVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/filter_tab_available.png");
+    public static final Identifier FILTER_TAB_SELECTED_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/filter_tab_selected.png");
+    public static final Identifier EVAPORATE_TAB_UNAVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/evaporate_tab_unavailable.png");
+    public static final Identifier EVAPORATE_TAB_AVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/evaporate_tab_available.png");
+    public static final Identifier EVAPORATE_TAB_SELECTED_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/evaporate_tab_selected.png");
+    public static final Identifier DISSOLVE_TAB_UNAVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/dissolve_tab_unavailable.png");
+    public static final Identifier DISSOLVE_TAB_AVAILABLE_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/dissolve_tab_available.png");
+    public static final Identifier DISSOLVE_TAB_SELECTED_TEXTURE = GitsAndShigglesMain.id("textures/gui/container/dissolve_tab_selected.png");
 
     public static final int BACKGROUND_WIDTH = 212;
     public static final int BACKGROUND_HEIGHT = 222;
@@ -32,60 +39,73 @@ public class ChemistryWorkbenchScreen extends HandledScreen<ChemistryWorkbenchSc
     public static final int TAB_HEIGHT = 26;
     public static final int TAB_OFFSET = 4;
 
-    private Modes selectedTab = Modes.NONE;
+    private Modes selectedTab = Modes.MENU;
 
     public ChemistryWorkbenchScreen(ChemistryWorkbenchScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         this.backgroundWidth = BACKGROUND_WIDTH;
         this.backgroundHeight = BACKGROUND_HEIGHT;
-        this.playerInventoryTitleX = 26;
-        this.playerInventoryTitleY = BACKGROUND_HEIGHT - 94;
+        this.playerInventoryTitleY = this.backgroundHeight - 94;
     }
+
 
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         int x = (width - BACKGROUND_WIDTH) / 2;
         int y = (height - BACKGROUND_HEIGHT) / 2;
 
-        ChemistryWorkbenchScreenHandler screenHandler = this.getScreenHandler();
-        ChemistryWorkbenchBlockEntity blockEntity = screenHandler.blockEntity;
+        context.drawTexture(this.getTabTexture(handler, Modes.MENU), x - TAB_WIDTH + TAB_OFFSET, y + TAB_OFFSET, this.getTabTexture(handler, Modes.MENU).toString().contains("selected") ? 1 : 0, 0, 0, TAB_WIDTH, TAB_HEIGHT, 32, 26);
+        context.drawTexture(this.getTabTexture(handler, Modes.DISTILLATION), x - TAB_WIDTH + TAB_OFFSET, y + TAB_OFFSET + (TAB_HEIGHT + 1), this.getTabTexture(handler, Modes.DISTILLATION).toString().contains("selected") ? 1 : 0, 0, 0, TAB_WIDTH, TAB_HEIGHT, 32, 26);
+        context.drawTexture(this.getTabTexture(handler, Modes.FILTER), x - TAB_WIDTH + TAB_OFFSET, y + TAB_OFFSET + (TAB_HEIGHT + 1) * 2, this.getTabTexture(handler, Modes.FILTER).toString().contains("selected") ? 1 : 0, 0, 0, TAB_WIDTH, TAB_HEIGHT, 32, 26);
+        context.drawTexture(this.getTabTexture(handler, Modes.EVAPORATE), x - TAB_WIDTH + TAB_OFFSET, y + TAB_OFFSET + (TAB_HEIGHT + 1) * 3, this.getTabTexture(handler, Modes.EVAPORATE).toString().contains("selected") ? 1 : 0, 0, 0, TAB_WIDTH, TAB_HEIGHT, 32, 26);
+        context.drawTexture(this.getTabTexture(handler, Modes.DISSOLVE), x - TAB_WIDTH + TAB_OFFSET, y + TAB_OFFSET + (TAB_HEIGHT + 1) * 4, this.getTabTexture(handler, Modes.DISSOLVE).toString().contains("selected") ? 1 : 0, 0, 0, TAB_WIDTH, TAB_HEIGHT, 32, 26);
 
-        context.drawTexture(MENU_TEXTURE, x, y, BACKGROUND_X_OFFSET, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, 256, 256);
-
-        context.drawTexture(this.getTabTexture(blockEntity, Modes.DISTILLATION), x - TAB_WIDTH + TAB_OFFSET, y + TAB_OFFSET, 0, 0, TAB_WIDTH, TAB_HEIGHT, 32, 26);
-        context.drawTexture(this.getTabTexture(blockEntity, Modes.FILTER), x - TAB_WIDTH + TAB_OFFSET, y + TAB_OFFSET + TAB_HEIGHT + 1, 0, 0, TAB_WIDTH, TAB_HEIGHT, 32, 26);
-        context.drawTexture(this.getTabTexture(blockEntity, Modes.EVAPORATE), x - TAB_WIDTH + TAB_OFFSET, y + TAB_OFFSET + (TAB_HEIGHT + 1) * 2, 0, 0, TAB_WIDTH, TAB_HEIGHT, 32, 26);
-        context.drawTexture(this.getTabTexture(blockEntity, Modes.DISSOLVE), x - TAB_WIDTH + TAB_OFFSET, y + TAB_OFFSET + (TAB_HEIGHT + 1) * 3 , 0, 0, TAB_WIDTH, TAB_HEIGHT, 32, 26);
+        context.drawTexture(this.getMainTexture(), x, y, 0, BACKGROUND_X_OFFSET, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, 256, 256);
     }
 
-    private Identifier getTabTexture(ChemistryWorkbenchBlockEntity blockEntity, Modes modes) {
+    @Override
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        super.drawForeground(context, mouseX, mouseY);
+    }
+
+    private Identifier getMainTexture() {
+        return switch (this.selectedTab) {
+            case DISTILLATION -> DISTILLATION_TEXTURE;
+            case FILTER -> FILTER_TEXTURE;
+            case EVAPORATE -> EVAPORATE_TEXTURE;
+            case DISSOLVE -> DISSOLVE_TEXTURE;
+            default -> MENU_TEXTURE;
+        };
+    }
+
+    private Identifier getTabTexture(ChemistryWorkbenchScreenHandler inventory, Modes modes) {
         return switch (modes) {
+            case MENU:
+                yield selectedTab == Modes.MENU ? MENU_TAB_SELECTED_TEXTURE : MENU_TAB_AVAILABLE_TEXTURE;
             case DISTILLATION:
-                if (blockEntity.distillationAvailable) {
+                if (inventory.modePropertyDelegate.get(0) == 1) {
                     yield selectedTab == Modes.DISTILLATION ? DISTILLATION_TAB_SELECTED_TEXTURE : DISTILLATION_TAB_AVAILABLE_TEXTURE;
                 } else {
                     yield DISTILLATION_TAB_UNAVAILABLE_TEXTURE;
                 }
             case FILTER:
-                if (blockEntity.filterAvailable) {
+                if (inventory.modePropertyDelegate.get(1) == 1) {
                     yield selectedTab == Modes.FILTER ? FILTER_TAB_SELECTED_TEXTURE : FILTER_TAB_AVAILABLE_TEXTURE;
                 } else {
                     yield FILTER_TAB_UNAVAILABLE_TEXTURE;
                 }
             case EVAPORATE:
-                if (blockEntity.evaporateAvailable) {
+                if (inventory.modePropertyDelegate.get(2) == 1) {
                     yield selectedTab == Modes.EVAPORATE ? EVAPORATE_TAB_SELECTED_TEXTURE : EVAPORATE_TAB_AVAILABLE_TEXTURE;
                 } else {
                     yield EVAPORATE_TAB_UNAVAILABLE_TEXTURE;
                 }
             case DISSOLVE:
-                if (blockEntity.dissolveAvailable) {
+                if (inventory.modePropertyDelegate.get(3) == 1) {
                     yield selectedTab == Modes.DISSOLVE ? DISSOLVE_TAB_SELECTED_TEXTURE : DISSOLVE_TAB_AVAILABLE_TEXTURE;
                 } else {
                     yield DISSOLVE_TAB_UNAVAILABLE_TEXTURE;
                 }
-            case NONE:
-                yield null;
         };
     }
 
@@ -111,18 +131,44 @@ public class ChemistryWorkbenchScreen extends HandledScreen<ChemistryWorkbenchSc
             double e = mouseY - this.y;
 
             for (Modes modes : Modes.getModesToDisplay()) {
-                if (this.isClickInTab(modes, d, e)) {
-                    this.setSelectedTab(modes);
-                    return true;
+                if (modeIsAvailable(modes)) {
+                    if (this.isClickInTab(modes, d, e)) {
+                        this.setSelectedTab(modes);
+                        return true;
+                    }
                 }
             }
         }
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
+    private boolean modeIsAvailable(Modes mode) {
+        if (mode == Modes.MENU) {
+            return true;
+        } else {
+            return this.handler.modePropertyDelegate.get(mode.getAvailabilityIndex(mode)) == 1;
+        }
+    }
+
     private void setSelectedTab(Modes newMode) {
         Modes currentModes = selectedTab;
         selectedTab = newMode;
+        if (selectedTab != currentModes) {
+            switch (selectedTab) {
+                case DISTILLATION: {
+
+                }
+                case FILTER: {
+
+                }
+                case EVAPORATE: {
+                    if (this.handler.modePropertyDelegate.get(3) == 1) ClientPlayNetworking.send(new OpenEvaporateScreenPayload(this.handler.blockEntity.getPos(), 3));
+                }
+                case DISSOLVE: {
+
+                }
+            }
+        }
         this.cursorDragSlots.clear();
         this.endTouchDrag();
     }
@@ -130,22 +176,38 @@ public class ChemistryWorkbenchScreen extends HandledScreen<ChemistryWorkbenchSc
     private boolean isClickInTab(Modes modes, double mouseX, double mouseY) {
         int i = this.getTabX(modes);
         int j = this.getTabY(modes);
-        return mouseX >= i && mouseX <= i + TAB_WIDTH && mouseY >= j && mouseY <= j + TAB_HEIGHT;
+        return mouseX >= i && mouseX <= i + TAB_WIDTH - TAB_OFFSET && mouseY >= j && mouseY <= j + TAB_HEIGHT;
     }
 
-    private int getTabX(Modes modes) {
-        return (width - BACKGROUND_WIDTH) / 2 - TAB_WIDTH;
+    public int getTabX(Modes modes) {
+        return -TAB_WIDTH + TAB_OFFSET;
     }
 
-    private int getTabY(Modes modes) {
+    public int getTabY(Modes modes) {
         int i = modes.getRow(modes);
-        int k = (height - BACKGROUND_HEIGHT) / 2 + TAB_OFFSET + (TAB_HEIGHT + 1) * i;
+        int k = 27 * i;
         return k;
+    }
+    public boolean renderTabTooltipIfHovered(DrawContext context, Modes mode, int mouseX, int mouseY) {
+        int i = this.getTabX(mode);
+        int j = this.getTabY(mode);
+        if (this.isPointWithinBounds(i + 3, j + 3, 21, 27, mouseX, mouseY)) {
+            context.drawTooltip(this.textRenderer, mode.getDisplayName(), mouseX, mouseY);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
+
+        for (Modes modes : Modes.getModesToDisplay()) {
+            if (this.renderTabTooltipIfHovered(context, modes, mouseX, mouseY)) {
+                break;
+            }
+        }
         drawMouseoverTooltip(context, mouseX, mouseY);
     }
 }

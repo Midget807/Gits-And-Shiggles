@@ -8,3 +8,7 @@ accessible field net/minecraft/client/Mouse cursorDeltaX D
 accessible field net/minecraft/client/Mouse cursorDeltaY D
 accessible field net/minecraft/command/argument/ItemStackArgumentType reader Lnet/minecraft/command/argument/ItemStringReader;
 accessible field net/minecraft/entity/player/PlayerInventory combinedInventory Ljava/util/List;
+accessible method net/minecraft/server/network/ServerPlayerEntity incrementScreenHandlerSyncId ()V
+accessible field net/minecraft/server/network/ServerPlayerEntity screenHandlerSyncId I
+accessible method net/minecraft/server/network/ServerPlayerEntity onScreenHandlerOpened (Lnet/minecraft/screen/ScreenHandler;)V
+accessible field net/minecraft/screen/ScreenHandler trackedStacks Lnet/minecraft/util/collection/DefaultedList;

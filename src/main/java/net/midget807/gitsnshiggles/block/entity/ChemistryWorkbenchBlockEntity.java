@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.registry.ModBlockEntities;
 import net.midget807.gitsnshiggles.registry.ModItems;
+import net.midget807.gitsnshiggles.registry.ModScreenHandlers;
 import net.midget807.gitsnshiggles.screen.ChemistryWorkbenchScreenHandler;
 import net.midget807.gitsnshiggles.util.ImplementedInventory;
 import net.midget807.gitsnshiggles.util.ModFluidUtil;
@@ -14,7 +15,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -46,18 +46,21 @@ public class ChemistryWorkbenchBlockEntity extends BlockEntity implements Extend
     public static final int FILTER_TIME_DELEGATE_INDEX = 1;
     public static final int EVAPORATE_TIME_DELEGATE_INDEX = 2;
     public static final int DISSOLVE_TIME_DELEGATE_INDEX = 3;
+    public static final int DISTILLATION_AVAILABLE_DELEGATE_INDEX = 0;
+    public static final int FILTER_AVAILABLE_DELEGATE_INDEX = 1;
+    public static final int EVAPORATE_AVAILABLE_DELEGATE_INDEX = 2;
+    public static final int DISSOLVE_AVAILABLE_DELEGATE_INDEX = 3;
     public static final int[] MENU_SLOT_INDICES = {0, 1, 2, 3, 4, 5}; /** Bottom left -> up -> right */
     public static final int[] DISTILLATION_INPUT_INDICES = {6, 7, 8, 9, 12, 13}; /** {6, 7} -> Item Input   |   {8, 9} -> Reactant Fluid Input   |   {12, 13} -> Product Fluid Input */
     public static final int[] DISTILLATION_OUTPUT_INDICES = {10, 11, 14, 15, 16, 17}; /** {10, 11} -> Reactant Fluid Output   |   {14, 15} -> Item Output   | {16, 17} -> Product Fluid Output */
-    public static final int[] FILTER_INPUT_INDICES = {18}; /** Reactant Fluid Input */
-    public static final int[] FILTER_OUTPUT_INDICES = {19}; /** Reactant Fluid Output */
-    public static final int[] EVAPORATE_INPUT_INDICES = {20}; /** Reactant Fluid Input */
-    public static final int[] EVAPORATE_OUTPUT_INDICES = {21, 22}; /** 21 -> Reactant Fluid Output   |   22 -> Item Output */
-    public static final int[] DISSOLVE_INPUT_INDICES = {23, 24, 25, 26}; /** {23, 24} -> Item Input   |   {25, 26} -> Reactant Fluid Input   |   29 -> Product Fluid Input */
-    public static final int[] DISSOLVE_OUTPUT_INDICES = {27, 28, 29, 30}; /** {27, 28} -> Reactant Fluid Output   |   30 -> Product Fluid Output */
-    public static final int[] BURNER_INPUT_INDICES = {31};
-    private final DefaultedList<ItemStack> wholeItemInventory = DefaultedList.ofSize(32, ItemStack.EMPTY);
-    private DefaultedList<ItemStack> menuItemInventory = DefaultedList.ofSize(6, ItemStack.EMPTY);
+    public static final int[] FILTER_INPUT_INDICES = {18, 21}; /** 18 -> Reactant Fluid Input   |   21 -> Product Fluid Input*/
+    public static final int[] FILTER_OUTPUT_INDICES = {19, 20, 22}; /** 19 -> Reactant Fluid Output   |   20 -> Residue Output   |   21 -> Product Fluid Output */
+    public static final int[] EVAPORATE_INPUT_INDICES = {23}; /** Reactant Fluid Input */
+    public static final int[] EVAPORATE_OUTPUT_INDICES = {24, 25}; /** 24 -> Reactant Fluid Output   |   25 -> Item Output */
+    public static final int[] DISSOLVE_INPUT_INDICES = {26, 27, 28, 29, 32}; /** {26, 27} -> Item Input   |   {28, 29} -> Reactant Fluid Input   |   32 -> Product Fluid Input */
+    public static final int[] DISSOLVE_OUTPUT_INDICES = {30, 31, 33}; /** {30, 31} -> Reactant Fluid Output   |   33 -> Product Fluid Output */
+    public static final int[] BURNER_INPUT_INDICES = {34};
+    private final DefaultedList<ItemStack> wholeItemInventory = DefaultedList.ofSize(35, ItemStack.EMPTY);
     private SingleVariantStorage<FluidVariant> distillationInputFluidStorage1 = ModFluidUtil.createTank(this);
     private SingleVariantStorage<FluidVariant> distillationInputFluidStorage2 = ModFluidUtil.createTank(this);
     private SingleVariantStorage<FluidVariant> distillationOutputFluidStorage1 = ModFluidUtil.createTank(this);
@@ -81,12 +84,12 @@ public class ChemistryWorkbenchBlockEntity extends BlockEntity implements Extend
     private int distillationFluidInput1Amount = 0;
     private int distillationFluidInput2Amount = 0;
 
-    public boolean distillationAvailable = false;
-    public boolean filterAvailable = false;
-    public boolean evaporateAvailable = false;
-    public boolean dissolveAvailable = false;
+    public int distillationAvailable;
+    public int filterAvailable;
+    public int evaporateAvailable;
+    public int dissolveAvailable;
 
-    private final PropertyDelegate propertyDelegate = new PropertyDelegate() {
+    public final PropertyDelegate timePropertyDelegate = new PropertyDelegate() {
         @Override
         public int get(int index) {
             return switch (index) {
@@ -120,7 +123,40 @@ public class ChemistryWorkbenchBlockEntity extends BlockEntity implements Extend
             return 4;
         }
     };
+    public final PropertyDelegate modePropertyDelegate = new PropertyDelegate() {
+        @Override
+        public int get(int index) {
+            return switch (index) {
+                case DISTILLATION_AVAILABLE_DELEGATE_INDEX -> ChemistryWorkbenchBlockEntity.this.distillationAvailable;
+                case FILTER_AVAILABLE_DELEGATE_INDEX -> ChemistryWorkbenchBlockEntity.this.filterAvailable;
+                case EVAPORATE_AVAILABLE_DELEGATE_INDEX -> ChemistryWorkbenchBlockEntity.this.evaporateAvailable;
+                case DISSOLVE_AVAILABLE_DELEGATE_INDEX -> ChemistryWorkbenchBlockEntity.this.dissolveAvailable;
+                default -> DISSOLVE_AVAILABLE_DELEGATE_INDEX;
+            };
+        }
 
+        @Override
+        public void set(int index, int value) {
+            switch (index) {
+                case DISTILLATION_AVAILABLE_DELEGATE_INDEX:
+                    ChemistryWorkbenchBlockEntity.this.distillationAvailable = value;
+                    break;
+                case FILTER_AVAILABLE_DELEGATE_INDEX:
+                    ChemistryWorkbenchBlockEntity.this.filterAvailable = value;
+                    break;
+                case EVAPORATE_AVAILABLE_DELEGATE_INDEX:
+                    ChemistryWorkbenchBlockEntity.this.evaporateAvailable = value;
+                    break;
+                case DISSOLVE_AVAILABLE_DELEGATE_INDEX:
+                    ChemistryWorkbenchBlockEntity.this.dissolveAvailable = value;
+            }
+        }
+
+        @Override
+        public int size() {
+            return 4;
+        }
+    };
 
     public ChemistryWorkbenchBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CHEMISTRY_WORKBENCH, pos, state);
@@ -142,10 +178,26 @@ public class ChemistryWorkbenchBlockEntity extends BlockEntity implements Extend
     }
 
     public void tick(World world, BlockPos pos, BlockState state) {
-        this.distillationAvailable = checkForDistillation();
-        this.filterAvailable = checkForFilter();
-        this.evaporateAvailable = checkForEvaporate();
-        this.dissolveAvailable = checkForDissolve();
+        if (checkForDistillation()) {
+            this.distillationAvailable = 1;
+        } else {
+            this.distillationAvailable = 0;
+        }
+        if (checkForFilter()) {
+            this.filterAvailable = 1;
+        } else {
+            this.filterAvailable = 0;
+        }
+        if (checkForEvaporate()) {
+            this.evaporateAvailable = 1;
+        } else {
+            this.evaporateAvailable = 0;
+        }
+        if (checkForDissolve()) {
+            this.dissolveAvailable = 1;
+        } else {
+            this.dissolveAvailable = 0;
+        }
         markDirty(world, pos, state);
 
         fillUpOnFluid();
@@ -244,6 +296,6 @@ public class ChemistryWorkbenchBlockEntity extends BlockEntity implements Extend
 
     @Override
     public @Nullable ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new ChemistryWorkbenchScreenHandler(syncId, playerInventory, this, this.propertyDelegate);
+        return new ChemistryWorkbenchScreenHandler(syncId, playerInventory, this, this.timePropertyDelegate, modePropertyDelegate);
     }
 }

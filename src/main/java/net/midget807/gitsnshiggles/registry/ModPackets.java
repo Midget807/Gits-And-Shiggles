@@ -28,6 +28,7 @@ public class ModPackets {
     public static final Identifier MIND_STONE_CD_SYNC = registerC2SId("mind_stone_cd_sync");
     public static final Identifier RAILGUN_RECOIL_SYNC = registerC2SId("railgun_recoil_sync");
     public static final Identifier SHUFFLE_INVENTORY = registerC2SId("shuffle_inventory");
+    public static final Identifier OPEN_EVAPORATE_SCREEN = registerC2SId("open_evaporate_screen");
 
     /**S2C Packets*/
     public static final Identifier SOUL_STONE = registerS2CId("soul_stone");
@@ -59,6 +60,9 @@ public class ModPackets {
 
         PayloadTypeRegistry.playC2S().register(ShuffleInventoryPayload.PAYLOAD_ID, ShuffleInventoryPayload.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(ShuffleInventoryPayload.PAYLOAD_ID, ShuffleInventoryPacket::receive);
+
+        PayloadTypeRegistry.playC2S().register(OpenEvaporateScreenPayload.PAYLOAD_ID, OpenEvaporateScreenPayload.CODEC);
+        ServerPlayNetworking.registerGlobalReceiver(OpenEvaporateScreenPayload.PAYLOAD_ID, OpenEvaporateScreenPacket::receive);
     }
 
     public static void registerGlobalS2C() {

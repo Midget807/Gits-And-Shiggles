@@ -99,5 +99,10 @@
   "item.gitsnshiggles.gold_alloy_plate": "Gold Alloy Plate",
 
   "item.gitsnshiggles.bad_broken": "Methamphetamine",
-  "container.gitsnshiggles.chemistry_workbench": "Chemistry Workbench"
+  "container.gitsnshiggles.chemistry_workbench": "Chemistry Workbench",
+  "container.gitsnshiggles.chemistry_workbench.menu_tooltip": "Apparatus",
+  "container.gitsnshiggles.chemistry_workbench.distillation_tooltip": "Distilling",
+  "container.gitsnshiggles.chemistry_workbench.filter_tooltip": "Filtering",
+  "container.gitsnshiggles.chemistry_workbench.evaporate_tooltip": "Evaporating",
+  "container.gitsnshiggles.chemistry_workbench.dissolve_tooltip": "Dissolving"
 }

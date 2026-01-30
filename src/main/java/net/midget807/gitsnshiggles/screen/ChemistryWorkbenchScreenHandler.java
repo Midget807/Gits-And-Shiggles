@@ -14,36 +14,48 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
 
 public class ChemistryWorkbenchScreenHandler extends ScreenHandler {
-    private final Inventory inventory;
-    private final PropertyDelegate propertyDelegate;
+    public Inventory inventory;
+    public final PropertyDelegate timePropertyDelegate;
+    public final PropertyDelegate modePropertyDelegate;
     public final ChemistryWorkbenchBlockEntity blockEntity;
+    public int currentScreen = 0;
 
     public ChemistryWorkbenchScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
-        this(syncId, playerInventory, playerInventory.player.getEntityWorld().getBlockEntity(pos), new ArrayPropertyDelegate(4));
+        this(syncId, playerInventory, playerInventory.player.getEntityWorld().getBlockEntity(pos), new ArrayPropertyDelegate(4), new ArrayPropertyDelegate(4));
     }
 
-    public ChemistryWorkbenchScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity, PropertyDelegate arrayPropertyDelegate) {
-        super(ModScreenHandlers.CHEMISTRY_WORKBENCH_SCREEN_HANDLER, syncId);
-        checkSize((Inventory) blockEntity, 6);
-        checkDataCount(arrayPropertyDelegate, 4);
+    public ChemistryWorkbenchScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity, PropertyDelegate timePropertyDelegate, PropertyDelegate modePropertyDelegate) {
+        super(ModScreenHandlers.CHEMISTRY_WORKBENCH, syncId);
+        //checkSize((Inventory) blockEntity, 32);
+        checkDataCount(timePropertyDelegate, 4);
+        checkDataCount(modePropertyDelegate, 4);
         this.inventory = (Inventory) blockEntity;
         this.blockEntity = (ChemistryWorkbenchBlockEntity) blockEntity;
-        this.propertyDelegate = arrayPropertyDelegate;
+        this.timePropertyDelegate = timePropertyDelegate;
+        this.modePropertyDelegate = modePropertyDelegate;
 
-        this.addSlot(new Slot(inventory, 0, 26, 100)); /** Bottom Left */
-        this.addSlot(new Slot(inventory, 1, 26, 64));
-        this.addSlot(new Slot(inventory, 2, 26, 28)); /** Top Left */
-        this.addSlot(new Slot(inventory, 3, 98, 100));
-        this.addSlot(new Slot(inventory, 4, 98, 64));
-        this.addSlot(new Slot(inventory, 5, 167, 100));
+        buildSlots();
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
 
-        addProperties(arrayPropertyDelegate);
+        addProperties(timePropertyDelegate);
+        addProperties(modePropertyDelegate);
     }
 
-    private void addPlayerInventory(PlayerInventory playerInventory) {
+    private void buildSlots() {
+        this.slots.clear();
+        this.trackedStacks.clear();
+        switch (currentScreen) {
+            case 1 -> buildDistillationSlots();
+            case 2 -> buildFilterSlots();
+            case 3 -> buildEvaporateSlots();
+            case 4 -> buildDissolveSlots();
+            default -> buildMenuSlots();
+        }
+    }
+
+    public void addPlayerInventory(PlayerInventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
                 this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 26 + l * 18, 140 + i * 18));
@@ -51,7 +63,7 @@ public class ChemistryWorkbenchScreenHandler extends ScreenHandler {
         }
     }
 
-    private void addPlayerHotbar(PlayerInventory playerInventory) {
+    public void addPlayerHotbar(PlayerInventory playerInventory) {
         for (int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(playerInventory, i, 26 + i * 18, 198));
         }
@@ -84,5 +96,40 @@ public class ChemistryWorkbenchScreenHandler extends ScreenHandler {
     @Override
     public boolean canUse(PlayerEntity player) {
         return this.inventory.canPlayerUse(player);
+    }
+
+    @Override
+    public void onContentChanged(Inventory inventory) {
+        this.modePropertyDelegate.set(ChemistryWorkbenchBlockEntity.DISTILLATION_AVAILABLE_DELEGATE_INDEX, this.blockEntity.modePropertyDelegate.get(0));
+        this.modePropertyDelegate.set(ChemistryWorkbenchBlockEntity.FILTER_AVAILABLE_DELEGATE_INDEX, this.blockEntity.modePropertyDelegate.get(1));
+        this.modePropertyDelegate.set(ChemistryWorkbenchBlockEntity.EVAPORATE_AVAILABLE_DELEGATE_INDEX, this.blockEntity.modePropertyDelegate.get(2));
+        this.modePropertyDelegate.set(ChemistryWorkbenchBlockEntity.DISSOLVE_AVAILABLE_DELEGATE_INDEX, this.blockEntity.modePropertyDelegate.get(3));
+        super.onContentChanged(inventory);
+    }
+
+    private void buildMenuSlots() {
+        this.addSlot(new Slot(inventory, 0, 26, 100)); /** Bottom Left */
+        this.addSlot(new Slot(inventory, 1, 26, 64));
+        this.addSlot(new Slot(inventory, 2, 26, 28)); /** Top Left */
+        this.addSlot(new Slot(inventory, 3, 98, 100));
+        this.addSlot(new Slot(inventory, 4, 98, 64));
+        this.addSlot(new Slot(inventory, 5, 170, 100));
+    }
+
+    private void buildDistillationSlots() {
+
+    }
+
+    private void buildFilterSlots() {
+
+    }
+
+    public void buildEvaporateSlots() {
+        this.addSlot(new Slot(inventory, ChemistryWorkbenchBlockEntity.EVAPORATE_INPUT_INDICES[0], 62, 100)); /** Bottom Left */
+        this.addSlot(new Slot(inventory, ChemistryWorkbenchBlockEntity.EVAPORATE_OUTPUT_INDICES[0], 62, 28));
+        this.addSlot(new Slot(inventory, ChemistryWorkbenchBlockEntity.EVAPORATE_OUTPUT_INDICES[1], 134, 64)); /** Middle Right */
+    }
+
+    private void buildDissolveSlots() {
     }
 }

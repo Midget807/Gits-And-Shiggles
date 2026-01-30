@@ -18,6 +18,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
@@ -142,23 +143,42 @@ public class ChemistryWorkbenchBlock extends BlockWithEntity implements BlockEnt
     }
 
     public static enum Modes {
+        MENU,
         DISTILLATION,
         FILTER,
         EVAPORATE,
-        DISSOLVE,
-        NONE;
+        DISSOLVE;
 
         public static List<Modes> getModesToDisplay() {
-            return List.of(Modes.DISTILLATION, Modes.FILTER, Modes.EVAPORATE, Modes.DISSOLVE);
+            return List.of(Modes.MENU, Modes.DISTILLATION, Modes.FILTER, Modes.EVAPORATE, Modes.DISSOLVE);
         }
-
-        public int getRow(Modes modes) {
-            return switch (modes) {
+        public int getAvailabilityIndex(Modes mode) {
+            return switch (mode) {
+                case MENU -> -1;
                 case DISTILLATION -> 0;
                 case FILTER -> 1;
                 case EVAPORATE -> 2;
                 case DISSOLVE -> 3;
-                case NONE -> 4;
+            };
+        }
+
+        public int getRow(Modes modes) {
+            return switch (modes) {
+                case MENU -> 0;
+                case DISTILLATION -> 1;
+                case FILTER -> 2;
+                case EVAPORATE -> 3;
+                case DISSOLVE -> 4;
+            };
+        }
+
+        public Text getDisplayName() {
+            return switch (this) {
+                case MENU -> Text.translatable("container.gitsnshiggles.chemistry_workbench.menu_tooltip");
+                case DISTILLATION -> Text.translatable("container.gitsnshiggles.chemistry_workbench.distillation_tooltip");
+                case FILTER -> Text.translatable("container.gitsnshiggles.chemistry_workbench.filter_tooltip");
+                case EVAPORATE -> Text.translatable("container.gitsnshiggles.chemistry_workbench.evaporate_tooltip");
+                case DISSOLVE -> Text.translatable("container.gitsnshiggles.chemistry_workbench.dissolve_tooltip");
             };
         }
     }
