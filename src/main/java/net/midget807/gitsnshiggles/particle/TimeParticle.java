@@ -12,7 +12,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.SimpleParticleType;
 import org.joml.Vector3f;
 
-@Environment(EnvType.CLIENT)
 public class TimeParticle extends SpriteBillboardParticle {
     public TimeParticle(ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, SpriteProvider spriteProvider) {
         super(clientWorld, d, e, f, g, h, i);
@@ -30,6 +29,7 @@ public class TimeParticle extends SpriteBillboardParticle {
     public ParticleTextureSheet getType() {
         return ParticleTextureSheet.PARTICLE_SHEET_TRANSLUCENT;
     }
+
     @Environment(EnvType.CLIENT)
     public static class Factory implements ParticleFactory<SimpleParticleType> {
         private final SpriteProvider spriteProvider;

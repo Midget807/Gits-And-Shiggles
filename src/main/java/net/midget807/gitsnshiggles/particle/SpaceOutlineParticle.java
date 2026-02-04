@@ -12,7 +12,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.SimpleParticleType;
 import org.joml.Vector3f;
 
-@Environment(EnvType.CLIENT)
 public class SpaceOutlineParticle extends SpriteBillboardParticle {
     public SpaceOutlineParticle(ClientWorld clientWorld, double d, double e, double f, double g, double h, double i, SpriteProvider spriteProvider) {
         super(clientWorld, d, e, f, g, h, i);
