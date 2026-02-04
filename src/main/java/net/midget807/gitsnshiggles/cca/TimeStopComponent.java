@@ -39,6 +39,7 @@ public class TimeStopComponent implements IntComponent, BoolComponent, AutoSynce
     @Override
     public void setBool(boolean value) {
         this.isTimeStopped = value;
+        this.sync();
     }
 
     @Override
@@ -49,21 +50,25 @@ public class TimeStopComponent implements IntComponent, BoolComponent, AutoSynce
     @Override
     public void setInt(int value) {
         this.duration = value;
+        this.sync();
     }
 
     @Override
     public void addToInt(int count) {
         this.duration += count;
+        this.sync();
     }
 
     @Override
     public void incrementInt() {
         this.duration++;
+        this.sync();
     }
 
     @Override
     public void decrementInt() {
         this.duration--;
+        this.sync();
     }
 
     @Override

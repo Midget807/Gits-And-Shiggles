@@ -334,7 +334,7 @@ public abstract class InGameHudMixin {
         context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.soulStoneCD), bg_size + 2, (bg_size / 2) - 4 + (3 * bg_size), Colors.WHITE, false);
         context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.timeStoneCD), bg_size + 2, (bg_size / 2) - 4 + (4 * bg_size), Colors.WHITE, false);
         context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.mindStoneCD), bg_size + 2, (bg_size / 2) - 4 + (5 * bg_size), Colors.WHITE, false);
-        //todo render timer as text beside icon
+
         this.client.getProfiler().pop();
     }
 }

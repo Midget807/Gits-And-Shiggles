@@ -15,4 +15,22 @@ public interface HextupleIntComponent extends Component {
     void setHexValue4(int value);
     void setHexValue5(int value);
     void setHexValue6(int value);
+    void addToHexValue1(int count);
+    void addToHexValue2(int count);
+    void addToHexValue3(int count);
+    void addToHexValue4(int count);
+    void addToHexValue5(int count);
+    void addToHexValue6(int count);
+    void incrementHexValue1();
+    void incrementHexValue2();
+    void incrementHexValue3();
+    void incrementHexValue4();
+    void incrementHexValue5();
+    void incrementHexValue6();
+    void decrementHexValue1();
+    void decrementHexValue2();
+    void decrementHexValue3();
+    void decrementHexValue4();
+    void decrementHexValue5();
+    void decrementHexValue6();
 }

@@ -1,7 +1,6 @@
 package net.midget807.gitsnshiggles.cca;
 
 import net.midget807.gitsnshiggles.cca.primative.DoubleBoolComponent;
-import net.midget807.gitsnshiggles.cca.primative.DoubleIntComponent;
 import net.midget807.gitsnshiggles.cca.primative.HextupleIntComponent;
 import net.midget807.gitsnshiggles.cca.primative.IntComponent;
 import net.midget807.gitsnshiggles.registry.ModCCAComponents;
@@ -54,11 +53,13 @@ public class InfinityGauntletComponent implements HextupleIntComponent, IntCompo
     @Override
     public void setDoubleBool1(boolean value) {
         this.hasRealityShield = value;
+        this.sync();
     }
 
     @Override
     public void setDoubleBool2(boolean value) {
         this.hasSoulRevive = value;
+        this.sync();
     }
 
     @Override
@@ -69,21 +70,25 @@ public class InfinityGauntletComponent implements HextupleIntComponent, IntCompo
     @Override
     public void setInt(int value) {
         this.realityShieldDuration = value;
+        this.sync();
     }
 
     @Override
     public void addToInt(int count) {
         this.realityShieldDuration += count;
+        this.sync();
     }
 
     @Override
     public void incrementInt() {
         this.realityShieldDuration++;
+        this.sync();
     }
 
     @Override
     public void decrementInt() {
         this.realityShieldDuration--;
+        this.sync();
     }
 
     @Override
@@ -98,51 +103,147 @@ public class InfinityGauntletComponent implements HextupleIntComponent, IntCompo
 
     @Override
     public int getHexValue3() {
-        return 0;
+        return this.realityStoneCD;
     }
 
     @Override
     public int getHexValue4() {
-        return 0;
+        return this.soulStoneCD;
     }
 
     @Override
     public int getHexValue5() {
-        return 0;
+        return this.timeStoneCD;
     }
 
     @Override
     public int getHexValue6() {
-        return 0;
+        return this.mindStoneCD;
     }
 
     @Override
     public void setHexValue1(int value) {
-
+        this.powerStoneCD = value;
+        this.sync();
     }
 
     @Override
     public void setHexValue2(int value) {
-
+        this.spaceStoneCD = value;
+        this.sync();
     }
 
     @Override
     public void setHexValue3(int value) {
-
+        this.realityStoneCD = value;
+        this.sync();
     }
 
     @Override
     public void setHexValue4(int value) {
-
+        this.soulStoneCD = value;
+        this.sync();
     }
 
     @Override
     public void setHexValue5(int value) {
-
+        this.sync();
+        this.timeStoneCD = value;
     }
 
     @Override
     public void setHexValue6(int value) {
+        this.sync();
+        this.mindStoneCD = value;
+    }
+
+    @Override
+    public void addToHexValue1(int count) {
+        //todo
+    }
+
+    @Override
+    public void addToHexValue2(int count) {
+
+    }
+
+    @Override
+    public void addToHexValue3(int count) {
+
+    }
+
+    @Override
+    public void addToHexValue4(int count) {
+
+    }
+
+    @Override
+    public void addToHexValue5(int count) {
+
+    }
+
+    @Override
+    public void addToHexValue6(int count) {
+
+    }
+
+    @Override
+    public void incrementHexValue1() {
+
+    }
+
+    @Override
+    public void incrementHexValue2() {
+
+    }
+
+    @Override
+    public void incrementHexValue3() {
+
+    }
+
+    @Override
+    public void incrementHexValue4() {
+
+    }
+
+    @Override
+    public void incrementHexValue5() {
+
+    }
+
+    @Override
+    public void incrementHexValue6() {
+
+    }
+
+    @Override
+    public void decrementHexValue1() {
+
+    }
+
+    @Override
+    public void decrementHexValue2() {
+
+    }
+
+    @Override
+    public void decrementHexValue3() {
+
+    }
+
+    @Override
+    public void decrementHexValue4() {
+
+    }
+
+    @Override
+    public void decrementHexValue5() {
+
+    }
+
+    @Override
+    public void decrementHexValue6() {
 
     }
 
