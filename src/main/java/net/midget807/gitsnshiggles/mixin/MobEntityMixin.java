@@ -1,7 +1,9 @@
 package net.midget807.gitsnshiggles.mixin;
 
+import net.midget807.gitsnshiggles.cca.TimeStopComponent;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.inject.TimeStoneFreeze;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Targeter;
@@ -24,7 +26,8 @@ public abstract class MobEntityMixin extends LivingEntity implements Targeter {
     }
     @Inject(method = "setTarget", at = @At("TAIL"))
     private void gitsnshiggles$timeStonePreventsTargeting(LivingEntity target, CallbackInfo ci) {
-        if (((TimeStoneFreeze)(this)).getTimeTicksFrozen() > 0) {
+        TimeStopComponent timeStopComponent = TimeStopComponent.get((MobEntity)((Object)this));
+        if (timeStopComponent.getBool()) {
             this.target = null;
         }
     }

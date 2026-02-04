@@ -31,60 +31,60 @@ public class DiceRollComponent implements DoubleIntComponent, AutoSyncedComponen
 
     /** Returns {@link #diceRoll} */
     @Override
-    public int getValue1() {
+    public int getDoubleIntValue1() {
         return this.diceRoll;
     }
 
     /** Returns {@link #flyTime} */
     @Override
-    public int getValue2() {
+    public int getDoubleIntValue2() {
         return this.flyTime;
     }
 
     @Override
-    public void setValue1(int value) {
+    public void setDoubleIntValue1(int value) {
         this.diceRoll = value;
         this.sync();
     }
 
     @Override
-    public void setValue2(int value) {
+    public void setDoubleIntValue2(int value) {
         this.flyTime = value;
         this.sync();
     }
 
     @Override
-    public void addToValue1(int count) {
+    public void addToDoubleIntValue1(int count) {
         this.diceRoll += count;
         this.sync();
     }
 
     @Override
-    public void addToValue2(int count) {
+    public void addToDoubleIntValue2(int count) {
         this.flyTime += count;
         this.sync();
     }
 
     @Override
-    public void incrementValue1() {
+    public void incrementDoubleIntValue1() {
         this.diceRoll++;
         this.sync();
     }
 
     @Override
-    public void incrementValue2() {
+    public void incrementDoubleIntValue2() {
         this.flyTime++;
         this.sync();
     }
 
     @Override
-    public void decrementValue1() {
+    public void decrementDoubleIntValue1() {
         this.diceRoll--;
         this.sync();
     }
 
     @Override
-    public void decrementValue2() {
+    public void decrementDoubleIntValue2() {
         this.flyTime--;
         this.sync();
     }
@@ -107,7 +107,7 @@ public class DiceRollComponent implements DoubleIntComponent, AutoSyncedComponen
             if (!player.getAbilities().allowFlying) {
                 player.getAbilities().allowFlying = true;
             }
-            this.decrementValue2();
+            this.decrementDoubleIntValue2();
         }
         if (this.flyTime <= 0) {
             if (!player.getAbilities().creativeMode && !player.isSpectator()) {
@@ -116,7 +116,7 @@ public class DiceRollComponent implements DoubleIntComponent, AutoSyncedComponen
             }
         }
         if (this.flyTime < 0) {
-            this.setValue2(0);
+            this.setDoubleIntValue2(0);
         }
     }
 }

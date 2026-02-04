@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
@@ -24,7 +25,6 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
     public static final TagKey<Item> DISABLES_SHIELD = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("custom_disables_shield"));
     public static final TagKey<Item> SANTA_DIET = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("santa_diet"));
     public static final TagKey<Item> BIG_ITEM_RENDERING = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("big_item_rendering"));
-    public static final TagKey<Item> DISTILLATION_OUTPUT = TagKey.of(RegistryKeys.ITEM, GitsAndShigglesMain.id("distillation_output"));
 
     public ModItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
         super(output, completableFuture);
@@ -118,11 +118,5 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                         Items.MUSIC_DISC_PRECIPICE
                 )
                 .forceAddTag(ItemTags.CREEPER_DROP_MUSIC_DISCS);
-        this.getOrCreateTagBuilder(DISTILLATION_OUTPUT)
-                .add(
-                        ModItems.CONICAL_FLASK,
-                        ModItems.BEAKER,
-                        ModItems.ROUND_FLASK
-                );
     }
 }

@@ -12,3 +12,4 @@ accessible method net/minecraft/server/network/ServerPlayerEntity incrementScree
 accessible field net/minecraft/server/network/ServerPlayerEntity screenHandlerSyncId I
 accessible method net/minecraft/server/network/ServerPlayerEntity onScreenHandlerOpened (Lnet/minecraft/screen/ScreenHandler;)V
 accessible field net/minecraft/screen/ScreenHandler trackedStacks Lnet/minecraft/util/collection/DefaultedList;
+accessible field net/minecraft/item/BucketItem fluid Lnet/minecraft/fluid/Fluid;

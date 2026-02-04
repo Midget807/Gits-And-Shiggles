@@ -48,4 +48,12 @@ public class ModUtil {
     public static ItemStack exchangeWholeStack(ItemStack inputStack, PlayerEntity player, ItemStack outputStack) {
         return exchangeWholeStack(inputStack, player, outputStack, true);
     }
+
+    public static class Speed {
+        public static final double BLOCK_PER_SECOND = 0.05;
+        public static final double BLOCK_PER_TICK = 1.0;
+        public static double getParticleSpeedForRadius(int maxAge, double maxRadius) {
+            return (BLOCK_PER_TICK / maxAge) * maxRadius * maxRadius;
+        }
+    }
 }

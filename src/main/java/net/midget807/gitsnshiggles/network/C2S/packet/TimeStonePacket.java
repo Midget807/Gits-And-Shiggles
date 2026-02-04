@@ -1,6 +1,7 @@
 package net.midget807.gitsnshiggles.network.C2S.packet;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.midget807.gitsnshiggles.cca.TimeStopComponent;
 import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.network.C2S.payload.TimeStonePayload;
 import net.midget807.gitsnshiggles.network.S2C.payload.TimeStoneSyncPayload;
@@ -31,13 +32,10 @@ public class TimeStonePacket {
                 }
             }
             squareEntities.forEach(entity -> {
-                if (entity instanceof LivingEntity livingEntity) {
-                    livingEntity.addStatusEffect(new StatusEffectInstance(ModEffects.TIME_STOP, InfinityStoneUtil.TIMER_TIME_STONE, 0, false, false, false));
-                } else {
-                    ((TimeStoneFreeze) entity).setShouldTimeFreeze(payload.shouldTimeFreeze());
-                }
+                TimeStopComponent timeStopComponent = TimeStopComponent.get(entity);
+                timeStopComponent.setInt(TimeStopComponent.MAX_DURATION);
             });
-            InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.TIME);
+            if (!player.getAbilities().creativeMode) InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.TIME);
         });
     }
 }

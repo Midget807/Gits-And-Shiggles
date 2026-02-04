@@ -18,6 +18,5 @@ public class ModBlockLootTableProvider extends FabricBlockLootTableProvider {
     public void generate() {
         addDrop(ModBlocks.NETHER_SPONGE);
         addDrop(ModBlocks.WET_NETHER_SPONGE);
-        addDrop(ModBlocks.EPHEDRA_CROP, this.cropDrops(ModBlocks.EPHEDRA_CROP, ModItems.EPHEDRA, ModItems.EPHEDRA_SEEDS, BlockStatePropertyLootCondition.builder(ModBlocks.EPHEDRA_CROP)));
     }
 }

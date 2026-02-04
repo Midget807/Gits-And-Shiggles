@@ -37,10 +37,10 @@ public class PowerStonePacket {
                 }
             });
             radiusEntities.forEach(entity -> {
-                entity.damage(player.getDamageSources().magic(), 3);
+                entity.damage(player.getDamageSources().magic(), 6);
                 knockbackEntity(entity, player);
             });
-            InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.POWER);
+            if (!player.getAbilities().creativeMode) InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.POWER);
         });
     }
 

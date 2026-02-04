@@ -4,14 +4,12 @@ import net.midget807.gitsnshiggles.cca.DiceRollComponent;
 import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModEffects;
 import net.midget807.gitsnshiggles.registry.ModItems;
-import net.midget807.gitsnshiggles.util.ModEffectUtil;
 import net.midget807.gitsnshiggles.util.ModUtil;
 import net.midget807.gitsnshiggles.util.state.UnluckyPlayerState;
 import net.midget807.gitsnshiggles.util.state.VeryUnluckyPlayerState;
 import net.minecraft.block.NoteBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffectUtil;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -44,10 +42,10 @@ public class DiceItem extends Item {
         ItemStack itemStack = player.getStackInHand(hand);
         DiceRollComponent diceRollComponent = DiceRollComponent.get(player);
         if (!world.isClient) {
-            diceRollComponent.setValue1(world.random.nextBetween(1, 6));
+            diceRollComponent.setDoubleIntValue1(world.random.nextBetween(1, 6));
         }
         player.getItemCooldownManager().set(ModItems.DICE, player.getAbilities().creativeMode ? 10 : 12000 /*10 min*/);
-        int roll = diceRollComponent.getValue1();
+        int roll = diceRollComponent.getDoubleIntValue1();
         itemStack.set(ModDataComponentTypes.DICE_ROLL, roll);
 
         switch (roll) {
@@ -85,7 +83,7 @@ public class DiceItem extends Item {
         }
         if (entity instanceof PlayerEntity player) {
             DiceRollComponent diceRollComponent = DiceRollComponent.get(player);
-            int roll = diceRollComponent.getValue1();
+            int roll = diceRollComponent.getDoubleIntValue1();
             if (world.isClient) {
                 if (roll == 6) {
                     player.sendMessage(Text.literal("You rolled a: " + roll).formatted(Formatting.YELLOW), true);
@@ -124,7 +122,7 @@ public class DiceItem extends Item {
 
     private void executeEvent6(World world, PlayerEntity player) {
         DiceRollComponent diceRollComponent = DiceRollComponent.get(player);
-        diceRollComponent.setValue2(DiceRollComponent.FLY_DURATION);
+        diceRollComponent.setDoubleIntValue2(DiceRollComponent.FLY_DURATION);
         MinecraftServer server = world.getServer();
         if (!world.isClient) player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 600, 2, false, false));
         if (server != null) {

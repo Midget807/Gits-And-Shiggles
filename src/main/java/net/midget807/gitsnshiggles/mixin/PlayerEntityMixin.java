@@ -255,31 +255,28 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         );
         for (ProjectileEntity projectileEntity : projectiles) {
             Vec3d pos = projectileEntity.getPos();
-            ServerWorld world = (ServerWorld) this.getWorld();
-            if (!this.getWorld().isClient) {
+            if (projectileEntity.getWorld().isClient) {
                 DustParticleEffect dustParticleEffect = new DustParticleEffect(new Vector3f(0.592f, 0, 0.0667f), 1.0f);
-                world.spawnParticles(
-                        dustParticleEffect,
-                        pos.getX() + world.random.nextFloat(),
-                        pos.getY() + world.random.nextFloat(),
-                        pos.getZ() + world.random.nextFloat(),
-                        5,
-                        0,
-                        0,
-                        0,
-                        1.0
-                );
-                world.spawnParticles(
-                        ParticleTypes.BUBBLE,
-                        pos.getX() + world.random.nextFloat(),
-                        pos.getY() + world.random.nextFloat(),
-                        pos.getZ() + world.random.nextFloat(),
-                        5,
-                        0,
-                        0,
-                        0,
-                        1.0
-                );
+                for (int i = 0; i < 5; i++) {
+                    projectileEntity.getWorld().addParticle(
+                            dustParticleEffect,
+                            pos.getX() + projectileEntity.getWorld().random.nextFloat(),
+                            pos.getY() + projectileEntity.getWorld().random.nextFloat(),
+                            pos.getZ() + projectileEntity.getWorld().random.nextFloat(),
+                            0,
+                            0,
+                            0
+                    );
+                    projectileEntity.getWorld().addParticle(
+                            ParticleTypes.BUBBLE,
+                            pos.getX() + projectileEntity.getWorld().random.nextFloat(),
+                            pos.getY() + projectileEntity.getWorld().random.nextFloat(),
+                            pos.getZ() + projectileEntity.getWorld().random.nextFloat(),
+                            0,
+                            0,
+                            0
+                    );
+                }
             }
             projectileEntity.discard();
         }

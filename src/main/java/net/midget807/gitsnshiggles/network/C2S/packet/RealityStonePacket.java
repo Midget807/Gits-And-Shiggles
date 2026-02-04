@@ -24,7 +24,7 @@ public class RealityStonePacket {
             ServerPlayerEntity player = context.player();
             World world = player.getWorld();
             ((RealityStoneTransform)player).setTimeTicksForTransform(payload.timeTicksForTransform());
-            InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.REALITY);
+            if (!player.getAbilities().creativeMode) InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.REALITY);
             player.getHandItems().forEach(itemStack -> {
                 if (itemStack.getItem() instanceof InfinityGauntletItem gauntletItem) {
                     gauntletItem.realityStoneTimer = payload.timeTicksForTransform();

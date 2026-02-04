@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "gitsnshiggles:item/round_bottom_flask"
-  }
-}

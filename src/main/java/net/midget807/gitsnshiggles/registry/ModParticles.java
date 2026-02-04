@@ -8,6 +8,13 @@ import net.minecraft.registry.Registry;
 
 public class ModParticles {
     public static final SimpleParticleType TIME_STONE_RINGS = registerSimpleParticleType("time_stone_rings", true);
+    public static final SimpleParticleType POWER = registerSimpleParticleType("power", true);
+    public static final SimpleParticleType SPACE = registerSimpleParticleType("space", true);
+    public static final SimpleParticleType SPACE_OUTLINE = registerSimpleParticleType("space_outline", true);
+    public static final SimpleParticleType REALITY = registerSimpleParticleType("reality", true);
+    public static final SimpleParticleType SOUL = registerSimpleParticleType("soul", true);
+    public static final SimpleParticleType TIME = registerSimpleParticleType("time", true);
+    public static final SimpleParticleType MIND = registerSimpleParticleType("mind", true);
 
     private static SimpleParticleType registerSimpleParticleType(String name, boolean alwaysShow) {
         return Registry.register(Registries.PARTICLE_TYPE, GitsAndShigglesMain.id(name), FabricParticleTypes.simple(alwaysShow));

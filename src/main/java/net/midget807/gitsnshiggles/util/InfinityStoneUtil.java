@@ -15,11 +15,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.DustParticleEffect;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -130,6 +133,18 @@ public class InfinityStoneUtil {
             }
         });
     }
+
+    public static DustParticleEffect getDustParticleForStone(Stones stone, float scale) {
+        return switch (stone) {
+            case POWER -> new DustParticleEffect(ModParticleUtil.colorToVec3f(0x872DF4), scale);
+            case SPACE -> new DustParticleEffect(ModParticleUtil.colorToVec3f(0x3238FB), scale);
+            case REALITY -> new DustParticleEffect(ModParticleUtil.colorToVec3f(0xF72C23), scale);
+            case SOUL -> new DustParticleEffect(ModParticleUtil.colorToVec3f(0xF78A23), scale);
+            case TIME -> new DustParticleEffect(ModParticleUtil.colorToVec3f(0x03C500), scale);
+            case MIND -> new DustParticleEffect(ModParticleUtil.colorToVec3f(0xEEDF1C), scale);
+        };
+    }
+
     public static enum Stones {
         POWER,
         SPACE,
@@ -138,4 +153,5 @@ public class InfinityStoneUtil {
         TIME,
         MIND
     }
+
 }

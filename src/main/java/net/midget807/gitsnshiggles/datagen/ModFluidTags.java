@@ -12,7 +12,6 @@ import net.minecraft.util.Identifier;
 import java.util.concurrent.CompletableFuture;
 
 public class ModFluidTags extends FabricTagProvider.FluidTagProvider {
-    public static final TagKey<Fluid> ETHANOL_EXTRACTOR = TagKey.of(RegistryKeys.FLUID, GitsAndShigglesMain.id("extracts_with_ethanol"));
 
     public ModFluidTags(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
         super(output, completableFuture);
@@ -20,8 +19,5 @@ public class ModFluidTags extends FabricTagProvider.FluidTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        this.getOrCreateTagBuilder(ETHANOL_EXTRACTOR)
-                .addOptional(Identifier.of("brewinandchewin:vodka"))
-                .addOptionalTag(Identifier.of("c:ethanol"));
     }
 }

@@ -1,14 +1,21 @@
 package net.midget807.gitsnshiggles;
 
 import net.fabricmc.api.ModInitializer;
-
 import net.midget807.gitsnshiggles.event.server.ModLootTableModifiers;
 import net.midget807.gitsnshiggles.event.server.UseBlockListener;
-import net.midget807.gitsnshiggles.item.ModArmorMaterials;
-import net.midget807.gitsnshiggles.registry.*;
-import net.minecraft.block.cauldron.CauldronBehavior;
-import net.minecraft.entity.attribute.DefaultAttributeRegistry;
-import net.minecraft.entity.attribute.EntityAttributes;
+import net.midget807.gitsnshiggles.registry.ModArgumentTypes;
+import net.midget807.gitsnshiggles.registry.ModBlocks;
+import net.midget807.gitsnshiggles.registry.ModCauldronBehaviors;
+import net.midget807.gitsnshiggles.registry.ModCommands;
+import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
+import net.midget807.gitsnshiggles.registry.ModDataHandlers;
+import net.midget807.gitsnshiggles.registry.ModEffects;
+import net.midget807.gitsnshiggles.registry.ModEntities;
+import net.midget807.gitsnshiggles.registry.ModItemGroups;
+import net.midget807.gitsnshiggles.registry.ModItems;
+import net.midget807.gitsnshiggles.registry.ModPackets;
+import net.midget807.gitsnshiggles.registry.ModParticles;
+import net.midget807.gitsnshiggles.registry.ModRegistryKeys;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +37,6 @@ public class GitsAndShigglesMain implements ModInitializer {
         ModBlocks.registerModBlocks();
 		ModItems.registerModItems();
 		ModItemGroups.registerModItemGroups();
-        ModBlockEntities.registerModBlockEntities();
-        ModFluids.registerModFluids();
 		ModEntities.registerModEntities();
 		ModParticles.registerModParticles();
 		ModEffects.registerModEffects();
@@ -41,7 +46,6 @@ public class GitsAndShigglesMain implements ModInitializer {
 		ModDataHandlers.registerModDataHandlers();
 		ModRegistryKeys.registerModRegistryKeys();
         ModCauldronBehaviors.registerModCauldronBehaviors();
-        ModScreenHandlers.registerModScreenHandlers();
 
 		UseBlockListener.execute();
         ModLootTableModifiers.modifyLootTables();

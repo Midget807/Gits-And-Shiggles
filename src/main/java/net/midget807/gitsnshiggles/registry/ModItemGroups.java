@@ -87,9 +87,11 @@ public class ModItemGroups {
                         entries.add(ModItems.RED_HOT_GOLD_INGOT);
                         entries.add(ModItems.RED_HOT_GOLD_ALLOY_INGOT);
                         entries.add(ModItems.RED_HOT_GOLD_ALLOY_PLATE);
-
                         entries.add(ModItems.GOLD_ALLOY_INGOT);
                         entries.add(ModItems.GOLD_ALLOY_PLATE);
+
+                        entries.add(ModBlocks.NETHER_SPONGE);
+                        entries.add(ModBlocks.WET_NETHER_SPONGE);
 
                     })
                     .build()

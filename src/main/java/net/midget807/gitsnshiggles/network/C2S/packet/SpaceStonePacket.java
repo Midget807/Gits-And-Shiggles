@@ -2,7 +2,10 @@ package net.midget807.gitsnshiggles.network.C2S.packet;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.network.C2S.payload.SpaceStonePayload;
+import net.midget807.gitsnshiggles.registry.ModParticles;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
+import net.midget807.gitsnshiggles.util.ModParticleUtil;
+import net.midget807.gitsnshiggles.util.ModUtil;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -22,7 +25,7 @@ public class SpaceStonePacket {
                         false
                 );
             }
-            InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.SPACE);
+            if (!player.getAbilities().creativeMode) InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.SPACE);
         });
     }
 }

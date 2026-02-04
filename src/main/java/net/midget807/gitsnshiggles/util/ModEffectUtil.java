@@ -2,21 +2,23 @@ package net.midget807.gitsnshiggles.util;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.midget807.gitsnshiggles.cca.TimeStopComponent;
 import net.midget807.gitsnshiggles.registry.ModEffects;
 import net.midget807.gitsnshiggles.util.inject.TimeStoneFreeze;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
 public class ModEffectUtil {
     @Environment(EnvType.CLIENT)
     public static boolean shouldLockPlayerMovement(ClientPlayerEntity player) {
-        return player != null && (
-                player.hasStatusEffect(ModEffects.STEPHEN_HAWKING)
+        if (player == null) return false;
+        TimeStopComponent timeStopComponent = TimeStopComponent.get(player);
+        return player.hasStatusEffect(ModEffects.STEPHEN_HAWKING)
                         || player.hasStatusEffect(ModEffects.TIME_STOP)
-                        || ((TimeStoneFreeze) player).getTimeTicksFrozen() > 0
-        );
+                        || timeStopComponent.getBool();
     }
 
     @Environment(EnvType.CLIENT)

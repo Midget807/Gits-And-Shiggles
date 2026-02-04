@@ -39,7 +39,9 @@
         "gitsnshiggles:wizard_vanish",
         "gitsnshiggles:flamethrower",
         "gitsnshiggles:dice_roll",
-        "gitsnshiggles:blocking"
+        "gitsnshiggles:blocking",
+        "gitsnshiggles:time_stop",
+        "gitsnshiggles:infinity_gauntlet"
       ]
     },
 	"depends": {

@@ -39,10 +39,8 @@ public class MindStonePacket {
             }
             sphereEntities.forEach(playerEntity -> {
                 playerEntity.addStatusEffect(new StatusEffectInstance(ModEffects.INVERTED, payload.timeTicksInverted(), 0, false, false, false));
-                /*((MindStoneInvert)playerEntity).setTimeTicksInverted(payload.timeTicksInverted());
-                ServerPlayNetworking.send(playerEntity, new MindStoneInvertPayload(payload.timeTicksInverted()));*/
             });
-            InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.MIND);
+            if (!player.getAbilities().creativeMode) InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.MIND);
         });
     }
 }
