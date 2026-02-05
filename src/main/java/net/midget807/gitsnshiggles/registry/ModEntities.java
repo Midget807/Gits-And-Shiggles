@@ -27,15 +27,6 @@ public class ModEntities {
                     .maxTrackingRange(10)
     );
 
-    public static final EntityType<AreaDamageEntity> AREA_DAMAGE = register(
-            "area_damage",
-            EntityType.Builder.<AreaDamageEntity>create((entityType, world) -> new AreaDamageEntity(world), SpawnGroup.MISC)
-                    .makeFireImmune()
-                    .dimensions(7.0f, 0.5f)
-                    .maxTrackingRange(10)
-                    .trackingTickInterval(Integer.MAX_VALUE)
-    );
-
     public static final EntityType<FlamethrowerFireEntity> FLAMETHROWER_FIRE = register(
             "flamethrower_fire",
             EntityType.Builder.<FlamethrowerFireEntity>create((entityType, world) -> new FlamethrowerFireEntity(world), SpawnGroup.MISC)

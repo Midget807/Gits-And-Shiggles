@@ -11,9 +11,7 @@ import net.midget807.gitsnshiggles.entity.client.RealityStoneShieldEntityModel;
 import net.midget807.gitsnshiggles.entity.client.TronDiscEntityModel;
 import net.midget807.gitsnshiggles.entity.client.TronDiscEntityRenderer;
 import net.midget807.gitsnshiggles.event.client.ClientPreAttackListener;
-import net.midget807.gitsnshiggles.event.client.ClientTickEventsListener;
 import net.midget807.gitsnshiggles.event.client.HudRenderListener;
-import net.midget807.gitsnshiggles.event.client.WorldRendererEventListener;
 import net.midget807.gitsnshiggles.item.client.SantaHatModel;
 import net.midget807.gitsnshiggles.item.client.SantaHatRenderer;
 import net.midget807.gitsnshiggles.item.client.WizardArmorModel;
@@ -25,7 +23,6 @@ import net.midget807.gitsnshiggles.particle.SoulParticle;
 import net.midget807.gitsnshiggles.particle.SpaceOutlineParticle;
 import net.midget807.gitsnshiggles.particle.SpaceParticle;
 import net.midget807.gitsnshiggles.particle.TimeParticle;
-import net.midget807.gitsnshiggles.particle.TimeStoneRingsParticle;
 import net.midget807.gitsnshiggles.registry.ModEntities;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.registry.ModPackets;
@@ -41,9 +38,7 @@ public class GitsAndShigglesClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ClientPreAttackListener.execute();
-        ClientTickEventsListener.execute();
         HudRenderListener.execute();
-        WorldRendererEventListener.execute();
 
         ModKeyBindings.registerModKeyBindings();
         ModKeyHandler.runKeyBinds();
@@ -51,7 +46,6 @@ public class GitsAndShigglesClient implements ClientModInitializer {
 
         ModModelPredicateProviderRegistry.registerModelPredicates();
 
-        ParticleFactoryRegistry.getInstance().register(ModParticles.TIME_STONE_RINGS, TimeStoneRingsParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.POWER, PowerParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.SPACE, SpaceParticle.Factory::new);
         ParticleFactoryRegistry.getInstance().register(ModParticles.SPACE_OUTLINE, SpaceOutlineParticle.Factory::new);

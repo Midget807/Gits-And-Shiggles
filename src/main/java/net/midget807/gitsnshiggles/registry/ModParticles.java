@@ -7,7 +7,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 
 public class ModParticles {
-    public static final SimpleParticleType TIME_STONE_RINGS = registerSimpleParticleType("time_stone_rings", true);
     public static final SimpleParticleType POWER = registerSimpleParticleType("power", true);
     public static final SimpleParticleType SPACE = registerSimpleParticleType("space", true);
     public static final SimpleParticleType SPACE_OUTLINE = registerSimpleParticleType("space_outline", true);

@@ -24,6 +24,14 @@ fabricApi {
 }
 loom {
 	accessWidenerPath = file("src/main/resources/gitsnshiggles.accesswidener")
+    runs {
+        client {
+            runDir "runClient"
+        }
+        server {
+            runDir "runServer"
+        }
+    }
 }
 
 dependencies {

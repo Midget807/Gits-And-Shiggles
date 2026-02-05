@@ -12,11 +12,11 @@ import net.minecraft.entity.LivingEntity;
 public class WorldRendererEventListener {
     public static void execute() {
         WorldRenderEvents.AFTER_ENTITIES.register(context -> {
-            renderSchizophreniaEntities(context);
+            //renderSchizophreniaEntities(context);
         });
     }
 
-    private static void renderSchizophreniaEntities(WorldRenderContext context) {
+    /*private static void renderSchizophreniaEntities(WorldRenderContext context) {
         MinecraftClient client = MinecraftClient.getInstance();
         ClientWorld world = client.world;
         if (world == null) return;
@@ -47,5 +47,5 @@ public class WorldRendererEventListener {
                     0xF000F0
             );
         }
-    }
+    }*/
 }

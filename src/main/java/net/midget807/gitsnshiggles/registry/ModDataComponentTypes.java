@@ -2,8 +2,6 @@ package net.midget807.gitsnshiggles.registry;
 
 import com.mojang.serialization.Codec;
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
-import net.midget807.gitsnshiggles.component.FlamethrowerContentsComponent;
-import net.midget807.gitsnshiggles.component.OverheatComponent;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.type.FoodComponent;
 import net.minecraft.network.codec.PacketCodecs;
@@ -13,8 +11,6 @@ import net.minecraft.registry.Registry;
 import java.util.function.UnaryOperator;
 
 public class ModDataComponentTypes {
-    public static final ComponentType<OverheatComponent> OVERHEAT = register("overheat", builder -> builder.codec(OverheatComponent.CODEC).packetCodec(OverheatComponent.PACKET_CODEC));
-    public static final ComponentType<FlamethrowerContentsComponent> FLAMETHROWER_CONTENTS = register("overheat", builder -> builder.codec(FlamethrowerContentsComponent.CODEC).packetCodec(FlamethrowerContentsComponent.PACKET_CODEC));
     public static final ComponentType<Integer> DICE_ROLL = register("dice_roll", builder -> builder.codec(Codec.INT).packetCodec(PacketCodecs.INTEGER));
     public static final ComponentType<Float> PARRY_DAMAGE = register("parry_damage", builder -> builder.codec(Codec.FLOAT).packetCodec(PacketCodecs.FLOAT));
 

@@ -159,22 +159,22 @@ public class InfinityGauntletComponent implements HextupleIntComponent, IntCompo
 
     @Override
     public void addToHexValue1(int count) {
-        //todo
+        this.powerStoneCD += count;
     }
 
     @Override
     public void addToHexValue2(int count) {
-
+        this.spaceStoneCD += count;
     }
 
     @Override
     public void addToHexValue3(int count) {
-
+        this.realityStoneCD += count;
     }
 
     @Override
     public void addToHexValue4(int count) {
-
+        this.soulStoneCD += count;
     }
 
     @Override
