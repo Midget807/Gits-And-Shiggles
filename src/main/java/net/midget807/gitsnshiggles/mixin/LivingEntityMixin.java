@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.midget807.gitsnshiggles.cca.InfinityGauntletComponent;
 import net.midget807.gitsnshiggles.cca.TimeStopComponent;
 import net.midget807.gitsnshiggles.cca.WizardVanishComponent;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
@@ -47,35 +48,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements Attackable, RailgunRecoil, SoulStoneRevive, InfinityStoneCooldown {
+public abstract class LivingEntityMixin extends Entity implements Attackable, RailgunRecoil {
     @Unique
     private boolean hasRailgunRecoil = false;
     @Unique
     private int recoilPower = 0;
-    @Unique
-    private boolean isReviveAvailable;
-
-    @Unique
-    private int powerStoneCD;
-    @Unique
-    private int spaceStoneCD;
-    @Unique
-    private int realityStoneCD;
-    @Unique
-    private int soulStoneCD;
-    @Unique
-    private int timeStoneCD;
-    @Unique
-    private int mindStoneCD;
-
-    @Override
-    public boolean isReviveAvailable() {
-        return this.isReviveAvailable;
-    }
-    @Override
-    public void setReviveAvailable(boolean reviveAvailable) {
-        this.isReviveAvailable = reviveAvailable;
-    }
 
     @Shadow public abstract void playSound(@Nullable SoundEvent sound);
 
@@ -135,81 +112,6 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
         return this.recoilPower;
     }
 
-    @Override
-    public boolean isPowerStoneOnCD() {
-        return this.powerStoneCD > 0;
-    }
-    @Override
-    public boolean isSpaceStoneOnCD() {
-        return this.spaceStoneCD > 0;
-    }
-    @Override
-    public boolean isRealityStoneOnCD() {
-        return this.realityStoneCD > 0;
-    }
-    @Override
-    public boolean isSoulStoneOnCD() {
-        return this.soulStoneCD > 0;
-    }
-    @Override
-    public boolean isTimeStoneOnCD() {
-        return this.timeStoneCD > 0;
-    }
-    @Override
-    public boolean isMindStoneOnCD() {
-        return this.mindStoneCD > 0;
-    }
-
-    @Override
-    public void setPowerStoneCD(int powerStoneCD) {
-        this.powerStoneCD = powerStoneCD;
-    }
-    @Override
-    public void setSpaceStoneCD(int spaceStoneCD) {
-        this.spaceStoneCD = spaceStoneCD;
-    }
-    @Override
-    public void setRealityStoneCD(int realityStoneCD) {
-        this.realityStoneCD = realityStoneCD;
-    }
-    @Override
-    public void setSoulStoneCD(int soulStoneCD) {
-        this.soulStoneCD = soulStoneCD;
-    }
-    @Override
-    public void setTimeStoneCD(int timeStoneCD) {
-        this.timeStoneCD = timeStoneCD;
-    }
-    @Override
-    public void setMindStoneCD(int mindStoneCD) {
-        this.mindStoneCD = mindStoneCD;
-    }
-
-    @Override
-    public int getPowerStoneCD() {
-        return this.powerStoneCD;
-    }
-    @Override
-    public int getSpaceStoneCD() {
-        return this.spaceStoneCD;
-    }
-    @Override
-    public int getRealityStoneCD() {
-        return this.realityStoneCD;
-    }
-    @Override
-    public int getSoulStoneCD() {
-        return this.soulStoneCD;
-    }
-    @Override
-    public int getTimeStoneCD() {
-        return this.timeStoneCD;
-    }
-    @Override
-    public int getMindStoneCD() {
-        return this.mindStoneCD;
-    }
-
     @Inject(method = "baseTick", at = @At("HEAD"), cancellable = true)
     private void gitsnshiggles$railgunDamage(CallbackInfo ci) {
         this.setNoGravity(this.hasStatusEffect(ModEffects.TIME_STOP));
@@ -240,43 +142,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void gitsnshiggles$tickVariables(CallbackInfo ci) {
-        if (this.powerStoneCD > 0) {
-            this.powerStoneCD--;
-        } else if (powerStoneCD < 0) {
-            this.powerStoneCD = 0;
-        }
-        if (this.spaceStoneCD > 0) {
-            this.spaceStoneCD--;
-        } else if (spaceStoneCD < 0) {
-            this.spaceStoneCD = 0;
-        }
-        if (this.realityStoneCD > 0) {
-            this.realityStoneCD--;
-        } else if (realityStoneCD < 0) {
-            this.realityStoneCD = 0;
-        }
-        if (this.soulStoneCD > 0) {
-            this.soulStoneCD--;
-        } else if (this.soulStoneCD < 0) {
-            this.soulStoneCD = 0;
-        }
-        this.getHandItems().forEach(itemStack -> {
-            if (itemStack.getItem() instanceof InfinityGauntletItem gauntletItem) {
-                this.isReviveAvailable = gauntletItem.soulStoneCD == 0;
-            } else {
-                this.isReviveAvailable = false;
-            }
-        });
-        if (this.timeStoneCD > 0) {
-            this.timeStoneCD--;
-        } else if (timeStoneCD < 0) {
-            this.timeStoneCD = 0;
-        }
-        if (this.mindStoneCD > 0) {
-            this.mindStoneCD--;
-        } else if (mindStoneCD < 0) {
-            this.mindStoneCD = 0;
-        }
+
     }
 
     @Inject(method = "travel", at = @At("HEAD"), cancellable = true)
@@ -310,24 +176,20 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
 
     @Unique
     private boolean tryUseSoulStoneRevive(DamageSource source) {
+        InfinityGauntletComponent infinityGauntletComponent = InfinityGauntletComponent.get((LivingEntity)((Object)(this)));
         if (source.isIn(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         } else {
-            if (this.isReviveAvailable()) {
+            if (infinityGauntletComponent.getDoubleBool2()) {
                 this.setHealth(1.0f);
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 900, 1));
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 100, 1));
                 this.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 800, 0));
-                if (((LivingEntity)((Object)this)) instanceof ServerPlayerEntity player) {
-                    InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.SOUL);
-                    ServerPlayNetworking.send(player, new SoulStonePayload(this.soulStoneCD));
-                }
-                if (this.getWorld().isClient) {
-                    ModParticleUtil.addExpandingSphereOfParticles(this.getWorld(), this.getEyePos(), 50, ModUtil.Speed.getParticleSpeedForRadius(40, 2.0), ModParticles.SOUL);
-                }
+                InfinityStoneUtil.setStoneCooldown((LivingEntity) ((Object)(this)), InfinityStoneUtil.Stones.SOUL);
+
                 return true;
             } else {
-                return !this.isReviveAvailable();
+                return !infinityGauntletComponent.getDoubleBool2();
             }
         }
     }
@@ -384,26 +246,6 @@ public abstract class LivingEntityMixin extends Entity implements Attackable, Ra
                 cir.setReturnValue(false);
             }
         }
-    }
-
-    @Inject(method = "writeCustomDataToNbt", at = @At("HEAD"))
-    private void gitsnshiggles$writeNbt(NbtCompound nbt, CallbackInfo ci) {
-        nbt.putInt(InfinityStoneUtil.POWER_STONE_CD_KEY, this.powerStoneCD);
-        nbt.putInt(InfinityStoneUtil.SPACE_STONE_CD_KEY, this.spaceStoneCD);
-        nbt.putInt(InfinityStoneUtil.REALITY_STONE_CD_KEY, this.realityStoneCD);
-        nbt.putInt(InfinityStoneUtil.SOUL_STONE_CD_KEY, this.soulStoneCD);
-        nbt.putInt(InfinityStoneUtil.TIME_STONE_CD_KEY, this.timeStoneCD);
-        nbt.putInt(InfinityStoneUtil.MIND_STONE_CD_KEY, this.mindStoneCD);
-    }
-
-    @Inject(method = "readCustomDataFromNbt", at = @At("HEAD"))
-    private void gitsnshiggles$readNbt(NbtCompound nbt, CallbackInfo ci) {
-        this.powerStoneCD = nbt.getInt(InfinityStoneUtil.POWER_STONE_CD_KEY);
-        this.spaceStoneCD = nbt.getInt(InfinityStoneUtil.SPACE_STONE_CD_KEY);
-        this.realityStoneCD = nbt.getInt(InfinityStoneUtil.REALITY_STONE_CD_KEY);
-        this.soulStoneCD = nbt.getInt(InfinityStoneUtil.SOUL_STONE_CD_KEY);
-        this.timeStoneCD = nbt.getInt(InfinityStoneUtil.TIME_STONE_CD_KEY);
-        this.mindStoneCD = nbt.getInt(InfinityStoneUtil.MIND_STONE_CD_KEY);
     }
 
 }

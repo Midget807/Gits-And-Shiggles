@@ -1,9 +1,11 @@
 package net.midget807.gitsnshiggles.network.C2S.packet;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.midget807.gitsnshiggles.cca.InfinityGauntletComponent;
 import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.network.C2S.payload.PowerStonePayload;
 import net.midget807.gitsnshiggles.network.C2S.payload.RealityStonePayload;
+import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.midget807.gitsnshiggles.util.inject.RealityStoneTransform;
@@ -23,13 +25,9 @@ public class RealityStonePacket {
         context.server().execute(() -> {
             ServerPlayerEntity player = context.player();
             World world = player.getWorld();
-            ((RealityStoneTransform)player).setTimeTicksForTransform(payload.timeTicksForTransform());
+            InfinityGauntletComponent infinityGauntletComponent = InfinityGauntletComponent.get(player);
+            infinityGauntletComponent.setInt(payload.timeTicksForTransform());
             if (!player.getAbilities().creativeMode) InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.REALITY);
-            player.getHandItems().forEach(itemStack -> {
-                if (itemStack.getItem() instanceof InfinityGauntletItem gauntletItem) {
-                    gauntletItem.realityStoneTimer = payload.timeTicksForTransform();
-                }
-            });
         });
     }
 }

@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.midget807.gitsnshiggles.cca.InfinityGauntletComponent;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
 import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.network.C2S.payload.*;
@@ -39,31 +40,31 @@ public class ModKeyHandler {
             /** Checks for the player holding Infinity Gauntlet before handling keys */
             if (player.isHolding(ModItems.INFINITY_GAUNTLET)) {
                 client.player.getHandItems().forEach(itemStack -> {
-                    if (itemStack.getItem() instanceof InfinityGauntletItem gauntletItem) {
-                        while (ModKeyBindings.powerStone.wasPressed() && gauntletItem.powerStoneCD == 0) {
+                    if (itemStack.isOf(ModItems.INFINITY_GAUNTLET)) {
+                        InfinityGauntletComponent infinityGauntletComponent = InfinityGauntletComponent.get(player);
+                        while (ModKeyBindings.powerStone.wasPressed() && infinityGauntletComponent.getHexValue1() == 0) {
                             ClientPlayNetworking.send(new PowerStonePayload(player.getBlockPos()));
                             if (!player.getAbilities().creativeMode) ClientPlayNetworking.send(new ShuffleInventoryPayload(true));
                             ModParticleUtil.addExpandingRingOfParticles(player.getWorld(), player.getPos(), 1.0, 3, 400, ModUtil.Speed.getParticleSpeedForRadius(50, 8.0), ModParticles.POWER);
                         }
-                        while (ModKeyBindings.spaceStone.wasPressed() && gauntletItem.spaceStoneCD == 0) {
+                        while (ModKeyBindings.spaceStone.wasPressed() && infinityGauntletComponent.getHexValue2() == 0) {
                             InfinityStoneUtil.getSpaceStoneTeleport(player);
                             if (!player.getAbilities().creativeMode) ClientPlayNetworking.send(new ShuffleInventoryPayload(true));
                             ModParticleUtil.addCollapsingSphereOfParticles(player.getWorld(), player.getEyePos(), 50, ModUtil.Speed.getParticleSpeedForRadius(40, 1.5), ModParticles.SPACE_OUTLINE, 1.5);
                             ModParticleUtil.addCollapsingSphereOfParticles(player.getWorld(), player.getEyePos(), 50, ModUtil.Speed.getParticleSpeedForRadius(30, 1.2), ModParticles.SPACE, 1.2);
                         }
-                        while (ModKeyBindings.realityStone.wasPressed() && gauntletItem.realityStoneCD == 0) {
-                            ((RealityStoneTransform) client.player).setTimeTicksForTransform(InfinityStoneUtil.TIMER_REALITY_STONE);
-                            ClientPlayNetworking.send(new RealityStonePayload(((RealityStoneTransform) client.player).getTimeTicksForTransform()));
+                        while (ModKeyBindings.realityStone.wasPressed() && infinityGauntletComponent.getHexValue3() == 0) {
+                            ClientPlayNetworking.send(new RealityStonePayload(InfinityStoneUtil.TIMER_REALITY_STONE));
                             if (!player.getAbilities().creativeMode) ClientPlayNetworking.send(new ShuffleInventoryPayload(true));
                             ModParticleUtil.addCollapsingSphereOfParticles(player.getWorld(), player.getPos(), 50, ModUtil.Speed.getParticleSpeedForRadius(20, 2.0), ModParticles.REALITY, 2.0);
                         }
                         /*Soul Stone Revive is Passive*/
-                        while (ModKeyBindings.timeStone.wasPressed() && gauntletItem.timeStoneCD == 0) {
+                        while (ModKeyBindings.timeStone.wasPressed() && infinityGauntletComponent.getHexValue5() == 0) {
                             ClientPlayNetworking.send(new TimeStonePayload(true));
                             if (!player.getAbilities().creativeMode) ClientPlayNetworking.send(new ShuffleInventoryPayload(true));
                             ModParticleUtil.addExpandingSphereOfParticles(player.getWorld(), player.getPos(), 400, ModUtil.Speed.getParticleSpeedForRadius(60, 5.0), ModParticles.TIME);
                         }
-                        while (ModKeyBindings.mindStone.wasPressed() && gauntletItem.mindStoneCD == 0) {
+                        while (ModKeyBindings.mindStone.wasPressed() && infinityGauntletComponent.getHexValue6() == 0) {
                             ClientPlayNetworking.send(new MindStonePayload(InfinityStoneUtil.TIMER_MIND_STONE));
                             if (!player.getAbilities().creativeMode) ClientPlayNetworking.send(new ShuffleInventoryPayload(true));
                             ModParticleUtil.addExpandingSphereOfParticles(player.getWorld(), player.getPos(), 800, ModUtil.Speed.getParticleSpeedForRadius(100, 10.0), ModParticles.MIND);

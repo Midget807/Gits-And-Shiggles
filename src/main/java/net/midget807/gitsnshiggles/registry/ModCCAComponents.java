@@ -3,6 +3,7 @@ package net.midget807.gitsnshiggles.registry;
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.midget807.gitsnshiggles.cca.*;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistry;
@@ -27,6 +28,6 @@ public class ModCCAComponents implements EntityComponentInitializer {
         registry.beginRegistration(PlayerEntity.class, DICE_ROLL).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(DiceRollComponent::new);
         registry.beginRegistration(PlayerEntity.class, BLOCKING).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(KatanaBlockingComponent::new);
         registry.beginRegistration(Entity.class, TIME_STOP).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(TimeStopComponent::new);
-        registry.beginRegistration(PlayerEntity.class, INFINITY_GAUNTLET).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(InfinityGauntletComponent::new);
+        registry.beginRegistration(LivingEntity.class, INFINITY_GAUNTLET).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(InfinityGauntletComponent::new);
     }
 }

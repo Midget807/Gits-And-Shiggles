@@ -1,5 +1,6 @@
 package net.midget807.gitsnshiggles.entity.client;
 
+import net.midget807.gitsnshiggles.cca.InfinityGauntletComponent;
 import net.midget807.gitsnshiggles.util.inject.RealityStoneTransform;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
@@ -37,7 +38,8 @@ public class RealityStoneShieldFeatureRenderer<T extends LivingEntity, M extends
 
     public void setVisible(A model, T entity) {
         if (entity instanceof PlayerEntity player) {
-            model.setVisible(((RealityStoneTransform)player).shouldTransformProjectiles());
+            InfinityGauntletComponent infinityGauntletComponent = InfinityGauntletComponent.get(player);
+            model.setVisible(infinityGauntletComponent.getDoubleBool1());
         }
     }
 }

@@ -1,5 +1,5 @@
-[00:51:15] [main/INFO] (FabricLoader/GameProvider) Loading Minecraft 1.21.1 with Fabric Loader 0.18.1
-[00:51:15] [main/INFO] (FabricLoader) Loading 54 mods:
+[23:17:31] [main/INFO] (FabricLoader/GameProvider) Loading Minecraft 1.21.1 with Fabric Loader 0.18.1
+[23:17:31] [main/INFO] (FabricLoader) Loading 54 mods:
 	- cardinal-components-base 6.1.3
 	- cardinal-components-entity 6.1.3
 	- carpet 1.4.147+v240613
@@ -55,77 +55,76 @@
 	- mixinextras 0.5.0
 	- modernfix 5.24.3+mc1.21.1
 	- unsafe-world-random-access-detector 1.1.0
-[00:51:16] [pool-2-thread-9/WARN] (FabricLoader/ModRemap) Cannot remap lambda$updateBlockEntityTicker$6 because it does not exists in any of the targets [net/minecraft/class_2818]
-[00:51:16] [pool-2-thread-9/WARN] (FabricLoader/ModRemap) Cannot remap lambda$updateBlockEntityTicker$6 because it does not exists in any of the targets [net/minecraft/class_2818]
-[00:51:16] [pool-2-thread-8/WARN] (FabricLoader/ModRemap) Cannot remap getHeldItem because it does not exists in any of the targets [net/minecraft/class_3727]
-[00:51:16] [pool-2-thread-10/WARN] (FabricLoader/ModRemap) Cannot remap lambda$create$5 because it does not exists in any of the targets [net/minecraft/class_4246]
-[00:51:16] [pool-2-thread-10/WARN] (FabricLoader/ModRemap) Cannot remap lambda$create$8 because it does not exists in any of the targets [net/minecraft/class_4246]
-[00:51:16] [pool-2-thread-5/WARN] (FabricLoader/ModRemap) Cannot remap lambda$getTickets$7 because it does not exists in any of the targets [net/minecraft/class_3204]
-[00:51:17] [main/INFO] (FabricLoader/Mixin) SpongePowered MIXIN Subsystem Version=0.8.7 Source=file:/C:/Users/phu_m/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.16.5+mixin.0.8.7/80fc3a9f592673cea87f4cd702f87991c6c9fe4d/sponge-mixin-0.16.5+mixin.0.8.7.jar Service=Knot/Fabric Env=SERVER
-[00:51:18] [main/INFO] (FabricLoader/Mixin) Loaded Fabric development mappings for mixin remapper!
-[00:51:18] [main/INFO] (FabricLoader/Mixin) Compatibility level set to JAVA_17
-[00:51:18] [main/INFO] (FabricLoader/Mixin) Compatibility level set to JAVA_21
-[00:51:18] [main/WARN] (ModernFixConfig) We are in a non-Mojmap dev environment. Disabling blockstate cache patch
-[00:51:18] [main/INFO] (ModernFix) Loaded configuration file for ModernFix 5.24.3+mc1.21.1: 65 options available, 1 override(s) found
-[00:51:18] [main/WARN] (ModernFix) Option 'mixin.perf.reduce_blockstate_cache_rebuilds' overriden (by mods [[not mojmap]]) to 'false'
-[00:51:18] [main/INFO] (ModernFix) Applying Nashorn fix
-[00:51:18] [main/WARN] (LithiumConfig) Mod 'ferritecore' attempted to override option 'mixin.alloc.blockstate', which doesn't exist, ignoring
-[00:51:18] [main/INFO] (LithiumConfig) Option 'mixin.entity.collisions.fluid' requires 'mixin.util.block_tracking=true' but found 'false'. Setting 'mixin.entity.collisions.fluid=false'.
-[00:51:18] [main/INFO] (LithiumConfig) Option 'mixin.experimental.entity.block_caching.block_support' requires 'mixin.util.block_tracking=true' but found 'false'. Setting 'mixin.experimental.entity.block_caching.block_support=false'.
-[00:51:18] [main/INFO] (LithiumConfig) Option 'mixin.experimental.entity.block_caching.fluid_pushing' requires 'mixin.util.block_tracking=true' but found 'false'. Setting 'mixin.experimental.entity.block_caching.fluid_pushing=false'.
-[00:51:18] [main/INFO] (LithiumConfig) Option 'mixin.experimental.entity.block_caching.block_touching' requires 'mixin.util.block_tracking=true' but found 'false'. Setting 'mixin.experimental.entity.block_caching.block_touching=false'.
-[00:51:18] [main/INFO] (LithiumConfig) Option 'mixin.experimental.entity.block_caching.suffocation' requires 'mixin.util.block_tracking=true' but found 'false'. Setting 'mixin.experimental.entity.block_caching.suffocation=false'.
-[00:51:18] [main/INFO] (LithiumConfig) Option 'mixin.experimental.entity.block_caching' requires 'mixin.util.block_tracking=true' but found 'false'. Setting 'mixin.experimental.entity.block_caching=false'.
-[00:51:18] [main/INFO] (Lithium) Loaded configuration file for Lithium: 149 options available, 0 override(s) found
-[00:51:18] [main/WARN] (FabricLoader/Mixin) Error loading class: com/ishland/c2me/fixes/worldgen/threading_issues/common/CheckedThreadLocalRandom (java.lang.ClassNotFoundException: com/ishland/c2me/fixes/worldgen/threading_issues/common/CheckedThreadLocalRandom)
-[00:51:18] [main/INFO] (FabricLoader/MixinExtras|Service) Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.0).
-[00:51:19] [main/WARN] (PerfmonDisabled) Invalid registry value type detected for PerfOS counters. Should be REG_DWORD. Ignoring: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PerfOS\Performance\Disable Performance Counters.
-[00:51:20] [main/WARN] (FabricLoader/Mixin) Method overwrite conflict for getTemperature in lithium.mixins.json:world.temperature_cache.BiomeMixin from mod lithium, previously written by org.embeddedt.modernfix.common.mixin.perf.remove_biome_temperature_cache.BiomeMixin. Skipping method.
-[00:51:22] [main/INFO] (Minecraft) Vanilla bootstrap took 2948 milliseconds
-[00:51:22] [main/INFO] (Gits And Shiggles) Ah bing bing bing
-[00:51:22] [main/INFO] (Gits And Shiggles) Registering Mod Data Component Types
-[00:51:22] [main/INFO] (Gits And Shiggles) Registering Mod Blocks
-[00:51:22] [main/INFO] (Gits And Shiggles) Registering Mod Items
-[00:51:22] [main/INFO] (Gits And Shiggles) Registering Mod Item Groups
-[00:51:22] [main/INFO] (Gits And Shiggles) Registering Mod Entities
-[00:51:22] [main/INFO] (Gits And Shiggles) Registering Mod Particles
-[00:51:22] [main/INFO] (Gits And Shiggles) Registering Mod Effects
-[00:51:22] [main/INFO] (Gits And Shiggles) Registering Mod Argument Types
-[00:51:22] [main/INFO] (Gits And Shiggles) Registering Mod Commands
-[00:51:22] [main/INFO] (Gits And Shiggles) Registering Mod Cauldron Behaviors
-[00:51:22] [main/INFO] (Minecraft) Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
-[00:51:23] [main/INFO] (Minecraft) Loaded 1344 recipes
-[00:51:23] [main/INFO] (Minecraft) Loaded 1453 advancements
-[00:51:24] [main/WARN] (ModernFix) Initial datapack load took 1.066 s
-[00:51:24] [main/INFO] (BiomeModificationImpl) Applied 0 biome modifications to 0 of 64 new biomes in 880.2 μs
-[00:51:24] [Server thread/INFO] (Minecraft) Starting minecraft server version 1.21.1
-[00:51:24] [Server thread/INFO] (Minecraft) Loading properties
-[00:51:24] [Server thread/INFO] (Minecraft) Default game type: SURVIVAL
-[00:51:24] [Server thread/INFO] (Minecraft) Generating keypair
-[00:51:24] [Server thread/INFO] (Minecraft) Starting Minecraft server on *:25565
-[00:51:24] [Server thread/INFO] (Minecraft) Using default channel type
-[00:51:24] [Server thread/WARN] (Minecraft) **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
-[00:51:24] [Server thread/WARN] (Minecraft) The server will make no attempt to authenticate usernames. Beware.
-[00:51:24] [Server thread/WARN] (Minecraft) While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
-[00:51:24] [Server thread/WARN] (Minecraft) To change this, set "online-mode" to "true" in the server.properties file.
-[00:51:24] [Server thread/INFO] (Minecraft) Preparing level "world"
-[00:51:24] [Server thread/INFO] (CheckedThreadLocalRandom) Enforcing safe world random access
-[00:51:24] [Server thread/INFO] (Minecraft) Preparing start region for dimension minecraft:overworld
-[00:51:24] [Server thread/WARN] (FabricLoader/Mixin) Method overwrite conflict for removeIf in lithium.mixins.json:collections.chunk_tickets.SortedArraySetMixin from mod lithium, previously written by org.embeddedt.modernfix.common.mixin.bugfix.paper_chunk_patches.SortedArraySetMixin. Skipping method.
-[00:51:24] [Worker-Main-6/INFO] (Minecraft) Preparing spawn area: 0%
-[00:51:24] [Server thread/INFO] (Minecraft) Time elapsed: 301 ms
-[00:51:24] [Server thread/INFO] (Minecraft) Done (0.502s)! For help, type "help"
-[00:51:24] [Server thread/WARN] (ModernFix) Dedicated server took 10.299 seconds to load
-[00:51:24] [Server thread/INFO] (Minecraft) [STDOUT]: Lithium Cached BlockState Flags are disabled!
-[00:53:16] [Server thread/INFO] (Minecraft) Player690[/127.0.0.1:53478] logged in with entity id 50 at (10.5, 101.0, 10.5)
-[00:53:16] [Server thread/INFO] (Minecraft) Player690 joined the game
-[00:53:17] [Server thread/INFO] (carpet) Player Player690 joined with a matching carpet client
-[00:54:14] [Server thread/INFO] (Minecraft) Made Player690 a server operator
-[00:54:18] [Server thread/INFO] (Minecraft) Player690 lost connection: Disconnected
-[00:54:18] [Server thread/INFO] (Minecraft) Player690 left the game
-[00:54:21] [Server thread/INFO] (Minecraft) Player690[/127.0.0.1:57936] logged in with entity id 365 at (11.300017111969288, 100.0, 15.153987707281026)
-[00:54:21] [Server thread/INFO] (Minecraft) Player690 joined the game
-[00:54:21] [Server thread/INFO] (carpet) Player Player690 joined with a matching carpet client
-[00:54:23] [Server thread/INFO] (Minecraft) [Player690: Set own game mode to Creative Mode]
-[00:54:39] [Server thread/INFO] (Minecraft) Player690 lost connection: Disconnected
-[00:54:39] [Server thread/INFO] (Minecraft) Player690 left the game
+[23:17:33] [pool-2-thread-11/WARN] (FabricLoader/ModRemap) Cannot remap lambda$updateBlockEntityTicker$6 because it does not exists in any of the targets [net/minecraft/class_2818]
+[23:17:33] [pool-2-thread-11/WARN] (FabricLoader/ModRemap) Cannot remap lambda$updateBlockEntityTicker$6 because it does not exists in any of the targets [net/minecraft/class_2818]
+[23:17:33] [pool-2-thread-10/WARN] (FabricLoader/ModRemap) Cannot remap getHeldItem because it does not exists in any of the targets [net/minecraft/class_3727]
+[23:17:33] [pool-2-thread-7/WARN] (FabricLoader/ModRemap) Cannot remap lambda$create$5 because it does not exists in any of the targets [net/minecraft/class_4246]
+[23:17:33] [pool-2-thread-7/WARN] (FabricLoader/ModRemap) Cannot remap lambda$create$8 because it does not exists in any of the targets [net/minecraft/class_4246]
+[23:17:33] [pool-2-thread-4/WARN] (FabricLoader/ModRemap) Cannot remap lambda$getTickets$7 because it does not exists in any of the targets [net/minecraft/class_3204]
+[23:17:34] [main/INFO] (FabricLoader/Mixin) SpongePowered MIXIN Subsystem Version=0.8.7 Source=file:/C:/Users/phu_m/.gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.16.5+mixin.0.8.7/80fc3a9f592673cea87f4cd702f87991c6c9fe4d/sponge-mixin-0.16.5+mixin.0.8.7.jar Service=Knot/Fabric Env=SERVER
+[23:17:34] [main/INFO] (FabricLoader/Mixin) Loaded Fabric development mappings for mixin remapper!
+[23:17:34] [main/INFO] (FabricLoader/Mixin) Compatibility level set to JAVA_17
+[23:17:34] [main/INFO] (FabricLoader/Mixin) Compatibility level set to JAVA_21
+[23:17:34] [main/WARN] (ModernFixConfig) We are in a non-Mojmap dev environment. Disabling blockstate cache patch
+[23:17:34] [main/INFO] (ModernFix) Loaded configuration file for ModernFix 5.24.3+mc1.21.1: 65 options available, 1 override(s) found
+[23:17:34] [main/WARN] (ModernFix) Option 'mixin.perf.reduce_blockstate_cache_rebuilds' overriden (by mods [[not mojmap]]) to 'false'
+[23:17:34] [main/INFO] (ModernFix) Applying Nashorn fix
+[23:17:34] [main/WARN] (LithiumConfig) Mod 'ferritecore' attempted to override option 'mixin.alloc.blockstate', which doesn't exist, ignoring
+[23:17:34] [main/INFO] (LithiumConfig) Option 'mixin.entity.collisions.fluid' requires 'mixin.util.block_tracking=true' but found 'false'. Setting 'mixin.entity.collisions.fluid=false'.
+[23:17:34] [main/INFO] (LithiumConfig) Option 'mixin.experimental.entity.block_caching.block_support' requires 'mixin.util.block_tracking=true' but found 'false'. Setting 'mixin.experimental.entity.block_caching.block_support=false'.
+[23:17:34] [main/INFO] (LithiumConfig) Option 'mixin.experimental.entity.block_caching.fluid_pushing' requires 'mixin.util.block_tracking=true' but found 'false'. Setting 'mixin.experimental.entity.block_caching.fluid_pushing=false'.
+[23:17:34] [main/INFO] (LithiumConfig) Option 'mixin.experimental.entity.block_caching.block_touching' requires 'mixin.util.block_tracking=true' but found 'false'. Setting 'mixin.experimental.entity.block_caching.block_touching=false'.
+[23:17:34] [main/INFO] (LithiumConfig) Option 'mixin.experimental.entity.block_caching.suffocation' requires 'mixin.util.block_tracking=true' but found 'false'. Setting 'mixin.experimental.entity.block_caching.suffocation=false'.
+[23:17:34] [main/INFO] (LithiumConfig) Option 'mixin.experimental.entity.block_caching' requires 'mixin.util.block_tracking=true' but found 'false'. Setting 'mixin.experimental.entity.block_caching=false'.
+[23:17:34] [main/INFO] (Lithium) Loaded configuration file for Lithium: 149 options available, 0 override(s) found
+[23:17:35] [main/WARN] (FabricLoader/Mixin) Error loading class: com/ishland/c2me/fixes/worldgen/threading_issues/common/CheckedThreadLocalRandom (java.lang.ClassNotFoundException: com/ishland/c2me/fixes/worldgen/threading_issues/common/CheckedThreadLocalRandom)
+[23:17:35] [main/INFO] (FabricLoader/MixinExtras|Service) Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.0).
+[23:17:35] [main/WARN] (PerfmonDisabled) Invalid registry value type detected for PerfOS counters. Should be REG_DWORD. Ignoring: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PerfOS\Performance\Disable Performance Counters.
+[23:17:37] [main/WARN] (FabricLoader/Mixin) Method overwrite conflict for getTemperature in lithium.mixins.json:world.temperature_cache.BiomeMixin from mod lithium, previously written by org.embeddedt.modernfix.common.mixin.perf.remove_biome_temperature_cache.BiomeMixin. Skipping method.
+[23:17:39] [main/INFO] (Minecraft) Vanilla bootstrap took 3428 milliseconds
+[23:17:40] [main/INFO] (Gits And Shiggles) Ah bing bing bing
+[23:17:40] [main/INFO] (Gits And Shiggles) Registering Mod Data Component Types
+[23:17:40] [main/INFO] (Gits And Shiggles) Registering Mod Blocks
+[23:17:40] [main/INFO] (Gits And Shiggles) Registering Mod Items
+[23:17:40] [main/INFO] (Gits And Shiggles) Registering Mod Item Groups
+[23:17:40] [main/INFO] (Gits And Shiggles) Registering Mod Entities
+[23:17:40] [main/INFO] (Gits And Shiggles) Registering Mod Particles
+[23:17:40] [main/INFO] (Gits And Shiggles) Registering Mod Effects
+[23:17:40] [main/INFO] (Gits And Shiggles) Registering Mod Argument Types
+[23:17:40] [main/INFO] (Gits And Shiggles) Registering Mod Commands
+[23:17:40] [main/INFO] (Gits And Shiggles) Registering Mod Cauldron Behaviors
+[23:17:40] [main/INFO] (Minecraft) Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[23:17:41] [main/INFO] (Minecraft) Loaded 1344 recipes
+[23:17:41] [main/INFO] (Minecraft) Loaded 1453 advancements
+[23:17:41] [main/WARN] (ModernFix) Initial datapack load took 1.254 s
+[23:17:41] [main/INFO] (BiomeModificationImpl) Applied 0 biome modifications to 0 of 64 new biomes in 1.192 ms
+[23:17:41] [Server thread/INFO] (Minecraft) Starting minecraft server version 1.21.1
+[23:17:41] [Server thread/INFO] (Minecraft) Loading properties
+[23:17:41] [Server thread/INFO] (Minecraft) Default game type: SURVIVAL
+[23:17:41] [Server thread/INFO] (Minecraft) Generating keypair
+[23:17:41] [Server thread/INFO] (Minecraft) Starting Minecraft server on *:25565
+[23:17:42] [Server thread/INFO] (Minecraft) Using default channel type
+[23:17:42] [Server thread/WARN] (Minecraft) **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[23:17:42] [Server thread/WARN] (Minecraft) The server will make no attempt to authenticate usernames. Beware.
+[23:17:42] [Server thread/WARN] (Minecraft) While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[23:17:42] [Server thread/WARN] (Minecraft) To change this, set "online-mode" to "true" in the server.properties file.
+[23:17:42] [Server thread/INFO] (Minecraft) Preparing level "world"
+[23:17:42] [Server thread/INFO] (CheckedThreadLocalRandom) Enforcing safe world random access
+[23:17:42] [Server thread/INFO] (Minecraft) Preparing start region for dimension minecraft:overworld
+[23:17:42] [Server thread/WARN] (FabricLoader/Mixin) Method overwrite conflict for removeIf in lithium.mixins.json:collections.chunk_tickets.SortedArraySetMixin from mod lithium, previously written by org.embeddedt.modernfix.common.mixin.bugfix.paper_chunk_patches.SortedArraySetMixin. Skipping method.
+[23:17:42] [Worker-Main-2/INFO] (Minecraft) Preparing spawn area: 0%
+[23:17:42] [Server thread/INFO] (Minecraft) Time elapsed: 448 ms
+[23:17:42] [Server thread/INFO] (Minecraft) Done (0.712s)! For help, type "help"
+[23:17:42] [Server thread/WARN] (ModernFix) Dedicated server took 11.949 seconds to load
+[23:17:43] [Server thread/INFO] (Minecraft) [STDOUT]: Lithium Cached BlockState Flags are disabled!
+[23:18:18] [Server thread/INFO] (Minecraft) Player361[/127.0.0.1:54970] logged in with entity id 60 at (6.5, 102.0, 10.5)
+[23:18:18] [Server thread/INFO] (Minecraft) Player361 joined the game
+[23:18:19] [Server thread/INFO] (carpet) Player Player361 joined with a matching carpet client
+[23:18:26] [Server thread/INFO] (Minecraft) Made Player361 a server operator
+[23:18:39] [Server thread/INFO] (Minecraft) [Player361: Set own game mode to Creative Mode]
+[23:18:43] [Server thread/INFO] (Minecraft) [Player361: Set own game mode to Survival Mode]
+[23:19:12] [Server thread/INFO] (Minecraft) [Player361: Set own game mode to Creative Mode]
+[23:19:12] [Server thread/INFO] (Minecraft) [Player361: Set own game mode to Survival Mode]
+[23:19:26] [Server thread/INFO] (Minecraft) [Player361: Set own game mode to Creative Mode]
+[23:19:32] [Server thread/INFO] (Minecraft) [Player361: Set own game mode to Survival Mode]
+[23:19:54] [Server thread/INFO] (Minecraft) Player361 was slain by Vindicator

@@ -1,0 +1,21 @@
+{
+  "gitsnshiggles:recipes/combat/infinity_gauntlet": {
+    "criteria": {
+      "has_gauntlet": "2026-02-06 22:57:23 +1030"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/crafting_table": {
+    "criteria": {
+      "unlock_right_away": "2026-02-06 22:57:06 +1030"
+    },
+    "done": true
+  },
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "minecraft:sparse_jungle": "2026-02-06 22:57:07 +1030"
+    },
+    "done": false
+  },
+  "DataVersion": 3955
+}

@@ -3,6 +3,7 @@ package net.midget807.gitsnshiggles.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.midget807.gitsnshiggles.cca.ElfCountComponent;
+import net.midget807.gitsnshiggles.cca.InfinityGauntletComponent;
 import net.midget807.gitsnshiggles.cca.KatanaBlockingComponent;
 import net.midget807.gitsnshiggles.entity.ElfEntity;
 import net.midget807.gitsnshiggles.item.RailgunItem;
@@ -44,7 +45,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, WizardGamba, RealityStoneTransform, MindStoneInvert {
+public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, WizardGamba, MindStoneInvert {
     @Shadow @Final private PlayerInventory inventory;
     @Shadow @Final private PlayerAbilities abilities;
 
@@ -69,13 +70,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     @Unique
     private int gambingAnimationTicks = 0;
     @Unique
-    private boolean shouldTransformProjectiles = false;
-    @Unique
     private boolean isInvertedControls = false;
     @Unique
     private int timeTicksInverted = 0;
-    @Unique
-    private int timeTicksForTransform = 0;
 
     @Override
     public void setUsingRailgun(boolean usingRailgun) {
@@ -142,22 +139,6 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         this.timeTicksInverted = timeTicksInverted;
     }
 
-    @Override
-    public boolean shouldTransformProjectiles() {
-        return this.shouldTransformProjectiles;
-    }
-    @Override
-    public void setTransformProjectiles(boolean shouldTransform) {
-        this.shouldTransformProjectiles = shouldTransform;
-    }
-    @Override
-    public int getTimeTicksForTransform() {
-        return this.timeTicksForTransform;
-    }
-    @Override
-    public void setTimeTicksForTransform(int timeTicksForTransform) {
-        this.timeTicksForTransform = timeTicksForTransform;
-    }
 
     public PlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -165,13 +146,11 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
 
     @Inject(method = "writeCustomDataToNbt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;writeCustomDataToNbt(Lnet/minecraft/nbt/NbtCompound;)V"))
     private void gitsnshiggles$writeNbt(NbtCompound nbt, CallbackInfo ci) {
-        nbt.putInt(InfinityStoneUtil.REALITY_STONE_TIMER_KEY, this.timeTicksForTransform);
         nbt.putInt(InfinityStoneUtil.MIND_STONE_TIMER_KEY, this.timeTicksInverted);
     }
 
     @Inject(method = "readCustomDataFromNbt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;readCustomDataFromNbt(Lnet/minecraft/nbt/NbtCompound;)V"))
     private void gitsnshiggles$readNbt(NbtCompound nbt, CallbackInfo ci) {
-        this.timeTicksForTransform =nbt.getInt(InfinityStoneUtil.REALITY_STONE_TIMER_KEY);
         this.timeTicksInverted = nbt.getInt(InfinityStoneUtil.MIND_STONE_TIMER_KEY);
     }
 
@@ -209,14 +188,9 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         } else if (this.gambingAnimationTicks != -1) {
             this.gambingAnimationTicks = -1;
         }
-        this.shouldTransformProjectiles = this.timeTicksForTransform > 0;
-        if (this.shouldTransformProjectiles) {
+        InfinityGauntletComponent infinityGauntletComponent = InfinityGauntletComponent.get((PlayerEntity)((Object)(this)));
+        if (infinityGauntletComponent.getDoubleBool1()) {
             this.transformProjectiles();
-        }
-        if (this.timeTicksForTransform > 0) {
-            this.timeTicksForTransform--;
-        } else if (this.timeTicksForTransform < 0) {
-            this.timeTicksForTransform = 0;
         }
         this.isInvertedControls = this.timeTicksInverted > 0;
         if (this.timeTicksInverted > 0) {
@@ -285,7 +259,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     @Inject(method = "isInvulnerableTo", at = @At("HEAD"), cancellable = true)
     private void gitsnshiggles$noProjectileDamage(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         if (damageSource.isIn(DamageTypeTags.IS_PROJECTILE)) {
-            cir.setReturnValue(this.shouldTransformProjectiles);
+            InfinityGauntletComponent infinityGauntletComponent = InfinityGauntletComponent.get((PlayerEntity)((Object)(this)));
+            cir.setReturnValue(infinityGauntletComponent.getDoubleBool1());
         }
     }
 

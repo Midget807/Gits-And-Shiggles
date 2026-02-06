@@ -3,6 +3,7 @@ package net.midget807.gitsnshiggles.util;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.midget807.gitsnshiggles.cca.InfinityGauntletComponent;
 import net.midget807.gitsnshiggles.datagen.ModBlockTagProvider;
 import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.network.C2S.packet.SpaceStonePacket;
@@ -14,6 +15,7 @@ import net.midget807.gitsnshiggles.util.inject.MindStoneInvert;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.particle.ParticleEffect;
@@ -119,19 +121,16 @@ public class InfinityStoneUtil {
         sphereEntities.forEach(entity -> ClientPlayNetworking.send(new MindStonePayload(TIMER_MIND_STONE)));
     }
 
-    public static void setStoneCooldown(PlayerEntity player, Stones stone) {
-        player.getHandItems().forEach(itemStack -> {
-            if (itemStack.getItem() instanceof InfinityGauntletItem gauntletItem) {
-                switch (stone) {
-                    case POWER -> gauntletItem.powerStoneCD = InfinityStoneUtil.POWER_STONE_CD;
-                    case SPACE -> gauntletItem.spaceStoneCD = InfinityStoneUtil.SPACE_STONE_CD;
-                    case REALITY -> gauntletItem.realityStoneCD = InfinityStoneUtil.REALITY_STONE_CD;
-                    case SOUL -> gauntletItem.soulStoneCD = InfinityStoneUtil.SOUL_STONE_CD;
-                    case TIME -> gauntletItem.timeStoneCD = InfinityStoneUtil.TIME_STONE_CD;
-                    case MIND -> gauntletItem.mindStoneCD = InfinityStoneUtil.MIND_STONE_CD;
-                }
-            }
-        });
+    public static void setStoneCooldown(LivingEntity user, Stones stone) {
+        InfinityGauntletComponent infinityGauntletComponent = InfinityGauntletComponent.get(user);
+        switch (stone) {
+            case POWER -> infinityGauntletComponent.setHexValue1(POWER_STONE_CD);
+            case SPACE -> infinityGauntletComponent.setHexValue2(SPACE_STONE_CD);
+            case REALITY -> infinityGauntletComponent.setHexValue3(REALITY_STONE_CD);
+            case SOUL -> infinityGauntletComponent.setHexValue4(SOUL_STONE_CD);
+            case TIME -> infinityGauntletComponent.setHexValue5(TIME_STONE_CD);
+            case MIND -> infinityGauntletComponent.setHexValue6(MIND_STONE_CD);
+        }
     }
 
     public static DustParticleEffect getDustParticleForStone(Stones stone, float scale) {

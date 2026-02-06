@@ -3,6 +3,7 @@ package net.midget807.gitsnshiggles.mixin.client;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.midget807.gitsnshiggles.cca.FlamethrowerComponent;
+import net.midget807.gitsnshiggles.cca.InfinityGauntletComponent;
 import net.midget807.gitsnshiggles.cca.KatanaBlockingComponent;
 import net.midget807.gitsnshiggles.item.*;
 import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
@@ -74,8 +75,9 @@ public abstract class InGameHudMixin {
             shouldRenderInfinityStoneCD = this.client.player.isHolding(ModItems.INFINITY_GAUNTLET);
             if (this.shouldRenderInfinityStoneCD) {
                 this.client.player.getHandItems().forEach(itemStack -> {
-                    if (itemStack.getItem() instanceof InfinityGauntletItem gauntletItem) {
-                        renderInfinityStoneCD(context, this.client.player, gauntletItem);
+                    if (itemStack.isOf(ModItems.INFINITY_GAUNTLET)) {
+                        InfinityGauntletComponent infinityGauntletComponent = InfinityGauntletComponent.get(this.client.player);
+                        renderInfinityStoneCD(context, this.client.player, infinityGauntletComponent);
                     }
                 });
 
@@ -213,7 +215,7 @@ public abstract class InGameHudMixin {
     }
 
     @Unique
-    private void renderInfinityStoneCD(DrawContext context, ClientPlayerEntity player, InfinityGauntletItem gauntletItem) {
+    private void renderInfinityStoneCD(DrawContext context, ClientPlayerEntity player, InfinityGauntletComponent infinityGauntletComponent) {
         this.client.getProfiler().push("infinity_stone_cooldown");
         int i = context.getScaledWindowWidth() / 2;
         int j = context.getScaledWindowHeight() / 2;
@@ -239,7 +241,7 @@ public abstract class InGameHudMixin {
                 1,
                 icon_size,
                 InfinityStoneUtil.getCDTextureRatio(
-                        gauntletItem.powerStoneCD,
+                        infinityGauntletComponent.getHexValue1(),
                         InfinityStoneUtil.POWER_STONE_CD,
                         13
                 ),
@@ -255,7 +257,7 @@ public abstract class InGameHudMixin {
                 0,
                 icon_size,
                 InfinityStoneUtil.getCDTextureRatio(
-                        gauntletItem.spaceStoneCD ,
+                        infinityGauntletComponent.getHexValue2() ,
                         InfinityStoneUtil.SPACE_STONE_CD,
                         16
                 ),
@@ -271,7 +273,7 @@ public abstract class InGameHudMixin {
                 1,
                 icon_size,
                 InfinityStoneUtil.getCDTextureRatio(
-                        gauntletItem.realityStoneCD,
+                        infinityGauntletComponent.getHexValue3(),
                         InfinityStoneUtil.REALITY_STONE_CD,
                         15
                 ),
@@ -287,7 +289,7 @@ public abstract class InGameHudMixin {
                 3,
                 icon_size,
                 InfinityStoneUtil.getCDTextureRatio(
-                        gauntletItem.soulStoneCD,
+                        infinityGauntletComponent.getHexValue4(),
                         InfinityStoneUtil.SOUL_STONE_CD,
                         11
                 ),
@@ -303,7 +305,7 @@ public abstract class InGameHudMixin {
                 1,
                 icon_size,
                 InfinityStoneUtil.getCDTextureRatio(
-                        gauntletItem.timeStoneCD,
+                        infinityGauntletComponent.getHexValue5(),
                         InfinityStoneUtil.TIME_STONE_CD,
                         15
                 ),
@@ -319,7 +321,7 @@ public abstract class InGameHudMixin {
                 0,
                 icon_size,
                 InfinityStoneUtil.getCDTextureRatio(
-                        gauntletItem.mindStoneCD,
+                        infinityGauntletComponent.getHexValue6(),
                         InfinityStoneUtil.MIND_STONE_CD,
                         16
                 ),
@@ -328,12 +330,12 @@ public abstract class InGameHudMixin {
         );
 
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-        context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.powerStoneCD), bg_size + 2, (bg_size / 2) - 4, Colors.WHITE, false);
-        context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.spaceStoneCD), bg_size + 2, (bg_size / 2) - 4 + bg_size, Colors.WHITE, false);
-        context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.realityStoneCD), bg_size + 2, (bg_size / 2) - 4 + (2 * bg_size), Colors.WHITE, false);
-        context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.soulStoneCD), bg_size + 2, (bg_size / 2) - 4 + (3 * bg_size), Colors.WHITE, false);
-        context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.timeStoneCD), bg_size + 2, (bg_size / 2) - 4 + (4 * bg_size), Colors.WHITE, false);
-        context.drawText(textRenderer, ModUtil.getDurationText(gauntletItem.mindStoneCD), bg_size + 2, (bg_size / 2) - 4 + (5 * bg_size), Colors.WHITE, false);
+        context.drawText(textRenderer, ModUtil.getDurationText(infinityGauntletComponent.getHexValue1()), bg_size + 2, (bg_size / 2) - 4, Colors.WHITE, false);
+        context.drawText(textRenderer, ModUtil.getDurationText(infinityGauntletComponent.getHexValue2()), bg_size + 2, (bg_size / 2) - 4 + bg_size, Colors.WHITE, false);
+        context.drawText(textRenderer, ModUtil.getDurationText(infinityGauntletComponent.getHexValue3()), bg_size + 2, (bg_size / 2) - 4 + (2 * bg_size), Colors.WHITE, false);
+        context.drawText(textRenderer, ModUtil.getDurationText(infinityGauntletComponent.getHexValue4()), bg_size + 2, (bg_size / 2) - 4 + (3 * bg_size), Colors.WHITE, false);
+        context.drawText(textRenderer, ModUtil.getDurationText(infinityGauntletComponent.getHexValue5()), bg_size + 2, (bg_size / 2) - 4 + (4 * bg_size), Colors.WHITE, false);
+        context.drawText(textRenderer, ModUtil.getDurationText(infinityGauntletComponent.getHexValue6()), bg_size + 2, (bg_size / 2) - 4 + (5 * bg_size), Colors.WHITE, false);
 
         this.client.getProfiler().pop();
     }
