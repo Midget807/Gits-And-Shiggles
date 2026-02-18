@@ -45,14 +45,18 @@ public class InfinityGauntletComponent implements HextupleIntComponent, IntCompo
     /** Returns {@link #hasRealityShield} */
     @Override
     public boolean getDoubleBool1() {
-        this.hasRealityShield = this.realityShieldDuration > 0;
+        if (this.realityShieldDuration <= 0) {
+            this.setDoubleBool1(false);
+        }
         return this.hasRealityShield;
     }
 
     /** Returns {@link #hasSoulRevive} */
     @Override
     public boolean getDoubleBool2() {
-        this.hasSoulRevive = this.soulStoneCD <= 0;
+        if (!InfinityStoneUtil.hasGauntletInEitherHand(this.user) || this.soulStoneCD > 0) {
+            this.setDoubleBool2(false);
+        }
         return this.hasSoulRevive;
     }
 
@@ -275,6 +279,14 @@ public class InfinityGauntletComponent implements HextupleIntComponent, IntCompo
         } else if (this.realityShieldDuration < 0) {
             this.setInt(0);
         }
+
+        if (this.realityShieldDuration > 0 && !this.hasRealityShield) {
+            this.setDoubleBool1(true);
+        }
+        if (this.soulStoneCD <= 0 && !this.hasSoulRevive) {
+            this.setDoubleBool2(true);
+        }
+
         if (this.powerStoneCD > 0) {
             this.decrementHexValue1();
         } else if (this.powerStoneCD < 0) {

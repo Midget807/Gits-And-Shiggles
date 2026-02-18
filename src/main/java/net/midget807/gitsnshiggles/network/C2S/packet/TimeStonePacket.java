@@ -2,17 +2,9 @@ package net.midget807.gitsnshiggles.network.C2S.packet;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.cca.TimeStopComponent;
-import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.network.C2S.payload.TimeStonePayload;
-import net.midget807.gitsnshiggles.network.S2C.payload.TimeStoneSyncPayload;
-import net.midget807.gitsnshiggles.registry.ModEffects;
-import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
-import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
-import net.midget807.gitsnshiggles.util.inject.TimeStoneFreeze;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 

@@ -1,0 +1,69 @@
+{
+  "gitsnshiggles:recipes/combat/sack": {
+    "criteria": {
+      "has_string": "2026-02-12 11:25:45 +1030"
+    },
+    "done": true
+  },
+  "gitsnshiggles:recipes/misc/magic_cloth": {
+    "criteria": {
+      "has_void_string": "2026-02-12 11:26:29 +1030"
+    },
+    "done": true
+  },
+  "minecraft:recipes/combat/bow": {
+    "criteria": {
+      "has_string": "2026-02-12 11:25:45 +1030"
+    },
+    "done": true
+  },
+  "minecraft:recipes/tools/fishing_rod": {
+    "criteria": {
+      "has_string": "2026-02-12 11:25:45 +1030"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/crafting_table": {
+    "criteria": {
+      "unlock_right_away": "2026-02-12 11:23:02 +1030"
+    },
+    "done": true
+  },
+  "minecraft:recipes/building_blocks/white_wool_from_string": {
+    "criteria": {
+      "has_string": "2026-02-12 11:25:45 +1030"
+    },
+    "done": true
+  },
+  "minecraft:recipes/redstone/tripwire_hook": {
+    "criteria": {
+      "has_string": "2026-02-12 11:25:45 +1030"
+    },
+    "done": true
+  },
+  "minecraft:recipes/combat/crossbow": {
+    "criteria": {
+      "has_string": "2026-02-12 11:25:45 +1030"
+    },
+    "done": true
+  },
+  "minecraft:adventure/adventuring_time": {
+    "criteria": {
+      "minecraft:sparse_jungle": "2026-02-12 11:23:03 +1030"
+    },
+    "done": false
+  },
+  "minecraft:recipes/decorations/candle": {
+    "criteria": {
+      "has_string": "2026-02-12 11:25:45 +1030"
+    },
+    "done": true
+  },
+  "minecraft:recipes/decorations/loom": {
+    "criteria": {
+      "has_string": "2026-02-12 11:25:45 +1030"
+    },
+    "done": true
+  },
+  "DataVersion": 3955
+}

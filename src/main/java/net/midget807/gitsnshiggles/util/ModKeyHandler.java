@@ -6,15 +6,15 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.midget807.gitsnshiggles.cca.InfinityGauntletComponent;
 import net.midget807.gitsnshiggles.datagen.ModItemTagProvider;
-import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
-import net.midget807.gitsnshiggles.network.C2S.payload.*;
+import net.midget807.gitsnshiggles.network.C2S.payload.MindStonePayload;
+import net.midget807.gitsnshiggles.network.C2S.payload.PowerStonePayload;
+import net.midget807.gitsnshiggles.network.C2S.payload.RealityStonePayload;
+import net.midget807.gitsnshiggles.network.C2S.payload.ShuffleInventoryPayload;
+import net.midget807.gitsnshiggles.network.C2S.payload.SummonElvesPayload;
+import net.midget807.gitsnshiggles.network.C2S.payload.TimeStonePayload;
 import net.midget807.gitsnshiggles.registry.ModItems;
 import net.midget807.gitsnshiggles.registry.ModParticles;
-import net.midget807.gitsnshiggles.util.inject.ElfCount;
-import net.midget807.gitsnshiggles.util.inject.RealityStoneTransform;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.particle.DustParticleEffect;
-import net.minecraft.particle.ParticleTypes;
 
 @Environment(EnvType.CLIENT)
 public class ModKeyHandler {
@@ -28,7 +28,7 @@ public class ModKeyHandler {
             /** Checks for Santa Hat on player before handling keys*/
             if (player.getInventory().getArmorStack(3 /*Helmet slot*/).isIn(ModItemTagProvider.SANTA_HATS)) {
                 while (ModKeyBindings.summonElves.wasPressed()) {
-                    ClientPlayNetworking.send(new SummonElvesPayload(player.getBlockPos(), ((ElfCount) player).getElfCount()));
+                    ClientPlayNetworking.send(new SummonElvesPayload(player.getBlockPos()));
                 }
             } else {
                 if (ModKeyBindings.summonElves.wasPressed()) {

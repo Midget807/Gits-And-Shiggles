@@ -12,6 +12,7 @@ import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
 import net.midget807.gitsnshiggles.util.ModDebugUtil;
 import net.midget807.gitsnshiggles.util.ModParticleUtil;
 import net.midget807.gitsnshiggles.util.ModUtil;
+import net.midget807.gitsnshiggles.util.inject.Schizophrenia;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.SlimeEntity;
@@ -21,6 +22,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.stat.ServerStatHandler;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Vec3d;
@@ -36,18 +39,17 @@ public class DebuggerItem extends Item {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if (!world.isClient) {
-
+            ServerStatHandler serverStatHandler = ((ServerPlayerEntity)player).getStatHandler();
+            serverStatHandler.setStat(player, Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST), 24000 * 10);
         }
         if (world.isClient) {
-            /*SchizophreniaManager.add(new SchizophreniaEntity(
+            /*SchizophreniaManager schizophreniaManager = ((Schizophrenia) player).getSchizophreniaManager();
+            schizophreniaManager.add(new SchizophreniaEntity(
                     EntityType.HORSE,
                     player.getPos(),
                     (float) world.random.nextBetween(-180, 180),
-                    200
+                    1000
             ));*/
-
-            ModParticleUtil.addCollapsingSphereOfParticles(player.getWorld(), player.getEyePos(), 50, ModUtil.Speed.getParticleSpeedForRadius(40, 1.5), ModParticles.SPACE_OUTLINE, 1.5);
-            ModParticleUtil.addCollapsingSphereOfParticles(player.getWorld(), player.getEyePos(), 50, ModUtil.Speed.getParticleSpeedForRadius(30, 1.0), ModParticles.SPACE, 1.0);
         }
         return TypedActionResult.success(player.getStackInHand(hand));
     }
@@ -56,7 +58,9 @@ public class DebuggerItem extends Item {
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
         if (entity instanceof PlayerEntity player) {
+            if (!world.isClient) {
 
+            }
         }
     }
 

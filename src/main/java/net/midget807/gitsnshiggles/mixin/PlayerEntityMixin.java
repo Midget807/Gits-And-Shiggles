@@ -6,6 +6,7 @@ import net.midget807.gitsnshiggles.cca.ElfCountComponent;
 import net.midget807.gitsnshiggles.cca.InfinityGauntletComponent;
 import net.midget807.gitsnshiggles.cca.KatanaBlockingComponent;
 import net.midget807.gitsnshiggles.entity.ElfEntity;
+import net.midget807.gitsnshiggles.entity.client.SchizophreniaManager;
 import net.midget807.gitsnshiggles.item.RailgunItem;
 import net.midget807.gitsnshiggles.registry.ModDataComponentTypes;
 import net.midget807.gitsnshiggles.registry.ModItems;
@@ -45,7 +46,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, WizardGamba, MindStoneInvert {
+public abstract class PlayerEntityMixin extends LivingEntity implements RailgunAds, RailgunLoading, WizardGamba, MindStoneInvert, Schizophrenia {
     @Shadow @Final private PlayerInventory inventory;
     @Shadow @Final private PlayerAbilities abilities;
 
@@ -73,6 +74,8 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
     private boolean isInvertedControls = false;
     @Unique
     private int timeTicksInverted = 0;
+
+    private final SchizophreniaManager schizophreniaManager = this.createSchizophreniaManager();
 
     @Override
     public void setUsingRailgun(boolean usingRailgun) {
@@ -309,6 +312,13 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
                             return base * 0.75F;
                         }
                     }
+                } else if (source.getAttacker() instanceof PlayerEntity player && player.getStackInHand(Hand.MAIN_HAND).isOf(ModItems.KATANA)) {
+                    ItemStack katana = player.getStackInHand(Hand.MAIN_HAND);
+                    if (katana.get(ModDataComponentTypes.PARRY_DAMAGE) != null) {
+                        float katanaDamage = katana.getOrDefault(ModDataComponentTypes.PARRY_DAMAGE, 0.0f);
+                        katana.set(ModDataComponentTypes.PARRY_DAMAGE, 0.0f);
+                        return base + katanaDamage;
+                    }
                 }
             }
         } else if (source.getAttacker() instanceof PlayerEntity player && player.getStackInHand(Hand.MAIN_HAND).isOf(ModItems.KATANA)) {
@@ -322,4 +332,12 @@ public abstract class PlayerEntityMixin extends LivingEntity implements RailgunA
         return base;
     }
 
+    public SchizophreniaManager createSchizophreniaManager() {
+        //noinspection InstantiationOfUtilityClass
+        return new SchizophreniaManager();
+    }
+    @Override
+    public SchizophreniaManager getSchizophreniaManager() {
+        return this.schizophreniaManager;
+    }
 }

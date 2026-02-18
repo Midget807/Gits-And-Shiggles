@@ -6,10 +6,12 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.GitsAndShigglesMain;
 import net.midget807.gitsnshiggles.network.C2S.packet.*;
 import net.midget807.gitsnshiggles.network.C2S.payload.*;
+import net.midget807.gitsnshiggles.network.S2C.packet.AddSchizophreniaEntityPacket;
 import net.midget807.gitsnshiggles.network.S2C.packet.MindStoneInvertPacket;
 import net.midget807.gitsnshiggles.network.S2C.packet.RenderHorsePacket;
 import net.midget807.gitsnshiggles.network.S2C.packet.SoulStonePacket;
 import net.midget807.gitsnshiggles.network.S2C.packet.TimeStoneSyncPacket;
+import net.midget807.gitsnshiggles.network.S2C.payload.AddSchizophreniaEntityPayload;
 import net.midget807.gitsnshiggles.network.S2C.payload.MindStoneInvertPayload;
 import net.midget807.gitsnshiggles.network.S2C.payload.RenderHorsePayload;
 import net.midget807.gitsnshiggles.network.S2C.payload.SoulStonePayload;
@@ -33,6 +35,7 @@ public class ModPackets {
     public static final Identifier TIME_STONE_SYNC = registerS2CId("time_stone_sync");
     public static final Identifier MIND_STONE_INVERT = registerS2CId("mind_stone_invert");
     public static final Identifier RENDER_HORSE = registerS2CId("render_horse");
+    public static final Identifier ADD_SCHIZOPHRENIA_ENTITY = registerS2CId("add_schizophrenia_entity");
 
     public static void registerGlobalC2S() {
         PayloadTypeRegistry.playC2S().register(RailgunShootPayload.PAYLOAD_ID, RailgunShootPayload.CODEC);
@@ -59,15 +62,21 @@ public class ModPackets {
 
     }
 
-    public static void registerGlobalS2C() {
+    public static void registerS2CWithoutNetworking() {
         PayloadTypeRegistry.playS2C().register(SoulStonePayload.PAYLOAD_ID, SoulStonePayload.CODEC);
-        ClientPlayNetworking.registerGlobalReceiver(SoulStonePayload.PAYLOAD_ID, SoulStonePacket::receive);
         PayloadTypeRegistry.playS2C().register(MindStoneInvertPayload.PAYLOAD_ID, MindStoneInvertPayload.CODEC);
-        ClientPlayNetworking.registerGlobalReceiver(MindStoneInvertPayload.PAYLOAD_ID, MindStoneInvertPacket::receive);
         PayloadTypeRegistry.playS2C().register(TimeStoneSyncPayload.PAYLOAD_ID, TimeStoneSyncPayload.CODEC);
-        ClientPlayNetworking.registerGlobalReceiver(TimeStoneSyncPayload.PAYLOAD_ID, TimeStoneSyncPacket::receive);
         PayloadTypeRegistry.playS2C().register(RenderHorsePayload.PAYLOAD_ID, RenderHorsePayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(AddSchizophreniaEntityPayload.PAYLOAD_ID, AddSchizophreniaEntityPayload.CODEC);
+
+    }
+
+    public static void registerGlobalS2C() {
+        ClientPlayNetworking.registerGlobalReceiver(SoulStonePayload.PAYLOAD_ID, SoulStonePacket::receive);
+        ClientPlayNetworking.registerGlobalReceiver(MindStoneInvertPayload.PAYLOAD_ID, MindStoneInvertPacket::receive);
+        ClientPlayNetworking.registerGlobalReceiver(TimeStoneSyncPayload.PAYLOAD_ID, TimeStoneSyncPacket::receive);
         ClientPlayNetworking.registerGlobalReceiver(RenderHorsePayload.PAYLOAD_ID, RenderHorsePacket::receive);
+        ClientPlayNetworking.registerGlobalReceiver(AddSchizophreniaEntityPayload.PAYLOAD_ID, AddSchizophreniaEntityPacket::receive);
     }
 
     private static Identifier registerC2SId(String name) {

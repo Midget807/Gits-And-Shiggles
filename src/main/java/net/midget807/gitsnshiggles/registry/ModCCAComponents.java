@@ -19,6 +19,7 @@ public class ModCCAComponents implements EntityComponentInitializer {
     public static final ComponentKey<KatanaBlockingComponent> BLOCKING = ComponentRegistry.getOrCreate(GitsAndShigglesMain.id("blocking"), KatanaBlockingComponent.class);
     public static final ComponentKey<TimeStopComponent> TIME_STOP = ComponentRegistry.getOrCreate(GitsAndShigglesMain.id("time_stop"), TimeStopComponent.class);
     public static final ComponentKey<InfinityGauntletComponent> INFINITY_GAUNTLET = ComponentRegistry.getOrCreate(GitsAndShigglesMain.id("infinity_gauntlet"), InfinityGauntletComponent.class);
+    public static final ComponentKey<SchizophreniaComponent> SCHIZOPHRENIA_COMPONENT = ComponentRegistry.getOrCreate(GitsAndShigglesMain.id("schizophrenia"), SchizophreniaComponent.class);
 
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
@@ -29,5 +30,6 @@ public class ModCCAComponents implements EntityComponentInitializer {
         registry.beginRegistration(PlayerEntity.class, BLOCKING).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(KatanaBlockingComponent::new);
         registry.beginRegistration(Entity.class, TIME_STOP).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(TimeStopComponent::new);
         registry.beginRegistration(LivingEntity.class, INFINITY_GAUNTLET).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(InfinityGauntletComponent::new);
+        registry.beginRegistration(PlayerEntity.class, SCHIZOPHRENIA_COMPONENT).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(SchizophreniaComponent::new);
     }
 }

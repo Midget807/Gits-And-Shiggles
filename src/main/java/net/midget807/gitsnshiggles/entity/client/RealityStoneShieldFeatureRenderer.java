@@ -37,7 +37,7 @@ public class RealityStoneShieldFeatureRenderer<T extends LivingEntity, M extends
 
 
     public void setVisible(A model, T entity) {
-        if (entity instanceof PlayerEntity player) {
+        if (entity instanceof LivingEntity player) {
             InfinityGauntletComponent infinityGauntletComponent = InfinityGauntletComponent.get(player);
             model.setVisible(infinityGauntletComponent.getDoubleBool1());
         }

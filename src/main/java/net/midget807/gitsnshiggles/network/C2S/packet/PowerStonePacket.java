@@ -3,11 +3,9 @@ package net.midget807.gitsnshiggles.network.C2S.packet;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.midget807.gitsnshiggles.network.C2S.payload.PowerStonePayload;
 import net.midget807.gitsnshiggles.util.InfinityStoneUtil;
-import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -37,7 +35,7 @@ public class PowerStonePacket {
                 }
             });
             radiusEntities.forEach(entity -> {
-                entity.damage(player.getDamageSources().magic(), 6);
+                entity.damage(player.getDamageSources().magic(), 15);
                 knockbackEntity(entity, player);
             });
             if (!player.getAbilities().creativeMode) InfinityStoneUtil.setStoneCooldown(player, InfinityStoneUtil.Stones.POWER);

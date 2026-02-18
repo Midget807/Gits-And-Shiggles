@@ -21,9 +21,9 @@ public class ModItems {
 
     public static final Item RAILGUN = registerItem("railgun", new RailgunItem(new Item.Settings().maxCount(1).fireproof().rarity(Rarity.EPIC)));
     public static final Item SANTA_HAT = registerItem("santa_hat", new SantaHatItem(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof().rarity(Rarity.EPIC)));
-    public static final Item SACK = registerItem("sack", new SackItem(new Item.Settings().maxCount(1).fireproof().rarity(Rarity.EPIC)));
-    public static final Item DICE = registerItem("dice", new DiceItem(new Item.Settings().maxCount(1).fireproof().component(ModDataComponentTypes.DICE_ROLL, 0).rarity(Rarity.EPIC)));
-    public static final Item RANDOM_EGG = registerItem("random_egg", new RandomEggItem(new Item.Settings().maxCount(1).fireproof().rarity(Rarity.EPIC)));
+    public static final Item SACK = registerItem("sack", new SackItem(new Item.Settings().maxCount(1).fireproof().rarity(Rarity.UNCOMMON)));
+    public static final Item DICE = registerItem("dice", new DiceItem(new Item.Settings().maxCount(1).fireproof().component(ModDataComponentTypes.DICE_ROLL, 0).rarity(Rarity.UNCOMMON)));
+    public static final Item RANDOM_EGG = registerItem("random_egg", new RandomEggItem(new Item.Settings().maxCount(1).fireproof().rarity(Rarity.UNCOMMON)));
 
     public static final Item INFINITY_GAUNTLET = registerItem("infinity_gauntlet", new InfinityGauntletItem(new Item.Settings().maxCount(1).fireproof().rarity(Rarity.EPIC)));
     public static final Item GAUNTLET = registerItem("gauntlet", new Item(new Item.Settings().maxCount(1).fireproof()));
@@ -40,25 +40,25 @@ public class ModItems {
     public static final Item RED_HOT_GOLD_ALLOY_INGOT = registerItem("red_hot_gold_alloy_ingot", new HotItem(new Item.Settings(), ModItems.GOLD_ALLOY_INGOT));
     public static final Item RED_HOT_GOLD_ALLOY_PLATE = registerItem("red_hot_gold_alloy_plate", new HotItem(new Item.Settings(), ModItems.GOLD_ALLOY_PLATE));
 
-    public static final Item INVERTED_TRIDENT = registerItem("inverted_trident", new InvertedTridentItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(InvertedTridentItem.createAttributeModifiers()).component(DataComponentTypes.TOOL, InvertedTridentItem.createToolComponent()).rarity(Rarity.EPIC)));
+    public static final Item INVERTED_TRIDENT = registerItem("inverted_trident", new InvertedTridentItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(InvertedTridentItem.createAttributeModifiers()).component(DataComponentTypes.TOOL, InvertedTridentItem.createToolComponent()).rarity(Rarity.UNCOMMON)));
     public static final Item ELDER_GUARDIAN_THORN = registerItem("elder_guardian_thorn", new Item(new Item.Settings()));
 
-    public static final Item FLAMETHROWER = registerItem("flamethrower", new FlamethrowerItem(new Item.Settings().maxCount(1).fireproof().rarity(Rarity.EPIC)));
+    public static final Item FLAMETHROWER = registerItem("flamethrower", new FlamethrowerItem(new Item.Settings().maxCount(1).fireproof().rarity(Rarity.RARE)));
     public static final Item FUEL_TANK = registerItem("fuel_tank", new Item(new Item.Settings().maxCount(1)));
 
-    public static final Item AM_RIFLE = registerItem("am_rifle", new AntiMaterialRifleItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(AntiMaterialRifleItem.createAttributeModifiers()).rarity(Rarity.EPIC)));
+    public static final Item AM_RIFLE = registerItem("am_rifle", new AntiMaterialRifleItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(AntiMaterialRifleItem.createAttributeModifiers()).rarity(Rarity.RARE)));
     public static final Item GUN_NUGGET = registerItem("gun_nugget", new Item(new Item.Settings()));
     public static final Item GUN_INGOT = registerItem("gun_ingot", new Item(new Item.Settings()));
     public static final Item GUN_BLOCK = registerItem("gun_block", new Item(new Item.Settings()));
 
-    public static final Item KATANA = registerItem("katana", new KatanaItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof().attributeModifiers(KatanaItem.createAttributeModifiers()).maxCount(1).fireproof().rarity(Rarity.EPIC)));
+    public static final Item KATANA = registerItem("katana", new KatanaItem(ToolMaterials.NETHERITE, new Item.Settings().maxCount(1).fireproof().attributeModifiers(KatanaItem.createAttributeModifiers()).maxCount(1).fireproof().rarity(Rarity.RARE)));
     public static final Item KATANA_HILT = registerItem("katana_hilt", new Item(new Item.Settings().maxCount(1)));
     public static final Item RED_HOT_IRON_INGOT = registerItem("red_hot_iron_ingot", new HotItem(new Item.Settings(), Items.IRON_INGOT));
     public static final Item KATANA_BLADE = registerItem("katana_blade", new Item(new Item.Settings().maxCount(1).fireproof()));
     public static final Item RED_HOT_KATANA_BLADE = registerItem("red_hot_katana_blade", new HotItem(new Item.Settings().maxCount(1).fireproof(), ModItems.KATANA_BLADE));
     public static final Item RED_HOT_NETHERITE_INGOT = registerItem("red_hot_netherite_ingot", new HotItem(new Item.Settings().fireproof(), Items.NETHERITE_INGOT));
 
-    public static final Item TRON_DISC = registerItem("tron_disc", new TronDiscItem(new Item.Settings().maxCount(1).fireproof()));
+    public static final Item TRON_DISC = registerItem("tron_disc", new TronDiscItem(new Item.Settings().maxCount(1).fireproof().rarity(Rarity.RARE)));
 
     public static final Item KYBER_CRYSTAL = registerItem("kyber_crystal", new Item(new Item.Settings()));
     public static final Item LIGHTSABER_WHITE = registerItem("lightsaber_white", new LightsaberItem(new Item.Settings().maxCount(1).fireproof().attributeModifiers(LightsaberItem.createAttributeModifiers()).rarity(Rarity.EPIC)));
@@ -85,10 +85,10 @@ public class ModItems {
     public static final Item DIAMOND_SANTA_HAT = registerItem("diamond_santa_hat", new SantaHatItem(ArmorMaterials.DIAMOND, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).rarity(Rarity.EPIC)));
     public static final Item NETHERITE_SANTA_HAT = registerItem("netherite_santa_hat", new SantaHatItem(ArmorMaterials.NETHERITE, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof().rarity(Rarity.EPIC)));
 
-    public static final Item WIZARD_HAT = registerItem("wizard_hat", new WizardRobesItem(ModArmorMaterials.WIZARD_CLOTH, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof().rarity(Rarity.EPIC)));
-    public static final Item WIZARD_ROBE = registerItem("wizard_robes", new WizardRobesItem(ModArmorMaterials.WIZARD_CLOTH, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1).fireproof().rarity(Rarity.EPIC)));
-    public static final Item WIZARD_PANTS = registerItem("wizard_pants", new WizardRobesItem(ModArmorMaterials.WIZARD_CLOTH, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1).fireproof().rarity(Rarity.EPIC)));
-    public static final Item WIZARD_BOOTS = registerItem("wizard_boots", new WizardRobesItem(ModArmorMaterials.WIZARD_CLOTH, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1).fireproof().rarity(Rarity.EPIC)));
+    public static final Item WIZARD_HAT = registerItem("wizard_hat", new WizardRobesItem(ModArmorMaterials.WIZARD_CLOTH, ArmorItem.Type.HELMET, new Item.Settings().maxCount(1).fireproof().rarity(Rarity.UNCOMMON)));
+    public static final Item WIZARD_ROBE = registerItem("wizard_robes", new WizardRobesItem(ModArmorMaterials.WIZARD_CLOTH, ArmorItem.Type.CHESTPLATE, new Item.Settings().maxCount(1).fireproof().rarity(Rarity.UNCOMMON)));
+    public static final Item WIZARD_PANTS = registerItem("wizard_pants", new WizardRobesItem(ModArmorMaterials.WIZARD_CLOTH, ArmorItem.Type.LEGGINGS, new Item.Settings().maxCount(1).fireproof().rarity(Rarity.UNCOMMON)));
+    public static final Item WIZARD_BOOTS = registerItem("wizard_boots", new WizardRobesItem(ModArmorMaterials.WIZARD_CLOTH, ArmorItem.Type.BOOTS, new Item.Settings().maxCount(1).fireproof().rarity(Rarity.UNCOMMON)));
     public static final Item VOID_STRING = registerItem("void_string", new Item(new Item.Settings()));
     public static final Item MAGIC_CLOTH = registerItem("magic_cloth", new Item(new Item.Settings()));
 

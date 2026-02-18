@@ -5,12 +5,10 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.midget807.gitsnshiggles.cca.InfinityGauntletComponent;
 import net.midget807.gitsnshiggles.datagen.ModBlockTagProvider;
-import net.midget807.gitsnshiggles.item.InfinityGauntletItem;
 import net.midget807.gitsnshiggles.network.C2S.packet.SpaceStonePacket;
 import net.midget807.gitsnshiggles.network.C2S.payload.MindStonePayload;
 import net.midget807.gitsnshiggles.network.C2S.payload.SpaceStonePayload;
 import net.midget807.gitsnshiggles.registry.ModItems;
-import net.midget807.gitsnshiggles.util.inject.InfinityStoneCooldown;
 import net.midget807.gitsnshiggles.util.inject.MindStoneInvert;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -18,13 +16,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.DustParticleEffect;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -51,6 +46,13 @@ public class InfinityStoneUtil {
     public static final String TIME_STONE_TIMER_KEY = "TimeStoneTimer";
     public static final String TIME_STONE_BOOL_KEY = "TimeStoneBoolean";
     public static final String MIND_STONE_TIMER_KEY = "MindStoneTimer";
+
+
+    public static boolean hasGauntletInEitherHand(LivingEntity user) {
+        if (user.getMainHandStack().isOf(ModItems.INFINITY_GAUNTLET)) {
+            return true;
+        } else return user.getOffHandStack().isOf(ModItems.INFINITY_GAUNTLET);
+    }
 
     @Environment(EnvType.CLIENT)
     public static void getSpaceStoneTeleport(ClientPlayerEntity player) {

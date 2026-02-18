@@ -118,5 +118,7 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                         Items.MUSIC_DISC_PRECIPICE
                 )
                 .forceAddTag(ItemTags.CREEPER_DROP_MUSIC_DISCS);
+        this.getOrCreateTagBuilder(ItemTags.SWORD_ENCHANTABLE)
+                .add(ModItems.KATANA);
     }
 }

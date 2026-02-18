@@ -11,6 +11,7 @@ public class SchizophreniaEntity {
     public final float pitch;
     public int age;
     public final int maxAge;
+    public boolean shouldRender;
 
     public SchizophreniaEntity(EntityType<? extends LivingEntity> type, Vec3d pos, float yaw, int maxAge) {
         this.type = type;
@@ -19,5 +20,6 @@ public class SchizophreniaEntity {
         this.pitch = 0;
         this.age = 0;
         this.maxAge = maxAge;
+        this.shouldRender = true;
     }
 }

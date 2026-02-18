@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SchizophreniaManager {
-    private static final List<SchizophreniaEntity> SCHIZOPHRENIA_ENTITIES = new ArrayList<>();
+    private final List<SchizophreniaEntity> SCHIZOPHRENIA_ENTITIES = new ArrayList<>();
 
-    public static void add(SchizophreniaEntity entity) {
+    public void add(SchizophreniaEntity entity) {
         SCHIZOPHRENIA_ENTITIES.add(entity);
     }
 
-    public static void tick() {
+    public void tick() {
         SCHIZOPHRENIA_ENTITIES.removeIf(entity -> ++entity.age >= entity.maxAge);
     }
 
-    public static List<SchizophreniaEntity> get() {
+    public List<SchizophreniaEntity> get() {
         return SCHIZOPHRENIA_ENTITIES;
     }
 
 
-    public static void clear() {
+    public void clear() {
         SCHIZOPHRENIA_ENTITIES.clear();
     }
 }

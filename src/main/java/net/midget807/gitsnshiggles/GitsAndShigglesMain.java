@@ -2,6 +2,7 @@ package net.midget807.gitsnshiggles;
 
 import net.fabricmc.api.ModInitializer;
 import net.midget807.gitsnshiggles.event.server.ModLootTableModifiers;
+import net.midget807.gitsnshiggles.event.server.ServerWorldEventListener;
 import net.midget807.gitsnshiggles.registry.ModArgumentTypes;
 import net.midget807.gitsnshiggles.registry.ModBlocks;
 import net.midget807.gitsnshiggles.registry.ModCauldronBehaviors;
@@ -40,9 +41,11 @@ public class GitsAndShigglesMain implements ModInitializer {
 		ModArgumentTypes.registerModArgumentTypes();
 		ModCommands.registerModCommands();
 		ModPackets.registerGlobalC2S();
+        ModPackets.registerS2CWithoutNetworking();
         ModCauldronBehaviors.registerModCauldronBehaviors();
 
         ModLootTableModifiers.modifyLootTables();
+        //ServerWorldEventListener.execute();
 
 	}
 }

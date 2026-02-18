@@ -41,7 +41,8 @@
         "gitsnshiggles:dice_roll",
         "gitsnshiggles:blocking",
         "gitsnshiggles:time_stop",
-        "gitsnshiggles:infinity_gauntlet"
+        "gitsnshiggles:infinity_gauntlet",
+        "gitsnshiggles:schizophrenia"
       ]
     },
 	"depends": {

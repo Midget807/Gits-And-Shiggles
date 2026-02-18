@@ -8,10 +8,12 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.midget807.gitsnshiggles.entity.client.ElfEntityModel;
 import net.midget807.gitsnshiggles.entity.client.ElfEntityRenderer;
 import net.midget807.gitsnshiggles.entity.client.RealityStoneShieldEntityModel;
+import net.midget807.gitsnshiggles.entity.client.SchizophreniaManager;
 import net.midget807.gitsnshiggles.entity.client.TronDiscEntityModel;
 import net.midget807.gitsnshiggles.entity.client.TronDiscEntityRenderer;
 import net.midget807.gitsnshiggles.event.client.ClientPreAttackListener;
 import net.midget807.gitsnshiggles.event.client.HudRenderListener;
+import net.midget807.gitsnshiggles.event.client.WorldRendererEventListener;
 import net.midget807.gitsnshiggles.item.client.SantaHatModel;
 import net.midget807.gitsnshiggles.item.client.SantaHatRenderer;
 import net.midget807.gitsnshiggles.item.client.WizardArmorModel;
@@ -39,6 +41,7 @@ public class GitsAndShigglesClient implements ClientModInitializer {
     public void onInitializeClient() {
         ClientPreAttackListener.execute();
         HudRenderListener.execute();
+        WorldRendererEventListener.execute();
 
         ModKeyBindings.registerModKeyBindings();
         ModKeyHandler.runKeyBinds();
