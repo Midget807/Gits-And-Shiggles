@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-04T22:10:22.8338738	Gits And Shiggles/Model Definitions
+// 1.21.1	2026-02-21T01:17:28.2621395	Gits And Shiggles/Model Definitions
 1e473c529c9097dba0b677d4440c3a19435f42b1 assets\gitsnshiggles\models\item\red_hot_gold_alloy_ingot.json
 4a6e413c7bc4b2ba15addbb36865f940d38d3cb1 assets\gitsnshiggles\models\item\gold_santa_hat.json
 67d1828f11e8fc3ee000cd68e85e668bb10af6e6 assets\gitsnshiggles\models\item\gun_ingot.json
@@ -25,10 +25,10 @@ d06776efebde97c2829107ee2d2e383acb6e6192 assets\gitsnshiggles\models\item\red_ho
 e0f5eb111e1986fc69a7be76dab9c913479262ad assets\gitsnshiggles\models\item\katana_blade.json
 cf606a8ce6dff86dfbc2c0153356e14d44d58c76 assets\gitsnshiggles\models\item\santa_hat.json
 c2c5e78331284946ddc9c6a07bfd0c0b345b56ea assets\gitsnshiggles\models\item\empty_stone.json
-dc2894b2ec855c0585b42fc8c5d2c1f229c46cdd assets\gitsnshiggles\models\item\gun_block.json
 8c787965d95718755a32b330082bcf1265cf15b6 assets\gitsnshiggles\blockstates\wet_nether_sponge.json
-43e0723231280a836d02dcf8170b2801014e65bd assets\gitsnshiggles\models\item\red_hot_gold_ingot.json
+dc2894b2ec855c0585b42fc8c5d2c1f229c46cdd assets\gitsnshiggles\models\item\gun_block.json
 d6a009dbdab1d25241cb36d336ae90fede1d3712 assets\gitsnshiggles\models\item\gun_nugget.json
+43e0723231280a836d02dcf8170b2801014e65bd assets\gitsnshiggles\models\item\red_hot_gold_ingot.json
 ac9fbe222c4427dbd78543b42e2a0a954b284230 assets\gitsnshiggles\models\item\soul_stone.json
 c4eb5cf1b12687798ad8ccce0b662e8d0f35abb5 assets\gitsnshiggles\models\item\katana.json
 6988529610181fb643c1290c399824b45def6c0a assets\gitsnshiggles\models\item\entity_remover.json
@@ -37,8 +37,8 @@ bb39870572ef29beed24de35162a8a0f7500c8b5 assets\gitsnshiggles\models\item\elder_
 cc83d2fc31eee88d2129354eaee958edd03355c2 assets\gitsnshiggles\models\item\time_stone.json
 ef81a7a479f8afdb912c1da06f693f787ddafbd1 assets\gitsnshiggles\models\item\netherite_santa_hat.json
 484400635c57053b6aaef7be0817d113d7c290a9 assets\gitsnshiggles\models\item\chainmail_santa_hat.json
-05c3635647070de2bd98023ef6f4fd00d72a83cc assets\gitsnshiggles\models\item\gold_alloy_ingot.json
 271acb77c3d63114d813686ebf9246d9de9703f3 assets\gitsnshiggles\models\item\void_string.json
+05c3635647070de2bd98023ef6f4fd00d72a83cc assets\gitsnshiggles\models\item\gold_alloy_ingot.json
 3011fd3e35a47159396ab5ec667126b6f12bd962 assets\gitsnshiggles\models\item\red_hot_gold_alloy_plate.json
 01d98e4fb830341a07a00092dca2670bf5f0cfcc assets\gitsnshiggles\models\item\magic_cloth.json
 8826b0e4d4086775c3cc69f00f19119c9d208a78 assets\gitsnshiggles\models\item\reality_stone.json
